@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, JetBrains_Mono, Onest } from "next/font/google";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -40,9 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cormorant.variable} ${onest.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-cream">
-        <Header />
         <main className="flex-1">{children}</main>
-        <Footer />
       </body>
     </html>
   );

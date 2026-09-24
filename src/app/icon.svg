@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -7.5 115 115" width="115" height="115">
+  <rect x="0" y="-7.5" width="115" height="115" rx="20" fill="#3E342B"/>
+  <g fill="#CFA36A" fill-rule="evenodd">
+    <path d="M12 16 H23 A39 34 0 0 1 23 84 H12 Z M23 22.5 A28 27.5 0 0 1 23 77.5 Z"/>
+    <path d="M66 16 H77 A23 17 0 0 1 77 50 A26 17 0 0 1 77 84 H66 Z M77 22.5 A12 10.5 0 0 1 77 43.5 Z M77 56.5 A15 10.5 0 0 1 77 77.5 Z"/>
+  </g>
+</svg>
