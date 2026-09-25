@@ -6,6 +6,7 @@ import { Hairline, type Surface } from "@/components/ui/hairline";
 import { SectionCounter } from "@/components/ui/section-counter";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
+import { LeadFormDemo } from "./lead-form-demo";
 
 /**
  * Служебная витрина дизайн-системы. Нужна нам, а не пациентам:
@@ -175,6 +176,20 @@ export default function KitchenSinkPage() {
             держится в пределах 70 знаков, дальше читать тяжело.
           </p>
           <p className="label-mono text-graphite">Служебная подпись · моноширинная</p>
+        </div>
+      </Row>
+
+      <Row
+        title="Форма записи"
+        note="Шаг 3.1. Отправки пока нет: после проверки форма показывает, что ушло бы на сервер."
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-card bg-paper p-6 md:p-10">
+            <LeadFormDemo surface="light" />
+          </div>
+          <div className="rounded-card bg-espresso p-6 md:p-10">
+            <LeadFormDemo surface="dark" />
+          </div>
         </div>
       </Row>
 
