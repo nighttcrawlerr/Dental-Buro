@@ -13,8 +13,10 @@ import {
   type LeadField,
   type LeadInput,
 } from "@/lib/lead";
+import { clinic } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { formatPhone } from "@/lib/phone";
+import { LeadSubmitError, type LeadSubmitErrorKind } from "@/lib/submit-lead";
 
 type FormSurface = "light" | "dark";
 
@@ -46,6 +48,18 @@ const toneBySurface: Record<
     link: "text-cream underline underline-offset-2 hover:text-sky-pale",
     check: "accent-sky-pale",
   },
+};
+
+/**
+ * Что сказать, если заявка не ушла. Телефон клиники выводится под каждым
+ * сообщением: человек, который хотел записаться, должен уйти с формы
+ * записанным, даже если сломались мы.
+ */
+const submitErrorText: Record<LeadSubmitErrorKind, string> = {
+  network: "Не получилось отправить — похоже, пропало соединение. Проверьте интернет и попробуйте ещё раз.",
+  invalid: "Сервер не принял заявку. Проверьте поля формы и отправьте ещё раз.",
+  rate: "С этого устройства уже пришло несколько заявок подряд. Если нужно что-то уточнить, позвоните нам.",
+  server: "Заявка не дошла — это сбой на нашей стороне. Попробуйте через минуту или позвоните нам.",
 };
 
 /** Порядок, в котором проверяются поля: фокус уходит на первое с ошибкой. */
@@ -89,6 +103,7 @@ export function LeadForm({
   const [errors, setErrors] = useState<LeadErrors>({});
   const [attempted, setAttempted] = useState(false);
   const [pending, setPending] = useState(false);
+  const [submitError, setSubmitError] = useState<LeadSubmitErrorKind | null>(null);
 
   const idFor = (field: LeadField) => `${uid}-${field}`;
   const errorIdFor = (field: LeadField) => `${uid}-${field}-error`;
@@ -110,6 +125,12 @@ export function LeadForm({
     checkField(field, values);
   }
 
+  function focusFirstInvalid(found: LeadErrors) {
+    const first = fieldOrder.find((f) => found[f]);
+    const el = first && formRef.current?.elements.namedItem(first);
+    if (el instanceof HTMLElement) el.focus();
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending) return;
@@ -119,13 +140,12 @@ export function LeadForm({
     setErrors(found);
 
     if (!data) {
-      const first = fieldOrder.find((f) => found[f]);
-      const el = first && formRef.current?.elements.namedItem(first);
-      if (el instanceof HTMLElement) el.focus();
+      focusFirstInvalid(found);
       return;
     }
 
     setPending(true);
+    setSubmitError(null);
     try {
       const trap = formRef.current?.elements.namedItem("website");
       await onSubmit(data, { website: trap instanceof HTMLInputElement ? trap.value : "" });
@@ -134,6 +154,13 @@ export function LeadForm({
       setValues(emptyLead);
       setErrors({});
       setAttempted(false);
+    } catch (error) {
+      const kind = error instanceof LeadSubmitError ? error.kind : "server";
+      setSubmitError(kind);
+      if (error instanceof LeadSubmitError && Object.keys(error.fields).length) {
+        setErrors(error.fields);
+        focusFirstInvalid(error.fields);
+      }
     } finally {
       setPending(false);
     }
@@ -284,8 +311,41 @@ export function LeadForm({
         {errorText("consent")}
       </div>
 
+      {/* role="alert" — чтобы скринридер зачитал ошибку сразу, фокус при этом
+          остаётся на кнопке и повторная отправка — одно нажатие. Контейнер
+          есть всегда, даже пустой: живую область, которая появилась в DOM
+          вместе с текстом, скринридеры часто не зачитывают. Пустой он
+          схлопывается отрицательным отступом, чтобы не добавлять лишний
+          зазор сетки. */}
+      <div role="alert" className="md:col-span-2 empty:-mb-6">
+        {submitError ? (
+          <div
+            className={cn(
+              "flex flex-col gap-2 rounded-button border px-4 py-3",
+              surface === "dark" ? "border-alert-soft/60" : "border-alert/40 bg-paper",
+            )}
+          >
+            <p className={cn("text-body", tone.error)}>{submitErrorText[submitError]}</p>
+            <p className={cn("text-caption tracking-normal", tone.note)}>
+              Телефон клиники:{" "}
+              <a href={clinic.phoneHref} className={tone.link}>
+                {clinic.phone}
+              </a>
+              , {clinic.schedule.toLowerCase()}
+            </p>
+          </div>
+        ) : null}
+      </div>
+
       <div className="flex flex-col gap-4 md:col-span-2 md:flex-row md:items-center">
-        <Button type="submit" surface={surface} disabled={pending} className="md:min-w-56">
+        {/* Кнопка на время отправки не отключается: отключённая кнопка теряет
+            фокус, и клавиатурный пользователь оказывается в начале страницы.
+            Повторное нажатие отсекает проверка pending в handleSubmit. */}
+        <Button
+          type="submit"
+          surface={surface}
+          className={cn("md:min-w-56", pending && "cursor-wait opacity-70")}
+        >
           {pending ? "Отправляем…" : submitLabel}
         </Button>
         <p className={cn("text-caption tracking-normal", tone.note)}>
