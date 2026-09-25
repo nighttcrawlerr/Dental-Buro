@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { RevealWords } from "@/components/ui/reveal-words";
 import { treatmentSteps } from "@/content/site";
 
 /**
@@ -19,13 +20,17 @@ export function TreatmentSection() {
         <SectionHeading
           surface="dark"
           counter={{ current: 4, total: 6 }}
-          title="Как проходит лечение"
+          title={<RevealWords text="Как проходит лечение" />}
           description="Четыре шага. Сумма фиксируется на втором и дальше не меняется без вашего согласия."
         />
 
         <ol className="grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
-          {treatmentSteps.map((step) => (
-            <li key={step.number} className="flex flex-col gap-4 border-t border-hairline-dark pt-6">
+          {treatmentSteps.map((step, index) => (
+            <li
+              key={step.number}
+              className="reveal-item flex flex-col gap-4 border-t border-hairline-dark pt-6"
+              style={{ "--i": index } as React.CSSProperties}
+            >
               <span className="label-mono text-sky-pale">{step.number}</span>
               <h3 className="font-display text-subheading text-cream">{step.title}</h3>
               <p className="flex-1 text-stone">{step.text}</p>

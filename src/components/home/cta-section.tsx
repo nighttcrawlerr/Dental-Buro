@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
+import { RevealWords } from "@/components/ui/reveal-words";
 import { clinic } from "@/content/site";
 
 /**
@@ -20,7 +21,7 @@ export function CtaSection() {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="flex flex-col gap-8">
             <h2 className="font-display text-display text-balance text-cream">
-              Начнём с осмотра.
+              <RevealWords text="Начнём с осмотра." />
             </h2>
             <p className="max-w-md text-body-lg text-stone">
               На первом визите мы только смотрим и считаем. Вы уходите с планом лечения и точной

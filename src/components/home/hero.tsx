@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button";
+import { RevealWords } from "@/components/ui/reveal-words";
+import { Reveal } from "@/components/ui/reveal";
 import { Container } from "@/components/ui/container";
 import { facts } from "@/content/site";
 
@@ -14,11 +16,11 @@ import { facts } from "@/content/site";
  */
 export function Hero() {
   return (
-    <section className="bg-espresso">
+    <section className="hero-panel bg-espresso">
       <Container className="flex flex-col gap-16 py-20 lg:gap-28 lg:py-32">
         <div className="flex flex-col gap-10">
           <h1 className="font-display text-hero max-w-5xl text-balance text-cream">
-            Стоматология, которой не боятся.
+            <RevealWords text="Стоматология, которой не боятся." />
           </h1>
 
           <div className="flex max-w-xl flex-col gap-8">
@@ -39,14 +41,14 @@ export function Hero() {
         </div>
 
         <dl className="grid grid-cols-2 gap-x-8 gap-y-10 border-t border-hairline-dark pt-10 lg:grid-cols-4">
-          {facts.map((fact) => (
-            <div key={fact.label} className="flex flex-col gap-2">
+          {facts.map((fact, index) => (
+            <Reveal key={fact.label} index={index} className="flex flex-col gap-2">
               <dt className="sr-only">{fact.label}</dt>
               <dd className="flex flex-col gap-2">
                 <span className="font-display text-heading-lg text-cream">{fact.value}</span>
                 <span className="label-mono text-stone">{fact.label}</span>
               </dd>
-            </div>
+            </Reveal>
           ))}
         </dl>
       </Container>

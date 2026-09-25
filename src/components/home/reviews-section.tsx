@@ -21,14 +21,19 @@ export function ReviewsSection() {
     <section className="bg-cream">
       <Container className="flex flex-col gap-14 pb-20 lg:gap-20 lg:pb-28">
         <SectionHeading
+          className="reveal"
           counter={{ current: 6, total: 6 }}
           title="Отзывы"
           description="Собраны после лечения и с Яндекс.Карт. Мы не удаляем негативные — на них отвечает главный врач."
         />
 
         <ul className="grid gap-6 md:grid-cols-3">
-          {reviews.map((review) => (
-            <li key={review.author}>
+          {reviews.map((review, index) => (
+            <li
+              key={review.author}
+              className="reveal-item"
+              style={{ "--i": index } as React.CSSProperties}
+            >
               <figure className="flex h-full flex-col gap-5 rounded-card bg-linen p-8">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <Tag>{review.service}</Tag>

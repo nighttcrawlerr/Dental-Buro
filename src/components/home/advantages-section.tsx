@@ -16,6 +16,7 @@ export function AdvantagesSection() {
     <section className="bg-sky">
       <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
         <SectionHeading
+          className="reveal"
           surface="sky"
           counter={{ current: 2, total: 6 }}
           title="Почему Dental Buro"
@@ -23,8 +24,12 @@ export function AdvantagesSection() {
         />
 
         <ul className="grid gap-x-10 gap-y-12 md:grid-cols-2">
-          {advantages.map((advantage) => (
-            <li key={advantage.number} className="flex flex-col gap-4 border-t border-cream/25 pt-6">
+          {advantages.map((advantage, index) => (
+            <li
+              key={advantage.number}
+              className="reveal-item flex flex-col gap-4 border-t border-cream/25 pt-6"
+              style={{ "--i": index } as React.CSSProperties}
+            >
               <span className="label-mono text-cream/70">{advantage.number}</span>
               <h3 className="font-display text-subheading text-cream">{advantage.title}</h3>
               <p className="text-cream/85">{advantage.text}</p>

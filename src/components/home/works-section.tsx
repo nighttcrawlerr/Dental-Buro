@@ -20,14 +20,19 @@ export function WorksSection() {
     <section className="bg-cream">
       <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
         <SectionHeading
+          className="reveal"
           counter={{ current: 5, total: 6 }}
           title="Работы"
           description="Снимки до и после лечения, снятые в одном ракурсе и при одном свете. Опубликованы с письменного согласия пациентов."
         />
 
         <ul className="grid gap-8 md:grid-cols-3">
-          {works.map((work) => (
-            <li key={work.slug} className="flex flex-col gap-5 rounded-card bg-paper p-6">
+          {works.map((work, index) => (
+            <li
+              key={work.slug}
+              className="reveal-item flex flex-col gap-5 rounded-card bg-paper p-6"
+              style={{ "--i": index } as React.CSSProperties}
+            >
               <div className="grid grid-cols-2 gap-3">
                 <div className="flex flex-col gap-2">
                   <PhotoPlaceholder label="До" ratio="square" />
