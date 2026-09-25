@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowGlyph, arrowSurfaceClasses } from "@/components/ui/arrow-button";
+import { ReviewCard } from "@/components/reviews/review-card";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Tag } from "@/components/ui/tag";
 import { reviews } from "@/content/site";
 import { cn } from "@/lib/cn";
 
@@ -34,18 +34,7 @@ export function ReviewsSection() {
               className="reveal-item"
               style={{ "--i": index } as React.CSSProperties}
             >
-              <figure className="flex h-full flex-col gap-5 rounded-card bg-linen p-8">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <Tag>{review.service}</Tag>
-                  <span className="label-mono text-graphite">{review.date}</span>
-                </div>
-
-                <blockquote className="flex-1 text-ink">{review.text}</blockquote>
-
-                <figcaption className="label-mono border-t border-stone pt-5 text-graphite">
-                  {review.author}
-                </figcaption>
-              </figure>
+              <ReviewCard review={review} />
             </li>
           ))}
         </ul>
