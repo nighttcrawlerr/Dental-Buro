@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
-import { clinic, mainNav } from "@/content/site";
+import { clinic, legal, mainNav } from "@/content/site";
 
 /**
  * Подвал сайта.
@@ -93,11 +93,11 @@ export function Footer() {
 
           <div className="flex flex-col gap-3 text-cream/50">
             <p className="text-caption">
-              {clinic.legalName}. ИНН [ЗАГЛУШКА] · ОГРН [ЗАГЛУШКА] · {clinic.address}
+              {legal.fullName}. ИНН {legal.inn} · ОГРН {legal.ogrn} · {clinic.address}
             </p>
             <p className="text-caption">
-              Лицензия на осуществление медицинской деятельности № [ЗАГЛУШКА] от [ДАТА], выдана
-              [ОРГАН ВЫДАЧИ].
+              Лицензия на осуществление медицинской деятельности № {legal.license.number} от{" "}
+              {legal.license.date}, выдана {legal.license.issuer}.
             </p>
             <p className="text-caption">
               Имеются противопоказания, необходима консультация специалиста.
