@@ -136,6 +136,114 @@
   }
 }
 
+/* ---- Движение ---------------------------------------------------------
+ *
+ * Всё построено на CSS-анимациях, привязанных к прокрутке (animation-timeline),
+ * без библиотек и без JavaScript. Причины:
+ *
+ * 1. Ничего не прячется за скриптом. Если браузер не поддерживает эти
+ *    анимации — контент просто сразу видно. Вариант с IntersectionObserver
+ *    опаснее: при сбое скрипта половина страницы останется невидимой.
+ * 2. Движение привязано к прокрутке, а не к таймеру, — как на сайте-образце.
+ *    Скорость появления зависит от того, как быстро листает пользователь.
+ * 3. Ноль килобайт клиентского кода, что важно для скорости и для выдачи.
+ *
+ * Поддержки нет в Firefox — там страница останется статичной, но полностью
+ * рабочей. Это осознанный размен.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Появление блока при въезде в экран. */
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 6% entry 44%;
+    }
+
+    /* То же, но с задержкой по индексу: карточки в сетке проявляются
+       не разом, а волной. Индекс приходит из вёрстки как --i. */
+    .reveal-item {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry calc(4% + var(--i, 0) * 4%) entry calc(40% + var(--i, 0) * 4%);
+    }
+
+    /* Первый экран: тёмная плашка во всю ширину собирается в карточку с
+       полями и скруглением. Главный жест сайта-образца. Обрезка через
+       clip-path, а не отступы, — она не трогает раскладку и не дёргает текст. */
+    .hero-panel {
+      animation: hero-inset linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 90vh;
+    }
+
+    /* Плашка поверх слова, которая уезжает вправо и открывает его. */
+    .rw-block {
+      animation: rw-wipe linear both;
+      animation-timeline: view();
+      animation-range: entry calc(12% + var(--i, 0) * 3.5%) entry calc(40% + var(--i, 0) * 3.5%);
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-inset {
+  from {
+    clip-path: inset(0 0 0 0 round 0);
+  }
+  to {
+    clip-path: inset(0 16px 0 16px round 32px);
+  }
+}
+
+@keyframes rw-wipe {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@layer components {
+  /* Слово в заголовке с пословным раскрытием. */
+  .rw-word {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Плашка цвета текста поверх слова. По умолчанию её нет: она появляется
+     только там, где анимация действительно отработает. Иначе при отключённой
+     анимации плашка навсегда закрыла бы слово — заголовок превратился бы в
+     ряд чёрных прямоугольников. */
+  .rw-block {
+    display: none;
+    position: absolute;
+    inset: 0.09em 0;
+    background: currentColor;
+    transform-origin: right center;
+    pointer-events: none;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .rw-block {
+        display: block;
+      }
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
