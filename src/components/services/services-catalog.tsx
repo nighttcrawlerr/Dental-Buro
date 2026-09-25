@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ServicesGrid } from "@/components/services/services-grid";
 import { serviceGroups, services, type ServiceGroup } from "@/content/site";
 import { cn } from "@/lib/cn";
+import { plural } from "@/lib/format";
 
 type Filter = ServiceGroup | "all";
 
@@ -11,14 +12,6 @@ const filters: { id: Filter; label: string }[] = [
   { id: "all", label: "Все" },
   ...serviceGroups,
 ];
-
-function countLabel(n: number) {
-  const mod10 = n % 10;
-  const mod100 = n % 100;
-  if (mod10 === 1 && mod100 !== 11) return `${n} направление`;
-  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${n} направления`;
-  return `${n} направлений`;
-}
 
 /**
  * Сетка всех направлений с фильтром по группам.
@@ -66,7 +59,7 @@ export function ServicesCatalog() {
       {/* Скринридеру сообщаем, что список изменился: визуально это видно
           сразу, а на слух нажатие кнопки проходит беззвучно. */}
       <p aria-live="polite" className="sr-only">
-        Показано: {countLabel(visible.length)}
+        Показано: {plural(visible.length, ["направление", "направления", "направлений"])}
       </p>
 
       <ServicesGrid items={visible} />
