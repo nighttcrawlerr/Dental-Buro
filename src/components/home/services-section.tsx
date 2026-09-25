@@ -21,7 +21,7 @@ export function ServicesSection() {
     <section className="bg-cream">
       <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
         <SectionHeading
-          counter={{ current: 1, total: 4 }}
+          counter={{ current: 1, total: 6 }}
           title="Направления"
           description="Полный цикл в одной клинике: от гигиены до полного протезирования. Диагностика и план лечения — до начала работ."
         />

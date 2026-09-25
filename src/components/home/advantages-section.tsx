@@ -17,7 +17,7 @@ export function AdvantagesSection() {
       <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
         <SectionHeading
           surface="sky"
-          counter={{ current: 2, total: 4 }}
+          counter={{ current: 2, total: 6 }}
           title="Почему Dental Buro"
           description="Четыре вещи, из-за которых к нам возвращаются и приводят родителей и детей."
         />
