@@ -30,7 +30,7 @@ export function PhotoPlaceholder({
       role="img"
       aria-label={`Заглушка: ${label}`}
       className={cn(
-        "flex items-center justify-center rounded-media border border-dashed border-stone bg-linen",
+        "media-in flex items-center justify-center rounded-media border border-dashed border-stone bg-linen",
         ratioClass,
         className,
       )}

@@ -43,6 +43,13 @@ export function Header() {
           <MobileMenu />
         </div>
       </Container>
+
+      {/* Полоса прочтения. Декоративная — то же самое видно по полосе
+          прокрутки браузера, поэтому от скринридера скрыта. */}
+      <div
+        aria-hidden="true"
+        className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-sky"
+      />
     </header>
   );
 }

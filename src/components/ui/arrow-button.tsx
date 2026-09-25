@@ -49,7 +49,11 @@ export function ArrowGlyph({
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={cn("size-5", rotationByDirection[direction], className)}
+      className={cn(
+        "size-5 transition-transform duration-300 group-hover:translate-x-1",
+        rotationByDirection[direction],
+        className,
+      )}
     >
       <path d="M4 12h15" />
       <path d="M13 6l6 6-6 6" />

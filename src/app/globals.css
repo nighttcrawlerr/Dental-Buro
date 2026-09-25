@@ -199,6 +199,38 @@
       animation-range: 0 75vh;
     }
 
+    /* Видео первого экрана уезжает медленнее страницы и чуть наплывает.
+       Даёт глубину, но без качелей параллакса, от которых укачивает. */
+    .hero-video {
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+    }
+
+    /* Полоса прочтения под шапкой: показывает, сколько страницы позади.
+       На длинной странице услуги это единственный ориентир. */
+    .scroll-progress {
+      animation: progress linear both;
+      animation-timeline: scroll(root block);
+      transform-origin: left center;
+    }
+
+    /* Изображения проявляются с лёгким наездом, а не просто всплывают.
+       Текст и картинка должны входить по-разному, иначе вся страница
+       движется одинаково и движение перестаёт читаться. */
+    .media-in {
+      animation: media-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+
+    /* Линия слева от шага лечения прочерчивается, пока шаг идёт по экрану. */
+    .step-rule {
+      animation: step-rule linear both;
+      animation-timeline: view();
+      animation-range: entry 25% cover 55%;
+    }
+
     /* Плашка поверх слова, которая уезжает вправо и открывает его. */
     .rw-block {
       animation: rw-wipe linear both;
@@ -225,6 +257,44 @@
   }
   to {
     clip-path: inset(0 28px 0 28px round 48px);
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1.16) translateY(3%);
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes step-rule {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes media-in {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
