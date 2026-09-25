@@ -36,10 +36,18 @@ const PATH_LOBE = "M44 -6 L44 2 C50 34 62 54 96 66 L106 66 L106 -6 Z";
 
 type Tone = "onLight" | "onDark";
 
-/** Заливки знака: [корпус, доля]. Корпус всегда светлее. */
+/**
+ * Заливки знака: корпус и доля. Корпус всегда светлее доли.
+ *
+ * На тёмных фонах доля светлее фона, а не темнее. Иначе она исчезает:
+ * Sky Silver в доле на секции того же Sky Silver давал контраст 1.44, то есть
+ * доли просто не было, а на эспрессо — 1.82, что чуть лучше только за счёт
+ * разницы оттенков. Sky Mist даёт 5.97 на эспрессо и 3.28 на Sky Silver, и
+ * одного значения хватает на оба тёмных фона — отдельный режим не нужен.
+ */
 const markFills: Record<Tone, { body: string; lobe: string }> = {
   onLight: { body: "var(--color-sky-pale)", lobe: "var(--color-sky)" },
-  onDark: { body: "var(--color-cream)", lobe: "var(--color-sky)" },
+  onDark: { body: "var(--color-cream)", lobe: "var(--color-sky-mist)" },
 };
 
 export function LogoMark({
@@ -83,14 +91,20 @@ const wordTone: Record<Tone, string> = {
   onDark: "text-cream",
 };
 
+/**
+ * Подпись и линейки на тёмных фонах строятся от кремового с прозрачностью,
+ * а не от тёплых нейтралей. Graphite и Stone — коричневые, на Sky Silver они
+ * выглядят грязными пятнами и почти не видны.
+ */
 const subTone: Record<Tone, string> = {
   onLight: "text-graphite",
-  onDark: "text-stone",
+  // 85% — минимум, при котором подпись проходит 4.5:1 на Sky Silver (4.71).
+  onDark: "text-cream/85",
 };
 
 const ruleTone: Record<Tone, string> = {
   onLight: "bg-stone",
-  onDark: "bg-graphite",
+  onDark: "bg-cream/30",
 };
 
 type LogoProps = {

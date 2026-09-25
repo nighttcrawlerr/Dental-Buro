@@ -14,8 +14,8 @@
   --color-ink: #241e19; /* текст на светлом, подвал */
   --color-sky: #3f5f7e; /* Sky Silver G 0859 — холодная секция */
   --color-sky-deep: #2e4760;
-  --color-sky-mid: #5b7e9e;
   --color-sky-pale: #c8d4de; /* корпус знака на светлом фоне */
+  --color-sky-mist: #a8b8c6; /* доля знака на тёмных фонах */
 
   /* Текст и линии */
   --color-graphite: #6b5f53; /* вторичный текст на светлом, 5.38:1 */
