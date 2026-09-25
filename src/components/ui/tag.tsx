@@ -8,9 +8,9 @@ import type { Surface } from "./hairline";
  * форма, которую заливает акцент, после стрелки.
  */
 const dotBySurface: Record<Surface, string> = {
-  light: "bg-bronze",
-  dark: "bg-bronze-soft",
-  sky: "bg-bronze-soft",
+  light: "bg-sky",
+  dark: "bg-sky-pale",
+  sky: "bg-sky-pale",
 };
 
 const textBySurface: Record<Surface, string> = {

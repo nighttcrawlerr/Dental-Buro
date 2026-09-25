@@ -39,7 +39,7 @@ export default function KitchenSinkPage() {
   return (
     <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10">
       <header className="pb-12">
-        <p className="label-mono text-bronze">Шаги 1.1 и 1.2</p>
+        <p className="label-mono text-sky">Шаги 1.1 и 1.2</p>
         <h1 className="font-display mt-4 text-display text-ink">Дизайн-система</h1>
       </header>
 

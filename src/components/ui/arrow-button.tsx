@@ -13,10 +13,18 @@ import type { Surface } from "./hairline";
  * Иконка не декоративная: у кнопки всегда есть текстовая подпись для
  * скринридера, потому что визуальной подписи у неё нет.
  */
+/**
+ * Акцент системы — Sky, он же цвет знака. Бронза осталась в палитре, но
+ * действия больше не красит.
+ *
+ * На секции Sky Silver акцент не может быть самим Sky — он исчезнет в фоне,
+ * как исчезала доля знака. Там и на эспрессо заливка уходит в светлый конец
+ * той же синей гаммы, а иконка внутри становится тёмной.
+ */
 const fillBySurface: Record<Surface, string> = {
-  light: "bg-bronze text-cream hover:bg-clay",
-  dark: "bg-bronze-soft text-espresso hover:bg-linen",
-  sky: "bg-bronze-soft text-sky-deep hover:bg-linen",
+  light: "bg-sky text-cream hover:bg-sky-deep",
+  dark: "bg-sky-pale text-sky-deep hover:bg-cream",
+  sky: "bg-sky-pale text-sky-deep hover:bg-cream",
 };
 
 type ArrowButtonProps = {
