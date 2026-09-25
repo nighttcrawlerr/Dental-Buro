@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { DoctorCard } from "@/components/doctors/doctor-card";
 import { Container } from "@/components/ui/container";
-import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ArrowGlyph, arrowSurfaceClasses } from "@/components/ui/arrow-button";
 import { doctors } from "@/content/site";
@@ -35,17 +35,7 @@ export function DoctorsSection() {
               className="reveal-item w-[72%] shrink-0 snap-start sm:w-auto sm:shrink"
               style={{ "--i": index } as React.CSSProperties}
             >
-              <Link href={`/doctors/${doctor.slug}`} className="group flex flex-col gap-5">
-                <PhotoPlaceholder label="Портрет врача" />
-
-                <span className="flex flex-col gap-2">
-                  <span className="font-display text-subheading text-ink">{doctor.name}</span>
-                  <span className="label-mono text-sky">{doctor.role}</span>
-                  <span className="label-mono text-graphite">{doctor.experience}</span>
-                </span>
-
-                <span className="text-graphite">{doctor.focus}</span>
-              </Link>
+              <DoctorCard doctor={doctor} />
             </li>
           ))}
         </ul>
