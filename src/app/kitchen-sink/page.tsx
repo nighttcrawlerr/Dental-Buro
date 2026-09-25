@@ -66,13 +66,13 @@ export default function KitchenSinkPage() {
       </Row>
 
       <Row
-        title="Только монограмма"
+        title="Только знак"
         note="Для фавикона, мобильной шапки и аватарок в соцсетях. Проверка читаемости: 96 / 48 / 32 / 24 / 16px."
       >
         <div className="rounded-card flex flex-wrap items-end gap-10 bg-paper p-12">
           {[96, 48, 32, 24, 16].map((size) => (
             <div key={size} className="flex flex-col items-center gap-3">
-              <LogoMark className="text-bronze" style={{ height: size }} />
+              <LogoMark style={{ height: size }} />
               <span className="label-mono text-graphite">{size}px</span>
             </div>
           ))}
@@ -81,7 +81,7 @@ export default function KitchenSinkPage() {
 
       <Row
         title="Фавикон"
-        note="Монограмма Bronze Soft на Espresso со скруглением. Тёмная плашка нужна, чтобы знак не терялся на белой вкладке браузера."
+        note="Знак на Espresso со скруглением. Разрез в фавиконе убран — в 16px он замыливается и превращается в грязь."
       >
         <div className="rounded-card flex flex-wrap items-end gap-10 bg-paper p-12">
           {[128, 64, 32, 16].map((size) => (

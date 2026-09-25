@@ -2,77 +2,99 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 /**
- * Монограмма DB.
+ * Знак Dental Buro — силуэт зуба, рассечённый диагональю на две доли.
  *
- * Литеры построены геометрией, а не обведённым шрифтом. Штрих модулирован:
- * внешний и внутренний овалы имеют разное соотношение осей, поэтому штрих
- * толстый по бокам (12–16) и тонкий сверху и снизу (6). Это рифмуется с
- * антиквой Cormorant в заголовках.
+ * Построен на основе прежнего логотипа клиники: там был тот же приём —
+ * зуб из двух форм, разделённых светлым просветом.
  *
- * Переплетения литер, как в исходном знаке клиники, здесь сознательно нет.
- * В точке пересечения овал D и стойка B оба находятся в самом толстом месте,
- * поэтому любой вырез уродует одну из литер. Вместо этого литеры поставлены
- * встык с оптическим зазором 4 — знак читается с 16px и не ломается.
+ * Два отличия от исходника:
+ *
+ * 1. Просвет прозрачный, а не залит светлым. В оригинале линия белая, поэтому
+ *    на любом небелом фоне она себя выдаёт. Здесь это вырез маской, и знак
+ *    ложится на кремовую канву, на эспрессо и на фотографию без переделки.
+ * 2. Корпус зуба всегда светлее доли. Тёмный корпус читается как потемневшая
+ *    эмаль, тёмные корни — как кариес; оба варианта отброшены на макетах.
+ *
+ * Идентификаторы фиксированные. На странице может оказаться несколько знаков,
+ * но определения у всех одинаковые, поэтому совпадение ни на что не влияет.
  */
+const CLIP_ID = "db-tooth";
+const MASK_ID = "db-tooth-gap";
 
-/** Литера D: стойка 12..23, овал с вылетом вправо до x=62. */
-const PATH_D =
-  "M12 16 H23 A39 34 0 0 1 23 84 H12 Z" + // внешний контур
-  "M23 22.5 A28 27.5 0 0 1 23 77.5 Z"; // внутренний просвет
+/** Контур зуба: два бугра сверху, борозда по центру, два корня снизу. */
+const PATH_TOOTH =
+  "M50 30 C50 18 41 10 29 10 C15 10 6 24 8 46 C10 66 14 86 20 100 " +
+  "C23 107 30 107 33 100 C37 90 42 76 50 76 C58 76 63 90 67 100 " +
+  "C70 107 77 107 80 100 C86 86 90 66 92 46 C94 24 85 10 71 10 " +
+  "C59 10 50 18 50 30 Z";
 
-/**
- * Литера B: стойка 66..77, верхний овал уже нижнего — как в классической антикве.
- * Просветы подобраны так, чтобы штрих по бокам был 11 — вровень со стойкой и с D,
- * иначе B выглядит легче и монограмма заваливается вправо.
- */
-const PATH_B =
-  "M66 16 H77 A23 17 0 0 1 77 50 A26 17 0 0 1 77 84 H66 Z" + // внешний контур
-  "M77 22.5 A12 10.5 0 0 1 77 43.5 Z" + // верхний просвет
-  "M77 56.5 A15 10.5 0 0 1 77 77.5 Z"; // нижний просвет
+/** Линия разреза. Просвет вырезается по ней маской. */
+const PATH_CUT = "M44 2 C50 34 62 54 96 66";
 
-export function LogoMark({
-  className,
-  style,
-}: {
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <svg
-      style={style}
-      // viewBox по габаритам знака, без полей: отступы задаёт вёрстка
-      viewBox="12 16 91 68"
-      fill="currentColor"
-      fillRule="evenodd"
-      aria-hidden="true"
-      focusable="false"
-      className={cn("h-10 w-auto", className)}
-    >
-      <path d={PATH_D} />
-      <path d={PATH_B} />
-    </svg>
-  );
-}
+/** Тёмная доля — всё, что выше и правее линии разреза. */
+const PATH_LOBE = "M44 -6 L44 2 C50 34 62 54 96 66 L106 66 L106 -6 Z";
 
 type Tone = "onLight" | "onDark";
 
-const markTone: Record<Tone, string> = {
-  onLight: "text-bronze",
-  onDark: "text-bronze-soft",
+/** Заливки знака: [корпус, доля]. Корпус всегда светлее. */
+const markFills: Record<Tone, { body: string; lobe: string }> = {
+  onLight: { body: "var(--color-sky-pale)", lobe: "var(--color-sky)" },
+  onDark: { body: "var(--color-cream)", lobe: "var(--color-sky)" },
 };
+
+export function LogoMark({
+  tone = "onLight",
+  className,
+  style,
+}: {
+  tone?: Tone;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const { body, lobe } = markFills[tone];
+
+  return (
+    <svg
+      viewBox="6 8 88 102"
+      aria-hidden="true"
+      focusable="false"
+      style={style}
+      className={cn("h-10 w-auto", className)}
+    >
+      <defs>
+        <clipPath id={CLIP_ID}>
+          <path d={PATH_TOOTH} />
+        </clipPath>
+        <mask id={MASK_ID}>
+          <rect x="-12" y="-12" width="136" height="156" fill="#fff" />
+          <path d={PATH_CUT} fill="none" stroke="#000" strokeWidth="4.5" />
+        </mask>
+      </defs>
+      <g clipPath={`url(#${CLIP_ID})`} mask={`url(#${MASK_ID})`}>
+        <rect x="-12" y="-12" width="136" height="156" fill={body} />
+        <path d={PATH_LOBE} fill={lobe} />
+      </g>
+    </svg>
+  );
+}
 
 const wordTone: Record<Tone, string> = {
   onLight: "text-ink",
   onDark: "text-cream",
 };
 
+const subTone: Record<Tone, string> = {
+  onLight: "text-graphite",
+  onDark: "text-stone",
+};
+
 const ruleTone: Record<Tone, string> = {
-  onLight: "bg-bronze/45",
-  onDark: "bg-bronze-soft/45",
+  onLight: "bg-stone",
+  onDark: "bg-graphite",
 };
 
 type LogoProps = {
-  /** full — для подвала и первого экрана; compact — для шапки; mark — только монограмма. */
+  /** full — для подвала и первого экрана; compact — для шапки; mark — только знак. */
   variant?: "full" | "compact" | "mark";
   tone?: Tone;
   /** Ссылка на главную. Выключается на самой главной, чтобы не ссылаться на себя. */
@@ -86,41 +108,36 @@ export function Logo({
   asLink = true,
   className,
 }: LogoProps) {
+  const full = variant === "full";
+
   const content =
     variant === "mark" ? (
-      <LogoMark className={cn("h-9", markTone[tone])} />
+      <LogoMark tone={tone} className="h-9" />
     ) : (
-      <span className={cn("flex items-center", variant === "full" ? "gap-4" : "gap-3")}>
-        <LogoMark
-          className={cn(variant === "full" ? "h-14" : "h-9", markTone[tone])}
-        />
+      <span className={cn("flex items-center", full ? "gap-4" : "gap-3")}>
+        <LogoMark tone={tone} className={full ? "h-14" : "h-9"} />
         <span className="flex flex-col">
           <span
             className={cn(
-              "font-sans leading-none whitespace-nowrap",
+              "font-display leading-none whitespace-nowrap",
               wordTone[tone],
-              variant === "full"
-                ? "text-[1.5rem] tracking-[0.2em]"
-                : "text-[1.0625rem] tracking-[0.18em]",
+              full
+                ? "text-[1.75rem] tracking-[0.13em]"
+                : "text-[1.1875rem] tracking-[0.13em]",
             )}
           >
             DENTAL BURO
           </span>
           {/* «CLINIC» с линиями по бокам — цитата из фирменного блока клиники */}
-          <span
-            className={cn(
-              "flex items-center",
-              variant === "full" ? "mt-2 gap-2.5" : "mt-1.5 gap-2",
-            )}
-          >
+          <span className={cn("flex items-center", full ? "mt-2 gap-2.5" : "mt-1.5 gap-2")}>
             <span className={cn("h-px flex-1", ruleTone[tone])} />
             <span
               className={cn(
                 "label-mono leading-none",
-                variant === "full"
+                subTone[tone],
+                full
                   ? "text-[0.8125rem] tracking-[0.42em]"
                   : "text-[0.625rem] tracking-[0.38em]",
-                tone === "onLight" ? "text-graphite" : "text-stone",
               )}
             >
               {/* последняя буква тоже получает разрядку, иначе блок съезжает влево */}
@@ -131,8 +148,6 @@ export function Logo({
         </span>
       </span>
     );
-
-  const label = "Dental Buro Clinic, на главную";
 
   if (!asLink) {
     return (
@@ -145,11 +160,8 @@ export function Logo({
   return (
     <Link
       href="/"
-      aria-label={label}
-      className={cn(
-        "inline-flex transition-opacity duration-300 hover:opacity-70",
-        className,
-      )}
+      aria-label="Dental Buro Clinic, на главную"
+      className={cn("inline-flex transition-opacity duration-300 hover:opacity-70", className)}
     >
       {content}
     </Link>
