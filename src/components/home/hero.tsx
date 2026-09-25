@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { HeroMedia } from "@/components/home/hero-media";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { Reveal } from "@/components/ui/reveal";
 import { Container } from "@/components/ui/container";
@@ -16,8 +17,10 @@ import { facts } from "@/content/site";
  */
 export function Hero() {
   return (
-    <section className="hero-panel bg-espresso">
-      <Container className="flex flex-col gap-16 py-20 lg:gap-28 lg:py-32">
+    <section className="hero-panel relative isolate bg-espresso">
+      <HeroMedia />
+
+      <Container className="relative flex flex-col gap-16 py-20 lg:gap-28 lg:py-32">
         <div className="flex flex-col gap-10">
           <h1 className="font-display text-hero max-w-5xl text-balance text-cream">
             <RevealWords text="Стоматология, которой не боятся." trigger="load" />

@@ -44,3 +44,6 @@ next-env.d.ts
 # generated agent instruction files (recreated by `next dev`)
 CLAUDE.md
 AGENTS.md
+
+# временное видео первого экрана — до материалов от клиники
+public/media/hero.mp4
