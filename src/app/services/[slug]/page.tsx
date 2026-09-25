@@ -10,9 +10,10 @@ import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
+import { getFeaturedPrices } from "@/content/prices";
 import { getServiceDetails } from "@/content/service-details";
 import { clinic, doctors, serviceGroups, services } from "@/content/site";
-import { formatPrice, formatPriceFrom } from "@/lib/format";
+import { formatPriceFrom, formatPriceItem } from "@/lib/format";
 
 /**
  * Страница услуги — основная посадочная под поиск и рекламу.
@@ -58,6 +59,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   const { service, details } = found;
   const group = serviceGroups.find((g) => g.id === service.group);
+  const prices = getFeaturedPrices(service.slug);
   const serviceDoctors = doctors.filter((d) => d.services.includes(service.slug));
 
   return (
@@ -194,13 +196,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 </tr>
               </thead>
               <tbody>
-                {details.prices.map((row) => (
+                {prices.map((row) => (
                   <tr key={row.name} className="border-t border-hairline last:border-b">
                     <th scope="row" className="py-4 pr-6 text-left font-normal text-ink">
                       {row.name}
                     </th>
                     <td className="label-mono py-4 text-right whitespace-nowrap text-ink">
-                      {formatPrice(row.price)}
+                      {formatPriceItem(row)}
                     </td>
                   </tr>
                 ))}
@@ -208,9 +210,12 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             </table>
             <p className="text-graphite">
               Точная сумма зависит от клинической ситуации и фиксируется в плане лечения после
-              осмотра. Полный прейскурант — на странице{" "}
-              <Link href="/prices" className="text-ink underline underline-offset-2 hover:text-sky">
-                цен
+              осмотра. Все позиции направления — в{" "}
+              <Link
+                href={`/prices#${service.slug}`}
+                className="text-ink underline underline-offset-2 hover:text-sky"
+              >
+                полном прейскуранте
               </Link>
               .
             </p>

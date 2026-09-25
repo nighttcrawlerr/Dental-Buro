@@ -17,3 +17,8 @@ export function formatPriceFrom(value: number) {
 export function formatPrice(value: number) {
   return value === 0 ? "Бесплатно" : rubles.format(value);
 }
+
+/** Строка прайса: «от» — если сумма зависит от случая. */
+export function formatPriceItem(item: { price: number; from?: boolean }) {
+  return item.from ? formatPriceFrom(item.price) : formatPrice(item.price);
+}
