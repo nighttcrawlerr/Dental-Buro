@@ -216,6 +216,8 @@ export type Doctor = {
   role: string;
   experience: string;
   focus: string;
+  /** Направления по slug услуги — по ним врач попадает на страницу услуги. */
+  services: string[];
 };
 
 export const doctors: Doctor[] = [
@@ -225,6 +227,7 @@ export const doctors: Doctor[] = [
     role: "Главный врач, имплантолог",
     experience: "опыт 00 лет",
     focus: "Имплантация, костная пластика, полное протезирование",
+    services: ["implantaciya", "hirurgiya"],
   },
   {
     slug: "doctor-2",
@@ -232,6 +235,7 @@ export const doctors: Doctor[] = [
     role: "Врач-ортодонт",
     experience: "опыт 00 лет",
     focus: "Элайнеры, брекет-системы, работа со взрослыми пациентами",
+    services: ["ortodontiya"],
   },
   {
     slug: "doctor-3",
@@ -239,6 +243,7 @@ export const doctors: Doctor[] = [
     role: "Врач-стоматолог, терапевт",
     experience: "опыт 00 лет",
     focus: "Эндодонтия под микроскопом, эстетическая реставрация",
+    services: ["terapiya", "estetika", "gigiena"],
   },
   {
     slug: "doctor-4",
@@ -246,6 +251,7 @@ export const doctors: Doctor[] = [
     role: "Детский стоматолог",
     experience: "опыт 00 лет",
     focus: "Приём детей с 3 лет, профилактика, адаптация",
+    services: ["detskaya"],
   },
 ];
 
