@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, JetBrains_Mono, Onest } from "next/font/google";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { LeadModalProvider } from "@/components/lead/lead-modal";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import "./globals.css";
 
@@ -48,11 +49,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Перейти к содержимому
         </a>
         <SmoothScroll />
-        <Header />
-        <main id="content" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <LeadModalProvider>
+          <Header />
+          <main id="content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </LeadModalProvider>
       </body>
     </html>
   );

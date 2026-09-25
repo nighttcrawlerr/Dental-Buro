@@ -1,3 +1,4 @@
+import { BookButton } from "@/components/lead/book-button";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
@@ -29,9 +30,7 @@ export function CtaSection() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <Button surface="dark" href="/contacts">
-                Записаться на приём
-              </Button>
+              <BookButton surface="dark">Записаться на приём</BookButton>
               <Button surface="dark" variant="ghost" href={clinic.phoneHref}>
                 {clinic.phone}
               </Button>

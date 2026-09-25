@@ -1,7 +1,7 @@
 import { Logo } from "@/components/logo";
 import { MainNav } from "@/components/main-nav";
 import { MobileMenu } from "@/components/mobile-menu";
-import { Button } from "@/components/ui/button";
+import { BookButton } from "@/components/lead/book-button";
 import { Container } from "@/components/ui/container";
 import { clinic } from "@/content/site";
 
@@ -38,7 +38,7 @@ export function Header() {
 
           {/* На телефоне кнопка остаётся, но без слова «на приём» — иначе
               шапка переносится в две строки на 375px. */}
-          <Button href="/contacts">Записаться</Button>
+          <BookButton>Записаться</BookButton>
 
           <MobileMenu />
         </div>

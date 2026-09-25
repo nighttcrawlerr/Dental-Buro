@@ -1,3 +1,4 @@
+import { BookButton } from "@/components/lead/book-button";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/home/hero-media";
 import { RevealWords } from "@/components/ui/reveal-words";
@@ -33,9 +34,7 @@ export function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <Button surface="dark" href="/contacts">
-                Записаться на приём
-              </Button>
+              <BookButton surface="dark">Записаться на приём</BookButton>
               <Button surface="dark" variant="ghost" href="/prices">
                 Смотреть цены
               </Button>

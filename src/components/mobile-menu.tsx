@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import { BookButton } from "@/components/lead/book-button";
 import { clinic, mainNav } from "@/content/site";
 import { cn } from "@/lib/cn";
 
@@ -127,9 +127,9 @@ export function MobileMenu() {
             {clinic.phone}
           </a>
           <p className="label-mono text-graphite">{clinic.schedule}</p>
-          <Button href="/contacts" onClick={() => setOpen(false)} className="w-full">
+          <BookButton onClick={() => setOpen(false)} className="w-full">
             Записаться на приём
-          </Button>
+          </BookButton>
         </div>
       </div>
     </>
