@@ -31,7 +31,7 @@ type ButtonProps = {
   surface?: Surface;
   href?: string;
   type?: "button" | "submit";
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   disabled?: boolean;
   className?: string;
   children: React.ReactNode;

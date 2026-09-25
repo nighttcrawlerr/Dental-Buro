@@ -125,6 +125,11 @@ export function LeadForm({
     setPending(true);
     try {
       await onSubmit(data);
+      // Очищаем только после успеха: если отправка упала, человек не должен
+      // набирать всё заново.
+      setValues(emptyLead);
+      setErrors({});
+      setAttempted(false);
     } finally {
       setPending(false);
     }
