@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import { Logo, LogoMark } from "@/components/logo";
+import { ArrowButton } from "@/components/ui/arrow-button";
+import { Button } from "@/components/ui/button";
+import { Hairline, type Surface } from "@/components/ui/hairline";
+import { SectionCounter } from "@/components/ui/section-counter";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { Tag } from "@/components/ui/tag";
 
 /**
  * Служебная витрина дизайн-системы. Нужна нам, а не пациентам:
@@ -23,12 +29,18 @@ function Row({ title, note, children }: { title: string; note?: string; children
   );
 }
 
+const surfaces: { key: Surface; label: string; bg: string }[] = [
+  { key: "light", label: "На светлой канве", bg: "bg-paper" },
+  { key: "dark", label: "На эспрессо", bg: "bg-espresso" },
+  { key: "sky", label: "На Sky Silver", bg: "bg-sky" },
+];
+
 export default function KitchenSinkPage() {
   return (
     <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10">
       <header className="pb-12">
-        <p className="label-mono text-bronze">Шаг 1.1</p>
-        <h1 className="font-display mt-4 text-display text-ink">Логотип</h1>
+        <p className="label-mono text-bronze">Шаги 1.1 и 1.2</p>
+        <h1 className="font-display mt-4 text-display text-ink">Дизайн-система</h1>
       </header>
 
       <Row
@@ -91,6 +103,78 @@ export default function KitchenSinkPage() {
               <span className="label-mono text-graphite">{size}px</span>
             </div>
           ))}
+        </div>
+      </Row>
+
+
+      <Row
+        title="Кнопки"
+        note="Заливка кнопки — противоположная поверхность: на светлом тёмная, на тёмном светлая. Акцент кнопку не заливает никогда. Высота не меньше 44px — минимальная цель для пальца."
+      >
+        <div className="grid gap-4 lg:grid-cols-3">
+          {surfaces.map(({ key, label, bg }) => (
+            <div key={key} className={`rounded-card p-8 ${bg}`}>
+              <p className={`label-mono mb-6 ${key === "light" ? "text-graphite" : "text-cream/85"}`}>
+                {label}
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <Button surface={key}>Записаться</Button>
+                <Button surface={key} variant="ghost">
+                  Смотреть цены
+                </Button>
+                <ArrowButton surface={key} label="Перейти к услугам" />
+                <ArrowButton surface={key} direction="up-right" label="Открыть в новой вкладке" />
+              </div>
+              <div className="mt-6 flex flex-wrap items-center gap-4">
+                <SectionCounter current={1} total={4} surface={key} />
+                <Tag surface={key}>Имплантация</Tag>
+              </div>
+              <Hairline surface={key} className="mt-6" />
+            </div>
+          ))}
+        </div>
+      </Row>
+
+      <Row title="Шапка секции" note="Счётчик, заголовок и пояснение. На странице ровно один h1, поэтому здесь по умолчанию h2.">
+        <div className="flex flex-col gap-4">
+          <div className="rounded-card bg-paper p-10">
+            <SectionHeading
+              counter={{ current: 2, total: 4 }}
+              title="Восстанавливаем зубной ряд за один визит"
+              description="Планирование по КТ, установка по хирургическому шаблону и временная коронка в день операции."
+            />
+          </div>
+          <div className="rounded-card bg-espresso p-10">
+            <SectionHeading
+              surface="dark"
+              counter={{ current: 3, total: 4 }}
+              title="Цифровой протокол лечения"
+              description="Никаких слепочных масс и решений на глаз — каждый шаг просчитан заранее."
+            />
+          </div>
+          <div className="rounded-card bg-sky p-10">
+            <SectionHeading
+              surface="sky"
+              counter={{ current: 4, total: 4 }}
+              title="План лечения до начала работ"
+              description="Документ с этапами, сроками и фиксированной стоимостью. Сумма в конце совпадает с той, что была в начале."
+            />
+          </div>
+        </div>
+      </Row>
+
+      <Row title="Типографическая шкала">
+        <div className="rounded-card flex flex-col gap-6 bg-paper p-10">
+          <p className="font-display text-hero text-ink">Улыбка.</p>
+          <p className="font-display text-display text-ink">Имплантация</p>
+          <p className="font-display text-heading-lg text-ink">Заголовок секции</p>
+          <p className="font-display text-heading-sm text-ink">Заголовок карточки</p>
+          <p className="text-body-lg text-graphite">Крупный текст — вводные абзацы и лиды секций.</p>
+          <p className="max-w-2xl text-body text-graphite">
+            Основной текст. Здесь живут описания услуг, этапы лечения и ответы на вопросы. Строка
+            держится в пределах 70 знаков, дальше читать тяжело.
+          </p>
+          <p className="label-mono text-graphite">Служебная подпись · моноширинная</p>
         </div>
       </Row>
 
