@@ -10,20 +10,25 @@ import { cn } from "@/lib/cn";
 export function Reveal({
   /** Порядковый номер в группе. Задаёт задержку, чтобы карточки шли волной. */
   index,
+  /** load — для содержимого первого экрана, оно по прокрутке не анимируется. */
+  trigger = "scroll",
   as: Tag = "div",
   className,
   children,
 }: {
   index?: number;
+  trigger?: "scroll" | "load";
   as?: "div" | "li" | "section" | "span";
   className?: string;
   children: React.ReactNode;
 }) {
   const staggered = typeof index === "number";
+  const motionClass =
+    trigger === "load" ? "reveal-load" : staggered ? "reveal-item" : "reveal";
 
   return (
     <Tag
-      className={cn(staggered ? "reveal-item" : "reveal", className)}
+      className={cn(motionClass, className)}
       style={staggered ? ({ "--i": index } as React.CSSProperties) : undefined}
     >
       {children}

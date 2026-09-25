@@ -16,15 +16,22 @@ import { cn } from "@/lib/cn";
  */
 export function RevealWords({
   text,
+  /**
+   * scroll — плашки снимаются по мере прокрутки; для заголовков ниже сгиба.
+   * load — сразу после загрузки страницы; для первого экрана, который на
+   * момент загрузки уже виден и по прокрутке анимироваться не может.
+   */
+  trigger = "scroll",
   className,
 }: {
   text: string;
+  trigger?: "scroll" | "load";
   className?: string;
 }) {
   const words = text.split(" ");
 
   return (
-    <span className={cn(className)}>
+    <span className={cn(trigger === "load" && "rw-load", className)}>
       {words.map((word, index) => (
         <Fragment key={`${word}-${index}`}>
           <span className="rw-word" style={{ "--i": index } as React.CSSProperties}>

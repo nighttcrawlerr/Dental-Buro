@@ -20,10 +20,10 @@ export function Hero() {
       <Container className="flex flex-col gap-16 py-20 lg:gap-28 lg:py-32">
         <div className="flex flex-col gap-10">
           <h1 className="font-display text-hero max-w-5xl text-balance text-cream">
-            <RevealWords text="Стоматология, которой не боятся." />
+            <RevealWords text="Стоматология, которой не боятся." trigger="load" />
           </h1>
 
-          <div className="flex max-w-xl flex-col gap-8">
+          <Reveal trigger="load" index={3} className="flex max-w-xl flex-col gap-8">
             <p className="text-body-lg text-stone">
               План лечения с фиксированной стоимостью — до начала работ. Цифровой протокол, своя
               зуботехническая лаборатория и наблюдение после лечения, а не закрытый случай.
@@ -37,12 +37,17 @@ export function Hero() {
                 Смотреть цены
               </Button>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         <dl className="grid grid-cols-2 gap-x-8 gap-y-10 border-t border-hairline-dark pt-10 lg:grid-cols-4">
           {facts.map((fact, index) => (
-            <Reveal key={fact.label} index={index} className="flex flex-col gap-2">
+            <Reveal
+              key={fact.label}
+              index={index + 4}
+              trigger="load"
+              className="flex flex-col gap-2"
+            >
               <dt className="sr-only">{fact.label}</dt>
               <dd className="flex flex-col gap-2">
                 <span className="font-display text-heading-lg text-cream">{fact.value}</span>

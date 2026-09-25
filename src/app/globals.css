@@ -151,13 +151,35 @@
  * Поддержки нет в Firefox — там страница останется статичной, но полностью
  * рабочей. Это осознанный размен.
  */
+/* Всё, что видно на первом экране сразу, анимируется по таймеру, а не по
+   прокрутке. Причина простая: у анимаций по прокрутке событие называется
+   «элемент въезжает в экран», а первый экран на момент загрузки уже въехал —
+   диапазон пройден, и анимация отрабатывает до того, как человек посмотрел.
+   Побочная польза: это работает и в Firefox, где прокруточных анимаций нет. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-load {
+    animation: reveal-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+
+  .rw-load .rw-block {
+    display: block;
+    animation: rw-wipe 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 65ms + 100ms);
+  }
+}
+
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    /* Появление блока при въезде в экран. */
+    /* Появление блока при въезде в экран.
+       Диапазон намеренно длинный: элемент едет до середины экрана и всё это
+       время проявляется. Короткий диапазон технически работает, но при обычной
+       скорости прокрутки движение успевает закончиться раньше, чем на него
+       падает взгляд, — и выглядит это как отсутствие анимации. */
     .reveal {
       animation: reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry 6% entry 44%;
+      animation-range: entry 0% cover 40%;
     }
 
     /* То же, но с задержкой по индексу: карточки в сетке проявляются
@@ -165,7 +187,7 @@
     .reveal-item {
       animation: reveal-in linear both;
       animation-timeline: view();
-      animation-range: entry calc(4% + var(--i, 0) * 4%) entry calc(40% + var(--i, 0) * 4%);
+      animation-range: entry calc(0% + var(--i, 0) * 6%) cover calc(36% + var(--i, 0) * 6%);
     }
 
     /* Первый экран: тёмная плашка во всю ширину собирается в карточку с
@@ -174,14 +196,14 @@
     .hero-panel {
       animation: hero-inset linear both;
       animation-timeline: scroll(root block);
-      animation-range: 0 90vh;
+      animation-range: 0 75vh;
     }
 
     /* Плашка поверх слова, которая уезжает вправо и открывает его. */
     .rw-block {
       animation: rw-wipe linear both;
       animation-timeline: view();
-      animation-range: entry calc(12% + var(--i, 0) * 3.5%) entry calc(40% + var(--i, 0) * 3.5%);
+      animation-range: entry 4% cover calc(30% + var(--i, 0) * 5%);
     }
   }
 }
@@ -189,7 +211,7 @@
 @keyframes reveal-in {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -202,7 +224,7 @@
     clip-path: inset(0 0 0 0 round 0);
   }
   to {
-    clip-path: inset(0 16px 0 16px round 32px);
+    clip-path: inset(0 28px 0 28px round 48px);
   }
 }
 
