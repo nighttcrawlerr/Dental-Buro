@@ -181,14 +181,14 @@ export default function KitchenSinkPage() {
 
       <Row
         title="Форма записи"
-        note="Шаг 3.1. Отправки пока нет: после проверки форма показывает, что ушло бы на сервер."
+        note="Отправки нет. Светлая форма показывает, что ушло бы на сервер; тёмная всегда падает с ошибкой сервера — чтобы было видно, как выглядит ошибка."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-card bg-paper p-6 md:p-10">
             <LeadFormDemo surface="light" />
           </div>
           <div className="rounded-card bg-espresso p-6 md:p-10">
-            <LeadFormDemo surface="dark" />
+            <LeadFormDemo surface="dark" fail="server" />
           </div>
         </div>
       </Row>

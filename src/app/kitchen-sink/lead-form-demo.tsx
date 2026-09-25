@@ -3,16 +3,24 @@
 import { useState } from "react";
 import { LeadForm } from "@/components/lead/lead-form";
 import type { Lead } from "@/lib/lead";
+import { LeadSubmitError, type LeadSubmitErrorKind } from "@/lib/submit-lead";
 
 /**
  * Форма без отправки: вместо сервера показывает, что ушло бы дальше.
- * Живёт только на витрине, пока нет роута /api/lead.
+ * С fail всегда падает с этой ошибкой — так видно состояние ошибки.
  */
-export function LeadFormDemo({ surface }: { surface: "light" | "dark" }) {
+export function LeadFormDemo({
+  surface,
+  fail,
+}: {
+  surface: "light" | "dark";
+  fail?: LeadSubmitErrorKind;
+}) {
   const [sent, setSent] = useState<Lead | null>(null);
 
   async function fakeSubmit(lead: Lead) {
     await new Promise((r) => setTimeout(r, 800));
+    if (fail) throw new LeadSubmitError(fail);
     setSent(lead);
   }
 
