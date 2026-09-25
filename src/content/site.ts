@@ -28,9 +28,23 @@ export const mainNav: NavItem[] = [
   { label: "Контакты", href: "/contacts" },
 ];
 
+/**
+ * Группы направлений для фильтра в каталоге. Делим по тому, с чем человек
+ * приходит, а не по медицинским разделам: «хочу красивые зубы» и «болит»
+ * ищут в разных местах, даже если лечит один и тот же врач.
+ */
+export const serviceGroups = [
+  { id: "treatment", label: "Лечение и профилактика" },
+  { id: "restoration", label: "Имплантация и хирургия" },
+  { id: "aesthetics", label: "Эстетика и прикус" },
+] as const;
+
+export type ServiceGroup = (typeof serviceGroups)[number]["id"];
+
 export type Service = {
   slug: string;
   title: string;
+  group: ServiceGroup;
   /** Короткая формулировка для карточки в каталоге. */
   summary: string;
   /** Что входит — показываем на странице услуги. */
@@ -41,6 +55,7 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "implantaciya",
+    group: "restoration",
     title: "Имплантация",
     summary:
       "Восстанавливаем зубной ряд от одной единицы до полной челюсти. Планирование по КТ, установка по хирургическому шаблону.",
@@ -53,6 +68,7 @@ export const services: Service[] = [
   },
   {
     slug: "ortodontiya",
+    group: "aesthetics",
     title: "Ортодонтия и элайнеры",
     summary:
       "Исправление прикуса брекет-системами и прозрачными элайнерами. Показываем результат в 3D до старта лечения.",
@@ -65,6 +81,7 @@ export const services: Service[] = [
   },
   {
     slug: "estetika",
+    group: "aesthetics",
     title: "Эстетическая реставрация",
     summary:
       "Виниры, керамические накладки и художественная реставрация. Форма и оттенок подбираются под лицо, а не по каталогу.",
@@ -77,6 +94,7 @@ export const services: Service[] = [
   },
   {
     slug: "hirurgiya",
+    group: "restoration",
     title: "Хирургия",
     summary:
       "Удаление зубов любой сложности, костная пластика, синус-лифтинг. Работа под местной анестезией или седацией.",
@@ -89,6 +107,7 @@ export const services: Service[] = [
   },
   {
     slug: "terapiya",
+    group: "treatment",
     title: "Терапия и эндодонтия",
     summary:
       "Лечение кариеса и каналов под микроскопом. Каждый этап фиксируется снимком — вы видите, за что платите.",
@@ -101,6 +120,7 @@ export const services: Service[] = [
   },
   {
     slug: "gigiena",
+    group: "treatment",
     title: "Гигиена и отбеливание",
     summary:
       "Профессиональная чистка, Air Flow и отбеливание. Базовый визит, с которого начинается любой план лечения.",
@@ -113,6 +133,7 @@ export const services: Service[] = [
   },
   {
     slug: "detskaya",
+    group: "treatment",
     title: "Детская стоматология",
     summary:
       "Приём с 3 лет. Первый визит — знакомство без лечения, чтобы ребёнок пришёл во второй раз сам.",
