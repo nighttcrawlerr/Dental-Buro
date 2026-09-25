@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { LeadForm } from "@/components/lead/lead-form";
 import { submitLead } from "@/lib/submit-lead";
 import { captureUtm } from "@/lib/utm";
@@ -31,6 +32,7 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const pressStartedOnBackdrop = useRef(false);
+  const router = useRouter();
 
   const open = useCallback(() => {
     const dialog = dialogRef.current;
@@ -113,6 +115,9 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
             onSubmit={async (lead, meta) => {
               await submitLead(lead, meta);
               close();
+              // Благодарность — отдельной страницей, а не текстом в окне:
+              // на её адрес вешается цель в аналитике.
+              router.push("/thanks");
             }}
           />
         </div>
