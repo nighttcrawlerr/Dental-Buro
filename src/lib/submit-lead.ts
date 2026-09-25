@@ -25,7 +25,12 @@ export class LeadSubmitError extends Error {
  * Отправка заявки на сервер. Бросает LeadSubmitError, если заявка не
  * принята, — форма в таком случае оставляет набранное на месте.
  */
-export async function submitLead(lead: Lead, { website }: { website: string }) {
+export async function submitLead(
+  lead: Lead,
+  { website }: { website: string },
+  /** Врач, к которому просятся, — если форма стоит на странице врача. */
+  context: { doctor?: string } = {},
+) {
   let response: Response;
   try {
     response = await fetch("/api/lead", {
@@ -36,6 +41,7 @@ export async function submitLead(lead: Lead, { website }: { website: string }) {
         page: window.location.href,
         utm: readUtm(),
         website,
+        doctor: context.doctor,
       }),
     });
   } catch {

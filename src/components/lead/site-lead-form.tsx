@@ -14,10 +14,13 @@ import { submitLead } from "@/lib/submit-lead";
 export function SiteLeadForm({
   surface,
   defaultService,
+  doctor,
   onSent,
 }: {
   surface?: "light" | "dark";
   defaultService?: string;
+  /** slug врача — уходит в заявку, чтобы администратор записал именно к нему. */
+  doctor?: string;
   /** Вызывается после успешной отправки, до перехода — окно так закрывается. */
   onSent?: () => void;
 }) {
@@ -28,7 +31,7 @@ export function SiteLeadForm({
       surface={surface}
       defaultService={defaultService}
       onSubmit={async (lead, meta) => {
-        await submitLead(lead, meta);
+        await submitLead(lead, meta, { doctor });
         onSent?.();
         router.push("/thanks");
       }}

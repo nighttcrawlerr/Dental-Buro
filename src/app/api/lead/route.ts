@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { services } from "@/content/site";
+import { doctors, services } from "@/content/site";
 import { leadSchema, visitTimes, type Lead } from "@/lib/lead";
 import { createRateLimit } from "@/lib/rate-limit";
 import { escapeHtml, sendTelegramMessage } from "@/lib/telegram";
@@ -28,6 +28,7 @@ const requestSchema = leadSchema.extend({
       utm_term: utmValue,
     })
     .optional(),
+  doctor: z.string().max(80).optional(),
   /** Ловушка: поле невидимо для людей, его заполняют только боты. */
   website: z.string().max(200).optional(),
 });
@@ -61,13 +62,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const { page, utm, website, ...lead } = parsed.data;
+  const { page, utm, website, doctor, ...lead } = parsed.data;
 
   // Боту отвечаем успехом: получив ошибку, он начнёт подбирать, что не так.
   if (website) return Response.json({ ok: true });
 
   try {
-    await sendTelegramMessage(formatLead(lead, page, utm));
+    await sendTelegramMessage(formatLead(lead, { page, utm, doctor }));
   } catch (error) {
     // В лог — только причина, без имени и телефона.
     console.error("[lead] Не удалось отправить заявку в Telegram:", error);
@@ -77,7 +78,14 @@ export async function POST(request: Request) {
   return Response.json({ ok: true });
 }
 
-function formatLead(lead: Lead, page?: string, utm?: Partial<Record<string, string>>) {
+function formatLead(
+  lead: Lead,
+  {
+    page,
+    utm,
+    doctor,
+  }: { page?: string; utm?: Partial<Record<string, string>>; doctor?: string },
+) {
   const service = services.find((s) => s.slug === lead.service)?.title ?? "Консультация, услуга не выбрана";
   const time = visitTimes.find((t) => t.value === lead.time)?.label ?? lead.time;
 
@@ -90,6 +98,11 @@ function formatLead(lead: Lead, page?: string, utm?: Partial<Record<string, stri
     `<b>Услуга:</b> ${escapeHtml(service)}`,
     `<b>Удобное время:</b> ${escapeHtml(time)}`,
   ];
+
+  // Имя врача берём из своих данных по slug, а не из запроса: так в чат не
+  // попадёт произвольный текст под видом врача.
+  const doctorName = doctors.find((d) => d.slug === doctor)?.name;
+  if (doctorName) lines.push(`<b>Врач:</b> ${escapeHtml(doctorName)}`);
 
   if (lead.comment) lines.push(`<b>Комментарий:</b> ${escapeHtml(lead.comment)}`);
 
