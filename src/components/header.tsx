@@ -6,19 +6,23 @@ import { Container } from "@/components/ui/container";
 import { clinic } from "@/content/site";
 
 /**
- * Шапка сайта.
+ * Шапка сайта — липкая.
  *
- * Не липкая — так задумано в дизайн-системе, содержание важнее навигации.
- * Но для клиники это рискованно: пациент дочитывает до конца длинной страницы
- * и остаётся без кнопки записи. Компромисс — MobileCtaBar внизу экрана на
- * телефоне, где прокрутка длиннее всего.
+ * Восстановленный DESIGN.md утверждает «no sticky header», но на записи
+ * настоящего сайта-референса шапка висит сверху на всех без исключения
+ * позициях прокрутки. Документ восстановлен по внешнему виду и в этом месте
+ * ошибается, поэтому идём за реальным сайтом.
+ *
+ * Для клиники это к тому же снимает отдельную проблему: кнопка записи всегда
+ * на экране, и не нужна закреплённая панель внизу, которая на телефоне
+ * отъедала высоту и накрывала подвал.
  *
  * Сама шапка рендерится на сервере; клиентские только меню и подсветка
  * текущего раздела.
  */
 export function Header() {
   return (
-    <header className="border-b border-hairline bg-cream">
+    <header className="sticky top-0 z-40 border-b border-hairline bg-cream/90 backdrop-blur-md">
       <Container className="flex h-20 items-center justify-between gap-6">
         <Logo variant="compact" />
 
@@ -32,9 +36,9 @@ export function Header() {
             {clinic.phone}
           </a>
 
-          <Button href="/contacts" className="hidden lg:inline-flex">
-            Записаться
-          </Button>
+          {/* На телефоне кнопка остаётся, но без слова «на приём» — иначе
+              шапка переносится в две строки на 375px. */}
+          <Button href="/contacts">Записаться</Button>
 
           <MobileMenu />
         </div>
