@@ -1,9 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from "react";
-import { useRouter } from "next/navigation";
-import { LeadForm } from "@/components/lead/lead-form";
-import { submitLead } from "@/lib/submit-lead";
+import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { captureUtm } from "@/lib/utm";
 
 type LeadModal = { open: () => void };
@@ -32,7 +30,6 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const pressStartedOnBackdrop = useRef(false);
-  const router = useRouter();
 
   const open = useCallback(() => {
     const dialog = dialogRef.current;
@@ -111,15 +108,7 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
             </button>
           </div>
 
-          <LeadForm
-            onSubmit={async (lead, meta) => {
-              await submitLead(lead, meta);
-              close();
-              // Благодарность — отдельной страницей, а не текстом в окне:
-              // на её адрес вешается цель в аналитике.
-              router.push("/thanks");
-            }}
-          />
+          <SiteLeadForm onSent={close} />
         </div>
       </dialog>
     </LeadModalContext.Provider>

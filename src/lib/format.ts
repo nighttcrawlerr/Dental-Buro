@@ -12,3 +12,8 @@ const rubles = new Intl.NumberFormat("ru-RU", {
 export function formatPriceFrom(value: number) {
   return `от ${rubles.format(value)}`;
 }
+
+/** Цена строки прайса. Ноль — это «бесплатно», а не «0 ₽». */
+export function formatPrice(value: number) {
+  return value === 0 ? "Бесплатно" : rubles.format(value);
+}

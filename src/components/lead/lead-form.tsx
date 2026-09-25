@@ -73,6 +73,8 @@ type LeadFormProps = {
    */
   onSubmit: (lead: Lead, meta: { website: string }) => Promise<void>;
   submitLabel?: string;
+  /** Услуга, выбранная заранее, — на странице услуги спрашивать её незачем. */
+  defaultService?: string;
   className?: string;
 };
 
@@ -93,13 +95,15 @@ export function LeadForm({
   surface = "light",
   onSubmit,
   submitLabel = "Записаться",
+  defaultService = "",
   className,
 }: LeadFormProps) {
   const tone = toneBySurface[surface];
   const uid = useId();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [values, setValues] = useState<LeadInput>(emptyLead);
+  const initial = { ...emptyLead, service: defaultService };
+  const [values, setValues] = useState<LeadInput>(initial);
   const [errors, setErrors] = useState<LeadErrors>({});
   const [attempted, setAttempted] = useState(false);
   const [pending, setPending] = useState(false);
@@ -151,7 +155,7 @@ export function LeadForm({
       await onSubmit(data, { website: trap instanceof HTMLInputElement ? trap.value : "" });
       // Очищаем только после успеха: если отправка упала, человек не должен
       // набирать всё заново.
-      setValues(emptyLead);
+      setValues(initial);
       setErrors({});
       setAttempted(false);
     } catch (error) {
