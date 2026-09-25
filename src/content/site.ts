@@ -210,6 +210,12 @@ export const advantages: Advantage[] = [
   },
 ];
 
+export type Credential = { year: string; title: string; place: string };
+
+/**
+ * Врач. Образование и квалификация — не украшение карточки: закон о платных
+ * медицинских услугах требует публиковать их для каждого врача.
+ */
 export type Doctor = {
   slug: string;
   name: string;
@@ -218,7 +224,28 @@ export type Doctor = {
   focus: string;
   /** Направления по slug услуги — по ним врач попадает на страницу услуги. */
   services: string[];
+  /** Пара абзацев от первого лица клиники: как врач работает. */
+  bio: string;
+  education: Credential[];
+  /** Повышение квалификации, сертификаты, аккредитация. */
+  training: Credential[];
+  consultationPrice: number;
 };
+
+/**
+ * Образование и курсы у всех врачей — одна и та же заглушка. Выдумывать
+ * конкретные вузы и годы нельзя: это сведения, за достоверность которых
+ * клиника отвечает по закону. Заменяются данными из личных дел.
+ */
+const placeholderEducation: Credential[] = [
+  { year: "0000", title: "Специальность «Стоматология»", place: "Название медицинского вуза" },
+  { year: "0000", title: "Ординатура по специальности", place: "Название медицинского вуза" },
+];
+
+const placeholderTraining: Credential[] = [
+  { year: "0000", title: "Название курса повышения квалификации", place: "Организатор курса" },
+  { year: "0000", title: "Периодическая аккредитация специалиста", place: "Номер и дата свидетельства" },
+];
 
 export const doctors: Doctor[] = [
   {
@@ -228,6 +255,10 @@ export const doctors: Doctor[] = [
     experience: "опыт 00 лет",
     focus: "Имплантация, костная пластика, полное протезирование",
     services: ["implantaciya", "hirurgiya"],
+    bio: "Ведёт пациентов от первой консультации до установки коронки — не передаёт на полпути другому врачу. Каждую операцию планирует по КТ и проводит по хирургическому шаблону. Сложные случаи — полную потерю зубов и дефицит кости — разбирает с ортопедом и техником лаборатории до начала лечения.",
+    education: placeholderEducation,
+    training: placeholderTraining,
+    consultationPrice: 2500,
   },
   {
     slug: "doctor-2",
@@ -236,6 +267,10 @@ export const doctors: Doctor[] = [
     experience: "опыт 00 лет",
     focus: "Элайнеры, брекет-системы, работа со взрослыми пациентами",
     services: ["ortodontiya"],
+    bio: "Работает со взрослыми пациентами, в том числе перед протезированием и имплантацией. Прежде чем предложить брекеты или элайнеры, показывает 3D-сетап: как будут двигаться зубы и сколько времени это займёт.",
+    education: placeholderEducation,
+    training: placeholderTraining,
+    consultationPrice: 2500,
   },
   {
     slug: "doctor-3",
@@ -244,6 +279,10 @@ export const doctors: Doctor[] = [
     experience: "опыт 00 лет",
     focus: "Эндодонтия под микроскопом, эстетическая реставрация",
     services: ["terapiya", "estetika", "gigiena"],
+    bio: "Лечит каналы под микроскопом и делает художественные реставрации. Считает, что сохранить свой зуб почти всегда лучше, чем заменить, — и объясняет по снимку, когда это ещё возможно, а когда уже нет.",
+    education: placeholderEducation,
+    training: placeholderTraining,
+    consultationPrice: 2000,
   },
   {
     slug: "doctor-4",
@@ -252,6 +291,10 @@ export const doctors: Doctor[] = [
     experience: "опыт 00 лет",
     focus: "Приём детей с 3 лет, профилактика, адаптация",
     services: ["detskaya"],
+    bio: "Принимает детей с 3 лет. Первый визит всегда проводит без лечения — чтобы ребёнок познакомился с кабинетом и пришёл во второй раз без страха. Родителям объясняет, что срочно, а что можно наблюдать.",
+    education: placeholderEducation,
+    training: placeholderTraining,
+    consultationPrice: 1500,
   },
 ];
 
@@ -324,6 +367,8 @@ export const works: Work[] = [
 
 export type Review = {
   author: string;
+  /** Врач, о котором отзыв, — по нему отзыв попадает на страницу врача. */
+  doctor?: string;
   service: string;
   date: string;
   text: string;
@@ -332,18 +377,21 @@ export type Review = {
 export const reviews: Review[] = [
   {
     author: "Имя К.",
+    doctor: "doctor-1",
     service: "Имплантация",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Здесь будет реальный отзыв пациента, выгруженный из Яндекс.Карт или собранный после лечения.",
   },
   {
     author: "Имя М.",
+    doctor: "doctor-2",
     service: "Элайнеры",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Длина примерно такая, чтобы карточка держала форму в сетке и не прыгала по высоте.",
   },
   {
     author: "Имя С.",
+    doctor: "doctor-3",
     service: "Гигиена",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Короткий отзыв тоже должен выглядеть аккуратно внутри карточки.",
