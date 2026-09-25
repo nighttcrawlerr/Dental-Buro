@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from "react";
 import { LeadForm } from "@/components/lead/lead-form";
 import { submitLead } from "@/lib/submit-lead";
+import { captureUtm } from "@/lib/utm";
 
 type LeadModal = { open: () => void };
 
@@ -52,6 +53,10 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(() => ({ open }), [open]);
+
+  // Провайдер живёт в корневом layout и монтируется один раз — на странице
+  // входа. Это как раз тот момент, когда UTM-метки ещё в адресе.
+  useEffect(() => captureUtm(), []);
 
   return (
     <LeadModalContext.Provider value={value}>
@@ -105,8 +110,8 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
           </div>
 
           <LeadForm
-            onSubmit={async (lead) => {
-              await submitLead(lead);
+            onSubmit={async (lead, meta) => {
+              await submitLead(lead, meta);
               close();
             }}
           />

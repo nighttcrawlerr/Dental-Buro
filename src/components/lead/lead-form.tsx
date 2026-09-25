@@ -53,8 +53,11 @@ const fieldOrder: LeadField[] = ["name", "phone", "service", "time", "comment", 
 
 type LeadFormProps = {
   surface?: FormSurface;
-  /** Что делать с проверенной заявкой. Пока промис не завершится, кнопка заблокирована. */
-  onSubmit: (lead: Lead) => Promise<void>;
+  /**
+   * Что делать с проверенной заявкой. Пока промис не завершится, кнопка
+   * заблокирована. website — содержимое поля-ловушки для ботов.
+   */
+  onSubmit: (lead: Lead, meta: { website: string }) => Promise<void>;
   submitLabel?: string;
   className?: string;
 };
@@ -124,7 +127,8 @@ export function LeadForm({
 
     setPending(true);
     try {
-      await onSubmit(data);
+      const trap = formRef.current?.elements.namedItem("website");
+      await onSubmit(data, { website: trap instanceof HTMLInputElement ? trap.value : "" });
       // Очищаем только после успеха: если отправка упала, человек не должен
       // набирать всё заново.
       setValues(emptyLead);
@@ -177,6 +181,16 @@ export function LeadForm({
       aria-busy={pending || undefined}
       className={cn("grid gap-x-4 gap-y-6 md:grid-cols-2", className)}
     >
+      {/* Ловушка для ботов. Людям не видна и недоступна с клавиатуры, а бот
+          заполняет все поля подряд — по заполненному поле сервер его и узнаёт.
+          Название правдоподобное нарочно: поле «trap» бот бы пропустил. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
+        <label>
+          Сайт
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
+        </label>
+      </div>
+
       <div className="flex flex-col gap-2">
         {label("name", "Имя")}
         <input
