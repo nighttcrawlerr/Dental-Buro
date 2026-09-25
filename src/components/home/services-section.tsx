@@ -2,16 +2,11 @@ import Link from "next/link";
 import { ArrowGlyph, arrowSurfaceClasses } from "@/components/ui/arrow-button";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { ServiceCard } from "@/components/services/service-card";
+import { ServicesGrid } from "@/components/services/services-grid";
 import { services } from "@/content/site";
 import { cn } from "@/lib/cn";
 
-/**
- * Каталог направлений на главной.
- *
- * Сетка собрана на зазоре в 1px поверх цвета линии — так разделители между
- * карточками получаются ровно там, где нужно, без бордюров на каждой ячейке.
- */
+/** Каталог направлений на главной. */
 export function ServicesSection() {
   return (
     <section className="bg-cream">
@@ -23,17 +18,13 @@ export function ServicesSection() {
           description="Полный цикл в одной клинике: от гигиены до полного протезирования. Диагностика и план лечения — до начала работ."
         />
 
-        <ul className="grid gap-px overflow-hidden rounded-card bg-hairline md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
-            <li
-              key={service.slug}
-              className="reveal-item bg-paper"
-              style={{ "--i": index } as React.CSSProperties}
-            >
-              <ServiceCard service={service} number={index + 1} />
-            </li>
-          ))}
-        </ul>
+        {/* Сетка появляется целиком, а не по карточке. Карточки на линиях
+            стоят вплотную: пока одна уже на месте, а соседняя ещё въезжает,
+            в щель между ними видно фон, и ряд выглядит кривым. */}
+        <ServicesGrid
+          className="reveal"
+          items={services.map((service, index) => ({ service, number: index + 1 }))}
+        />
 
         <Link
           href="/services"

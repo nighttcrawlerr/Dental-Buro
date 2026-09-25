@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ServiceCard } from "@/components/services/service-card";
+import { ServicesGrid } from "@/components/services/services-grid";
 import { serviceGroups, services, type ServiceGroup } from "@/content/site";
 import { cn } from "@/lib/cn";
 
@@ -69,13 +69,7 @@ export function ServicesCatalog() {
         Показано: {countLabel(visible.length)}
       </p>
 
-      <ul className="grid gap-px overflow-hidden rounded-card bg-hairline md:grid-cols-2 lg:grid-cols-3">
-        {visible.map(({ service, number }) => (
-          <li key={service.slug} className="bg-paper">
-            <ServiceCard service={service} number={number} />
-          </li>
-        ))}
-      </ul>
+      <ServicesGrid items={visible} />
     </div>
   );
 }

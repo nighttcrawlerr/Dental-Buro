@@ -117,19 +117,15 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <section className="bg-cream">
         <Container className="flex flex-col gap-12 py-20 lg:py-28">
           <SectionHeading className="reveal" title="Что входит" />
-          <ul className="grid gap-px overflow-hidden rounded-card bg-hairline md:grid-cols-3">
+          {/* Сетка на линиях появляется целиком — см. ServicesGrid. */}
+          <ul className="reveal grid gap-px overflow-hidden rounded-card bg-hairline md:grid-cols-3">
             {service.highlights.map((item, index) => (
-              <Reveal
-                as="li"
-                key={item}
-                index={index}
-                className="flex flex-col gap-6 bg-paper p-8 lg:p-10"
-              >
+              <li key={item} className="flex flex-col gap-6 bg-paper p-8 lg:p-10">
                 <span className="label-mono text-graphite">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span className="text-body-lg text-ink">{item}</span>
-              </Reveal>
+              </li>
             ))}
           </ul>
         </Container>
