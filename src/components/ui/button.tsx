@@ -58,8 +58,9 @@ export function Button({
   );
 
   if (href) {
+    // onClick доезжает и до ссылки: мобильное меню закрывается именно так.
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} onClick={onClick} className={classes}>
         {children}
       </Link>
     );
