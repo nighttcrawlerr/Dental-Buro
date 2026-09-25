@@ -353,7 +353,7 @@ export const serviceDetails: Record<string, ServiceDetails> = {
   detskaya: {
     intro:
       "Лечим детей с 3 лет. Первый визит — знакомство без лечения: ребёнок осматривается в кабинете, трогает инструменты и уходит без страха.",
-    duration: "зависит от задачи",
+    duration: "от одного визита",
     stages: [
       {
         title: "Адаптационный визит",
