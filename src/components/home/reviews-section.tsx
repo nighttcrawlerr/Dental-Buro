@@ -28,7 +28,7 @@ export function ReviewsSection() {
         />
 
         <ul className="grid gap-6 md:grid-cols-3">
-          {reviews.map((review, index) => (
+          {reviews.slice(0, 3).map((review, index) => (
             <li
               key={review.author}
               className="reveal-item"
