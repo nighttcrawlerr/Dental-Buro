@@ -1,13 +1,5 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, JetBrains_Mono, Onest } from "next/font/google";
-import { CookieBanner } from "@/components/analytics/cookie-banner";
-import { Metrika } from "@/components/analytics/metrika";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { LeadModalProvider } from "@/components/lead/lead-modal";
-import { JsonLd } from "@/components/seo/json-ld";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { clinicSchema } from "@/lib/schema";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -57,25 +49,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cormorant.variable} ${onest.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-cream">
-        <a
-          href="#content"
-          className="label-mono sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-button focus:bg-ink focus:px-4 focus:py-3 focus:text-cream"
-        >
-          Перейти к содержимому
-        </a>
-        {/* Клиника в разметке Schema.org — на всех страницах: услуги и врачи
-            ссылаются на неё по @id. */}
-        <JsonLd data={clinicSchema()} />
-        <SmoothScroll />
-        <LeadModalProvider>
-          <Header />
-          <main id="content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </LeadModalProvider>
-        <Metrika />
-        <CookieBanner />
+        {/* Оформление сайта (шапка, подвал, Метрика) — в layout группы
+            (site): у закрытого раздела /admin его быть не должно. */}
+        {children}
       </body>
     </html>
   );
