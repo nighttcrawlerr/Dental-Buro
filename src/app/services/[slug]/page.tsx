@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DoctorCard } from "@/components/doctors/doctor-card";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { BookButton } from "@/components/lead/book-button";
 import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { Button } from "@/components/ui/button";
@@ -15,6 +17,7 @@ import { getServiceDetails } from "@/content/service-details";
 import { clinic, doctors, serviceGroups, services } from "@/content/site";
 import { formatPriceFrom, formatPriceItem } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
+import { faqSchema, serviceSchema } from "@/lib/schema";
 
 /**
  * Страница услуги — основная посадочная под поиск и рекламу.
@@ -66,22 +69,19 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   return (
     <>
+      <JsonLd data={serviceSchema(service, details.intro)} />
+      <JsonLd data={faqSchema(details.faq)} />
+
       {/* ---- Первый экран ---------------------------------------------- */}
       <section className="bg-espresso">
         <Container className="flex flex-col gap-12 py-16 lg:gap-16 lg:py-24">
-          <nav aria-label="Хлебные крошки" className="label-mono text-stone">
-            <ol className="flex flex-wrap items-center gap-2">
-              <li>
-                <Link href="/services" className="transition-colors hover:text-cream">
-                  Услуги
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page" className="text-cream">
-                {service.title}
-              </li>
-            </ol>
-          </nav>
+          <Breadcrumbs
+            surface="dark"
+            items={[
+              { name: "Услуги", href: "/services" },
+              { name: service.title, href: `/services/${service.slug}` },
+            ]}
+          />
 
           <div className="flex max-w-4xl flex-col gap-8">
             {group ? <Tag surface="dark">{group.label}</Tag> : null}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { Container } from "@/components/ui/container";
 import { getLegalDoc, legalDocs, type LegalBlock } from "@/content/legal";
 import { pageMetadata } from "@/lib/metadata";
@@ -55,6 +56,12 @@ export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) 
     <section className="bg-cream">
       <Container className="flex flex-col gap-12 py-20 lg:py-28">
         <div className="flex max-w-3xl flex-col gap-6">
+          <Breadcrumbs
+            items={[
+              { name: "О клинике", href: "/about" },
+              { name: doc.title, href: `/legal/${doc.slug}` },
+            ]}
+          />
           <h1 className="font-display text-heading-lg text-balance text-ink">{doc.title}</h1>
           <p className="label-mono text-graphite">Редакция от {doc.updatedAt}</p>
           {doc.draft ? (

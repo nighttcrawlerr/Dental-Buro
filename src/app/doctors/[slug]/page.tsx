@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BookButton } from "@/components/lead/book-button";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { ReviewCard } from "@/components/reviews/review-card";
 import { Container } from "@/components/ui/container";
@@ -13,6 +15,7 @@ import { Tag } from "@/components/ui/tag";
 import { clinic, doctors, reviews, services, type Credential } from "@/content/site";
 import { formatPrice } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
+import { doctorSchema } from "@/lib/schema";
 
 /**
  * Страница врача.
@@ -75,25 +78,20 @@ export default async function DoctorPage({ params }: PageProps<"/doctors/[slug]"
 
   return (
     <>
+      <JsonLd data={doctorSchema(doctor)} />
+
       {/* ---- Знакомство ------------------------------------------------ */}
       <section className="bg-cream">
         <Container className="grid gap-12 py-16 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-20 lg:py-24">
           <PhotoPlaceholder label="Портрет врача" className="w-full max-w-md" />
 
           <div className="flex flex-col gap-10">
-            <nav aria-label="Хлебные крошки" className="label-mono text-graphite">
-              <ol className="flex flex-wrap items-center gap-2">
-                <li>
-                  <Link href="/doctors" className="transition-colors hover:text-ink">
-                    Врачи
-                  </Link>
-                </li>
-                <li aria-hidden="true">/</li>
-                <li aria-current="page" className="text-ink">
-                  {doctor.name}
-                </li>
-              </ol>
-            </nav>
+            <Breadcrumbs
+              items={[
+                { name: "Врачи", href: "/doctors" },
+                { name: doctor.name, href: `/doctors/${doctor.slug}` },
+              ]}
+            />
 
             <div className="flex flex-col gap-6">
               <Tag>{doctor.role}</Tag>
