@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/thanks", "/kitchen-sink"],
+      disallow: ["/api/", "/admin", "/thanks", "/kitchen-sink"],
     },
     sitemap: absoluteUrl("/sitemap.xml"),
     host: siteUrl,
