@@ -10,3 +10,9 @@ export const siteUrl = (process.env.SITE_URL ?? "http://localhost:3000").replace
 export function absoluteUrl(path: string) {
   return `${siteUrl}${path.startsWith("/") ? path : `/${path}`}`;
 }
+
+/**
+ * Боевой ли это сайт: задан SITE_URL, и он не localhost. По этому флагу
+ * robots.txt открывает сайт поисковикам, а служебные страницы прячутся.
+ */
+export const isLiveSite = process.env.SITE_URL !== undefined && !siteUrl.includes("localhost");

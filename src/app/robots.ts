@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl, siteUrl } from "@/lib/site-url";
+import { absoluteUrl, isLiveSite, siteUrl } from "@/lib/site-url";
 
 /**
  * robots.txt. Закрываем то, что не нужно в поиске: API, страницу
@@ -10,9 +10,7 @@ import { absoluteUrl, siteUrl } from "@/lib/site-url";
  * потом годами конкурирует с настоящим сайтом за те же запросы.
  */
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = process.env.SITE_URL !== undefined && !siteUrl.includes("localhost");
-
-  if (!isProduction) {
+  if (!isLiveSite) {
     return { rules: { userAgent: "*", disallow: "/" } };
   }
 

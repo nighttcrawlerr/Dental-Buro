@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Logo, LogoMark } from "@/components/logo";
 import { ArrowButton } from "@/components/ui/arrow-button";
 import { Button } from "@/components/ui/button";
@@ -6,12 +7,14 @@ import { Hairline, type Surface } from "@/components/ui/hairline";
 import { SectionCounter } from "@/components/ui/section-counter";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
+import { isLiveSite } from "@/lib/site-url";
 import { LeadFormDemo } from "./lead-form-demo";
 
 /**
  * Служебная витрина дизайн-системы. Нужна нам, а не пациентам:
  * здесь одним взглядом видно, не разъехалось ли что-то после правок.
- * Закрыта от индексации, перед продакшеном удаляется вместе с папкой.
+ * Закрыта от индексации, а на боевом сайте (SITE_URL задан) отдаёт 404 —
+ * удалять папку перед запуском не нужно, забыть про неё тоже нельзя.
  */
 export const metadata: Metadata = {
   title: "Дизайн-система",
@@ -37,6 +40,8 @@ const surfaces: { key: Surface; label: string; bg: string }[] = [
 ];
 
 export default function KitchenSinkPage() {
+  if (isLiveSite) notFound();
+
   return (
     <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10">
       <header className="pb-12">
