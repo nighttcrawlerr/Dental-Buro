@@ -9,7 +9,7 @@ import type { Doctor } from "@/content/site";
 export function DoctorCard({ doctor }: { doctor: Doctor }) {
   return (
     <Link href={`/doctors/${doctor.slug}`} className="group flex flex-col gap-5">
-      <PhotoPlaceholder label="Портрет врача" />
+      <PhotoPlaceholder label="Портрет врача" decorative />
 
       <span className="flex flex-col gap-2">
         <span className="font-display text-subheading text-ink">{doctor.name}</span>

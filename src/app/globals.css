@@ -377,20 +377,20 @@
   }
 }
 
-/* ---- Окно записи ------------------------------------------------------ */
+/* ---- Окна: запись и мобильное меню ------------------------------------ */
 
-/* Пока окно открыто, страница под ним не прокручивается. Через :has, а не
+/* Пока окно или меню открыто, страница под ним не прокручивается. Через :has, а не
    скриптом: состояние живёт в самом <dialog>, и рассинхронизироваться нечему. */
-:root:has(dialog.lead-modal[open]) {
+:root:has(dialog.site-dialog[open]) {
   overflow: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  dialog.lead-modal[open] {
+  dialog.site-dialog[open] {
     animation: modal-in 0.4s var(--ease-out-soft);
   }
 
-  dialog.lead-modal[open]::backdrop {
+  dialog.site-dialog[open]::backdrop {
     animation: backdrop-in 0.3s ease-out;
   }
 }

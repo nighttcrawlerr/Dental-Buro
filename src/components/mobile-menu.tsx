@@ -13,40 +13,39 @@ import { cn } from "@/lib/cn";
  *
  * Единственный клиентский кусок шапки — остальное рендерится на сервере.
  *
- * Доступность здесь не украшение: меню перекрывает страницу целиком, поэтому
- * оно закрывается по Escape, возвращает фокус на кнопку-бургер и запирает
- * прокрутку под собой. Без этого пользователь клавиатуры проваливается в
- * страницу под меню и не может выбраться.
+ * Построено на нативном <dialog>, как и окно записи: showModal() делает
+ * страницу под меню инертной, так что фокус не проваливается под него,
+ * Escape закрывает, а фокус после закрытия браузер возвращает на бургер.
+ * Раньше это был div с role="dialog", и всё это приходилось делать руками —
+ * кроме ловушки фокуса, которой так и не было.
  */
 export function MobileMenu() {
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
+  // Состояние живёт в React, а открывает и закрывает браузер: showModal()
+  // нельзя заменить атрибутом open — без него страница не станет инертной.
   useEffect(() => {
-    if (!open) return;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpen(false);
-        triggerRef.current?.focus();
-      }
-    };
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", onKeyDown);
-    };
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (open && !dialog.open) dialog.showModal();
+    if (!open && dialog.open) dialog.close();
   }, [open]);
+
+  // На широком экране меню скрыто через lg:hidden. Если оставить его
+  // открытым при повороте планшета, страница так и останется инертной —
+  // невидимое окно будет держать весь сайт.
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => wide.matches && setOpen(false);
+    wide.addEventListener("change", onChange);
+    return () => wide.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <>
       <button
-        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         aria-expanded={open}
@@ -66,21 +65,19 @@ export function MobileMenu() {
         </svg>
       </button>
 
-      <div
-        role="dialog"
-        aria-modal="true"
+      <dialog
+        ref={dialogRef}
         aria-label="Меню сайта"
-        hidden={!open}
-        className="fixed inset-0 z-50 flex flex-col bg-cream lg:hidden"
+        // Escape закрывает dialog сам — синхронизируем состояние.
+        onClose={() => setOpen(false)}
+        data-lenis-prevent
+        className="site-dialog m-0 h-dvh max-h-none w-full max-w-none flex-col bg-cream open:flex lg:hidden"
       >
         <div className="flex items-center justify-between px-4 py-4 sm:px-6">
           <Logo variant="compact" />
           <button
             type="button"
-            onClick={() => {
-              setOpen(false);
-              triggerRef.current?.focus();
-            }}
+            onClick={() => setOpen(false)}
             aria-label="Закрыть меню"
             className="flex size-11 items-center justify-center rounded-button text-ink"
           >
@@ -131,7 +128,7 @@ export function MobileMenu() {
             Записаться на приём
           </BookButton>
         </div>
-      </div>
+      </dialog>
     </>
   );
 }

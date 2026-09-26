@@ -76,7 +76,7 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
         }}
         // Lenis перехватывает колесо мыши и прокручивал бы страницу под окном.
         data-lenis-prevent
-        className="lead-modal m-0 h-dvh max-h-none w-full max-w-none overscroll-contain bg-cream text-ink backdrop:bg-ink/60 backdrop:backdrop-blur-sm md:m-auto md:h-auto md:max-h-[calc(100dvh-4rem)] md:max-w-3xl md:rounded-card"
+        className="site-dialog m-0 h-dvh max-h-none w-full max-w-none overscroll-contain bg-cream text-ink backdrop:bg-ink/60 backdrop:backdrop-blur-sm md:m-auto md:h-auto md:max-h-[calc(100dvh-4rem)] md:max-w-3xl md:rounded-card"
       >
         <div className="flex flex-col gap-8 px-4 pt-4 pb-10 sm:px-6 md:px-10 md:pt-8">
           <div className="flex items-start justify-between gap-6">
