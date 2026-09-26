@@ -93,6 +93,7 @@ export default function ContactsPage() {
               className="group label-mono inline-flex items-center gap-3 self-start text-ink"
             >
               Открыть в Яндекс Картах
+              <span className="sr-only"> (откроется в новой вкладке)</span>
               <ArrowGlyph direction="up-right" />
             </a>
           </Reveal>

@@ -62,7 +62,10 @@ export default function ReviewsPage() {
                     rel="noopener noreferrer"
                     className="group flex min-h-16 items-center justify-between gap-6 py-4"
                   >
-                    <span className="font-display text-heading-sm text-ink">{p.name}</span>
+                    <span className="font-display text-heading-sm text-ink">
+                      {p.name}
+                      <span className="sr-only"> (откроется в новой вкладке)</span>
+                    </span>
                     <ArrowGlyph direction="up-right" className="text-ink" />
                   </a>
                 ) : (

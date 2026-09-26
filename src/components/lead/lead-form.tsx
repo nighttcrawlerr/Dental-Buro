@@ -313,10 +313,12 @@ export function LeadForm({
             Даю{" "}
             <Link href="/legal/consent" target="_blank" className={tone.link}>
               согласие на обработку персональных данных
+              <span className="sr-only"> (откроется в новой вкладке)</span>
             </Link>{" "}
             в соответствии с{" "}
             <Link href="/legal/privacy" target="_blank" className={tone.link}>
               политикой обработки персональных данных
+              <span className="sr-only"> (откроется в новой вкладке)</span>
             </Link>
           </label>
         </div>

@@ -68,6 +68,7 @@ export function Footer() {
                 target="_blank"
               >
                 Telegram
+                <span className="sr-only"> (откроется в новой вкладке)</span>
               </a>
               <a
                 href={clinic.whatsapp}
@@ -76,6 +77,7 @@ export function Footer() {
                 target="_blank"
               >
                 WhatsApp
+                <span className="sr-only"> (откроется в новой вкладке)</span>
               </a>
             </div>
           </div>
