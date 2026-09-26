@@ -118,9 +118,26 @@
     color: var(--color-cream);
   }
 
+  /* Обводка фокуса — единственный ориентир для тех, кто ходит табом.
+     Одним цветом на все поверхности её не сделать: бронза на эспрессо даёт
+     2:1, а на Sky Silver пропадает совсем (1.1:1). Поэтому цвет берётся из
+     переменной, которую тёмные полосы переопределяют на кремовый. */
+  :root {
+    --focus: var(--color-sky);
+  }
+
   :focus-visible {
-    outline: 2px solid var(--color-bronze);
+    outline: 2px solid var(--focus);
     outline-offset: 3px;
+  }
+
+  /* Только секции и подвал, а не любые элементы с тёмным фоном: тёмная
+     кнопка на светлой странице получила бы кремовую обводку, которая
+     рисуется снаружи кнопки — на кремовом фоне, то есть невидимо. */
+  :where(section, footer, dialog).bg-espresso,
+  :where(section, footer, dialog).bg-ink,
+  :where(section, footer, dialog).bg-sky {
+    --focus: var(--color-cream);
   }
 }
 

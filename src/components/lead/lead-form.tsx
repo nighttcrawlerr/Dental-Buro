@@ -21,9 +21,12 @@ import { LeadSubmitError, type LeadSubmitErrorKind } from "@/lib/submit-lead";
 type FormSurface = "light" | "dark";
 
 /**
- * Поле на светлой канве — белая карточка с линией, на тёмной — прозрачное
- * с линией эспрессо. Тени и заливки акцентом система не использует, поэтому
- * фокус и ошибка держатся на цвете рамки.
+ * Поле на светлой канве — белая карточка с рамкой, на тёмной — прозрачное.
+ * Тени и заливки акцентом система не использует, поэтому фокус и ошибка
+ * держатся на цвете рамки.
+ *
+ * Рамка — smoke, а не цвет разделительной линии: по рамке человек понимает,
+ * что здесь поле, и ей нужно 3:1 с фоном. Линия hairline даёт 1.5:1.
  */
 const toneBySurface: Record<
   FormSurface,
@@ -31,7 +34,7 @@ const toneBySurface: Record<
 > = {
   light: {
     label: "text-graphite",
-    field: "border-hairline bg-paper text-ink placeholder:text-graphite hover:border-smoke focus:border-ink",
+    field: "border-smoke bg-paper text-ink placeholder:text-graphite hover:border-graphite focus:border-ink",
     invalid: "border-alert hover:border-alert focus:border-alert",
     error: "text-alert",
     note: "text-graphite",
@@ -41,7 +44,7 @@ const toneBySurface: Record<
   dark: {
     label: "text-stone",
     field:
-      "border-hairline-dark bg-ink/25 text-cream placeholder:text-stone hover:border-stone/60 focus:border-cream [&_option]:text-ink",
+      "border-smoke bg-ink/25 text-cream placeholder:text-stone hover:border-stone focus:border-cream [&_option]:text-ink",
     invalid: "border-alert-soft hover:border-alert-soft focus:border-alert-soft",
     error: "text-alert-soft",
     note: "text-stone",
