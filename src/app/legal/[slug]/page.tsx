@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { getLegalDoc, legalDocs, type LegalBlock } from "@/content/legal";
+import { pageMetadata } from "@/lib/metadata";
 
 /**
  * Юридические страницы: политика, согласие, соглашение.
@@ -21,12 +22,13 @@ export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): 
   const { slug } = await params;
   const doc = getLegalDoc(slug);
   if (!doc) return {};
-  return {
+  return pageMetadata({
     title: doc.title,
     description: doc.description,
+    path: `/legal/${slug}`,
     // Черновик в поиске не нужен: снимем запрет вместе с пометкой.
-    robots: doc.draft ? { index: false, follow: true } : undefined,
-  };
+    noindex: doc.draft,
+  });
 }
 
 function Block({ block }: { block: LegalBlock }) {

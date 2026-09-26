@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import { CtaSection } from "@/components/home/cta-section";
 import { PriceList } from "@/components/prices/price-list";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { pricesUpdatedAt } from "@/content/prices";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Цены",
   description:
     "Прейскурант стоматологической клиники Dental Buro: диагностика, имплантация, ортодонтия, эстетика, хирургия, терапия, гигиена и детская стоматология.",
-};
+  path: "/prices",
+});
 
 /**
  * Прейскурант. Публикация обязательна для медицинской организации, и это же

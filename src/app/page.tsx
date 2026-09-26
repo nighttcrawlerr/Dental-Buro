@@ -6,6 +6,14 @@ import { ReviewsSection } from "@/components/home/reviews-section";
 import { ServicesSection } from "@/components/home/services-section";
 import { TreatmentSection } from "@/components/home/treatment-section";
 import { WorksSection } from "@/components/home/works-section";
+import { pageMetadata } from "@/lib/metadata";
+
+// Заголовок — из layout (title.default), здесь только canonical и превью.
+export const metadata = pageMetadata({
+  description:
+    "Стоматологическая клиника Dental Buro: имплантация, ортодонтия, эстетическая реставрация. Цифровой протокол лечения и план до начала работ.",
+  path: "/",
+});
 
 /**
  * Главная страница.

@@ -14,6 +14,7 @@ import { clinic } from "@/content/site";
 export const metadata: Metadata = {
   title: "Заявка отправлена",
   robots: { index: false, follow: false },
+  alternates: { canonical: "/thanks" },
 };
 
 const firstVisit = [

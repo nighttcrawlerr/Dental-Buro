@@ -12,6 +12,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Tag } from "@/components/ui/tag";
 import { clinic, doctors, reviews, services, type Credential } from "@/content/site";
 import { formatPrice } from "@/lib/format";
+import { pageMetadata } from "@/lib/metadata";
 
 /**
  * Страница врача.
@@ -35,10 +36,11 @@ export async function generateMetadata({
   const doctor = doctors.find((d) => d.slug === slug);
   if (!doctor) return {};
 
-  return {
+  return pageMetadata({
     title: `${doctor.name}, ${doctor.role.toLowerCase()}`,
     description: `${doctor.role}, ${doctor.experience}. ${doctor.focus}. Образование, квалификация и стоимость консультации.`,
-  };
+    path: `/doctors/${slug}`,
+  });
 }
 
 function CredentialList({ title, items }: { title: string; items: Credential[] }) {

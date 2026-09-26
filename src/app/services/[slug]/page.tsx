@@ -14,6 +14,7 @@ import { getFeaturedPrices } from "@/content/prices";
 import { getServiceDetails } from "@/content/service-details";
 import { clinic, doctors, serviceGroups, services } from "@/content/site";
 import { formatPriceFrom, formatPriceItem } from "@/lib/format";
+import { pageMetadata } from "@/lib/metadata";
 
 /**
  * Страница услуги — основная посадочная под поиск и рекламу.
@@ -46,10 +47,11 @@ export async function generateMetadata({
   const found = findService(slug);
   if (!found) return {};
 
-  return {
+  return pageMetadata({
     title: `${found.service.title} — ${formatPriceFrom(found.service.priceFrom)}`,
     description: found.details.intro,
-  };
+    path: `/services/${slug}`,
+  });
 }
 
 export default async function ServicePage({ params }: PageProps<"/services/[slug]">) {

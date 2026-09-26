@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { LegalDetails } from "@/components/legal/legal-details";
 import { ArrowGlyph } from "@/components/ui/arrow-button";
@@ -9,11 +8,14 @@ import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { clinic, directions } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Контакты",
-  description: `Адрес, телефон и часы работы клиники Dental Buro. ${clinic.address}. ${clinic.schedule}.`,
-};
+  description:
+    `Адрес, телефон и часы работы клиники Dental Buro. ${clinic.address}. ${clinic.schedule}.`,
+  path: "/contacts",
+});
 
 /**
  * Контакты.

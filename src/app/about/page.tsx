@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { CtaSection } from "@/components/home/cta-section";
 import { LegalDetails } from "@/components/legal/legal-details";
 import { Container } from "@/components/ui/container";
@@ -7,12 +6,14 @@ import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { documents, equipment, spaces, sterilization } from "@/content/about";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "О клинике",
   description:
     "Клиника Dental Buro: интерьер, оборудование, стерилизация инструментов, лицензия и документы.",
-};
+  path: "/about",
+});
 
 /**
  * О клинике.

@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaSection } from "@/components/home/cta-section";
 import { ServicesCatalog } from "@/components/services/services-catalog";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Услуги и цены",
   description:
     "Имплантация, ортодонтия, эстетическая реставрация, хирургия, терапия, гигиена и детская стоматология в Dental Buro. Цены «от» и план лечения до начала работ.",
-};
+  path: "/services",
+});
 
 /**
  * Каталог услуг.

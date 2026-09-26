@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { CtaSection } from "@/components/home/cta-section";
 import { ReviewsList } from "@/components/reviews/reviews-list";
 import { ArrowGlyph } from "@/components/ui/arrow-button";
@@ -7,12 +6,14 @@ import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { reviewPlatforms } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Отзывы",
   description:
     "Отзывы пациентов клиники Dental Buro об имплантации, ортодонтии, эстетике, хирургии и детской стоматологии.",
-};
+  path: "/reviews",
+});
 
 /**
  * Отзывы.

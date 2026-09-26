@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
 import { DoctorCard } from "@/components/doctors/doctor-card";
 import { CtaSection } from "@/components/home/cta-section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { doctors } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Врачи",
   description:
     "Врачи клиники Dental Buro: имплантолог, ортодонт, терапевт, детский стоматолог. Образование, квалификация, стаж и стоимость консультации.",
-};
+  path: "/doctors",
+});
 
 /**
  * Список врачей. Короткие карточки; образование, квалификацию и цену
