@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, JetBrains_Mono, Onest } from "next/font/google";
+import { CookieBanner } from "@/components/analytics/cookie-banner";
+import { Metrika } from "@/components/analytics/metrika";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { LeadModalProvider } from "@/components/lead/lead-modal";
@@ -72,6 +74,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
         </LeadModalProvider>
+        <Metrika />
+        <CookieBanner />
       </body>
     </html>
   );

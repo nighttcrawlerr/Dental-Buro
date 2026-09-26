@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { CookieSettingsButton } from "@/components/analytics/cookie-banner";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
 import { clinic, legal, mainNav } from "@/content/site";
+import { metrikaId } from "@/lib/analytics";
 
 /**
  * Подвал сайта.
@@ -92,6 +94,12 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            {/* Отозвать согласие должно быть так же просто, как дать. */}
+            {metrikaId ? (
+              <li>
+                <CookieSettingsButton className="label-mono cursor-pointer text-cream/60 hover:text-cream" />
+              </li>
+            ) : null}
           </ul>
 
           <div className="flex flex-col gap-3 text-cream/50">
