@@ -288,7 +288,7 @@ export function LeadForm({
           {...a11y("comment")}
           rows={3}
           maxLength={1000}
-          placeholder="Что беспокоит, удобный день, вопросы к врачу"
+          placeholder="Удобный день, вопросы к администратору"
           value={values.comment}
           onChange={(e) => update("comment", e.target.value)}
           onBlur={() => handleBlur("comment")}
