@@ -12,7 +12,9 @@ import "./globals.css";
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin", "cyrillic"],
-  weight: ["300", "400", "500"],
+  // Только 400: .font-display задаёт именно его, других начертаний на сайте
+  // нет. Каждый лишний вес — ещё два файла шрифта в предзагрузке.
+  weight: ["400"],
   display: "swap",
 });
 
