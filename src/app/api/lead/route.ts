@@ -1,17 +1,18 @@
 import { z } from "zod";
 import { clinic, doctors, services } from "@/content/site";
 import { leadSchema, visitTimes, type Lead } from "@/lib/lead";
+import { saveLead } from "@/lib/leads-repo";
 import { createRateLimit } from "@/lib/rate-limit";
+import { absoluteUrl } from "@/lib/site-url";
 import { escapeHtml, sendTelegramMessage } from "@/lib/telegram";
 
 /**
  * Приём заявок с сайта.
  *
  * Порядок проверок — от дешёвых к дорогим: сначала частота, потом ловушка
- * для ботов, потом разбор полей, и только потом запрос в Telegram.
- *
- * ⚠️ Имя и телефон сейчас уходят в Telegram, а его серверы не в РФ. Для
- * разработки это нормально, для запуска — нет: см. вопрос в этапе 5 плана.
+ * для ботов, потом разбор полей. Дальше заявка сохраняется в базу (она на
+ * российском хостинге — это требование закона о персональных данных), и
+ * только потом в Telegram уходит уведомление без имени и телефона.
  */
 
 const utmValue = z.string().max(200).optional();
@@ -128,20 +129,44 @@ export async function POST(request: Request) {
   // Боту отвечаем успехом: получив ошибку, он начнёт подбирать, что не так.
   if (website) return success();
 
+  // Врача сохраняем, только если он есть в наших данных: slug приходит из
+  // браузера, и в базу не должен попасть произвольный текст.
+  const knownDoctor = doctors.some((d) => d.slug === doctor) ? doctor : undefined;
+
+  // Сначала база. Если она недоступна, заявку принять нельзя: отправить
+  // имя и телефон в Telegram «пока база лежит» — это и есть нарушение
+  // локализации, которого вся схема избегает.
+  let id: number;
   try {
-    await sendTelegramMessage(formatLead(lead, { page, utm, doctor }));
+    id = await saveLead(lead, { doctor: knownDoctor, page, utm });
   } catch (error) {
-    // В лог — только причина, без имени и телефона.
-    console.error("[lead] Не удалось отправить заявку в Telegram:", error);
+    console.error("[lead] Не удалось сохранить заявку:", error);
     return isForm
       ? fallbackPage("Это сбой на нашей стороне. Попробуйте через минуту.", 502)
       : Response.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 
+  // Уведомление — уже необязательная часть. Заявка сохранена, поэтому сбой
+  // Telegram человек не видит: администратор найдёт заявку в списке.
+  try {
+    await sendTelegramMessage(formatNotification(id, lead, { page, utm, doctor: knownDoctor }));
+  } catch (error) {
+    console.error(`[lead] Заявка №${id} сохранена, но уведомление не ушло:`, error);
+  }
+
   return success();
 }
 
-function formatLead(
+/**
+ * Уведомление в Telegram — без персональных данных.
+ *
+ * Серверы Telegram за границей, поэтому имени, телефона и комментария здесь
+ * нет (в комментарии человек тоже может написать о себе что угодно). Только
+ * номер заявки, что и когда человек хочет, и ссылка на карточку в закрытом
+ * разделе сайта, где лежит всё остальное.
+ */
+function formatNotification(
+  id: number,
   lead: Lead,
   {
     page,
@@ -153,30 +178,24 @@ function formatLead(
   const time = visitTimes.find((t) => t.value === lead.time)?.label ?? lead.time;
 
   const lines = [
-    "<b>Новая заявка с сайта</b>",
+    `<b>Новая заявка №${id}</b>`,
     "",
-    `<b>Имя:</b> ${escapeHtml(lead.name)}`,
-    // Номер без скобок и пробелов: так Telegram делает его ссылкой для звонка.
-    `<b>Телефон:</b> ${lead.phone}`,
     `<b>Услуга:</b> ${escapeHtml(service)}`,
     `<b>Удобное время:</b> ${escapeHtml(time)}`,
   ];
 
-  // Имя врача берём из своих данных по slug, а не из запроса: так в чат не
-  // попадёт произвольный текст под видом врача.
   const doctorName = doctors.find((d) => d.slug === doctor)?.name;
   if (doctorName) lines.push(`<b>Врач:</b> ${escapeHtml(doctorName)}`);
 
-  if (lead.comment) lines.push(`<b>Комментарий:</b> ${escapeHtml(lead.comment)}`);
-
   // Страницу показываем без домена и параметров. Адрес присылает браузер, и
   // полная ссылка позволила бы спамеру положить в чат клиники любую ссылку.
-  if (page) lines.push("", `<b>Страница:</b> ${escapeHtml(new URL(page).pathname)}`);
+  if (page) lines.push(`<b>Страница:</b> ${escapeHtml(new URL(page).pathname)}`);
 
   const utmEntries = Object.entries(utm ?? {}).filter((e): e is [string, string] => Boolean(e[1]));
   if (utmEntries.length) {
     lines.push(...utmEntries.map(([k, v]) => `<b>${escapeHtml(k)}:</b> ${escapeHtml(v)}`));
   }
 
+  lines.push("", `<a href="${absoluteUrl(`/admin/leads/${id}`)}">Открыть заявку</a>`);
   return lines.join("\n");
 }
