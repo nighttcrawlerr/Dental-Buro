@@ -17,6 +17,7 @@ import { clinic, legal, mainNav } from "@/content/site";
 const legalLinks = [
   { label: "Политика обработки персональных данных", href: "/legal/privacy" },
   { label: "Согласие на обработку данных", href: "/legal/consent" },
+  { label: "Пользовательское соглашение", href: "/legal/terms" },
   { label: "Лицензия и документы", href: "/about#documents" },
 ];
 
