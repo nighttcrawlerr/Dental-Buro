@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { LeadModalProvider } from "@/components/lead/lead-modal";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -27,12 +28,20 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  // Относительные адреса в метаданных (canonical, картинки превью)
+  // достраиваются от него.
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Dental Buro Clinic — стоматология полного цикла",
     template: "%s — Dental Buro Clinic",
   },
   description:
     "Стоматологическая клиника Dental Buro: имплантация, ортодонтия, эстетическая реставрация. Цифровой протокол лечения и план до начала работ.",
+  openGraph: {
+    type: "website",
+    locale: "ru_RU",
+    siteName: "Dental Buro Clinic",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
