@@ -152,7 +152,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 index={index}
                 className="flex flex-col gap-4 border-t border-hairline-sky pt-6"
               >
-                <span className="label-mono text-sky-pale">
+                <span className="label-mono text-cream">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="font-display text-heading-sm text-cream">{stage.title}</h3>

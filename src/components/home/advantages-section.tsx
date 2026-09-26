@@ -30,7 +30,7 @@ export function AdvantagesSection() {
               className="reveal-item flex flex-col gap-4 border-t border-cream/25 pt-6"
               style={{ "--i": index } as React.CSSProperties}
             >
-              <span className="label-mono text-cream/70">{advantage.number}</span>
+              <span className="label-mono text-cream/85">{advantage.number}</span>
               <h3 className="font-display text-subheading text-cream">{advantage.title}</h3>
               <p className="text-cream/85">{advantage.text}</p>
             </li>

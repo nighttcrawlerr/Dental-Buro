@@ -40,7 +40,7 @@ export function FilterChips<T extends string>({
             )}
           >
             {o.label}
-            <span className={active ? "text-stone" : "text-smoke"}>{o.count}</span>
+            <span className={active ? "text-stone" : "text-graphite"}>{o.count}</span>
           </button>
         );
       })}

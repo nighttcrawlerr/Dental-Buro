@@ -56,7 +56,7 @@ export function PriceList() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Например, имплант или снимок"
             autoComplete="off"
-            className="block min-h-13 w-full rounded-button border border-hairline bg-paper px-4 text-body text-ink transition-colors placeholder:text-smoke hover:border-smoke focus:border-ink"
+            className="block min-h-13 w-full rounded-button border border-hairline bg-paper px-4 text-body text-ink transition-colors placeholder:text-graphite hover:border-smoke focus:border-ink"
           />
         </div>
 

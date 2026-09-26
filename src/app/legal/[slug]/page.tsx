@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PageProps<"/legal/[slug]">): 
 function Block({ block }: { block: LegalBlock }) {
   if (Array.isArray(block)) {
     return (
-      <ul className="flex list-disc flex-col gap-2 pl-6 marker:text-smoke">
+      <ul className="flex list-disc flex-col gap-2 pl-6 marker:text-graphite">
         {block.map((item) => (
           <li key={item}>{item}</li>
         ))}

@@ -31,7 +31,7 @@ const toneBySurface: Record<
 > = {
   light: {
     label: "text-graphite",
-    field: "border-hairline bg-paper text-ink placeholder:text-smoke hover:border-smoke focus:border-ink",
+    field: "border-hairline bg-paper text-ink placeholder:text-graphite hover:border-smoke focus:border-ink",
     invalid: "border-alert hover:border-alert focus:border-alert",
     error: "text-alert",
     note: "text-graphite",
@@ -41,7 +41,7 @@ const toneBySurface: Record<
   dark: {
     label: "text-stone",
     field:
-      "border-hairline-dark bg-ink/25 text-cream placeholder:text-stone/60 hover:border-stone/60 focus:border-cream [&_option]:text-ink",
+      "border-hairline-dark bg-ink/25 text-cream placeholder:text-stone hover:border-stone/60 focus:border-cream [&_option]:text-ink",
     invalid: "border-alert-soft hover:border-alert-soft focus:border-alert-soft",
     error: "text-alert-soft",
     note: "text-stone",

@@ -84,7 +84,7 @@ export default function AboutPage() {
                 index={index}
                 className="flex flex-col gap-4 border-t border-cream/25 pt-6"
               >
-                <span className="label-mono text-cream/70">{String(index + 1).padStart(2, "0")}</span>
+                <span className="label-mono text-cream/85">{String(index + 1).padStart(2, "0")}</span>
                 <h3 className="font-display text-subheading text-cream">{item.title}</h3>
                 <p className="text-cream/85">{item.text}</p>
               </Reveal>
