@@ -173,9 +173,11 @@ export function LeadForm({
     }
   }
 
+  // ym-disable-keys — Вебвизор Метрики не записывает нажатия в этих полях:
+  // иначе имена и телефоны оседали бы в записях сессий у Яндекса.
   const fieldClasses = (field: LeadField) =>
     cn(
-      "block min-h-13 w-full rounded-button border px-4 text-body transition-colors duration-200 outline-offset-2",
+      "ym-disable-keys block min-h-13 w-full rounded-button border px-4 text-body transition-colors duration-200 outline-offset-2",
       tone.field,
       errors[field] && tone.invalid,
     );

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { LeadForm } from "@/components/lead/lead-form";
+import { goals, reachGoal } from "@/lib/analytics";
 import { submitLead } from "@/lib/submit-lead";
 
 /**
@@ -32,6 +33,7 @@ export function SiteLeadForm({
       defaultService={defaultService}
       onSubmit={async (lead, meta) => {
         await submitLead(lead, meta, { doctor });
+        reachGoal(goals.leadSent);
         onSent?.();
         router.push("/thanks");
       }}

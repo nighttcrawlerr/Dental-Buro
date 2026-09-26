@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { goals, reachGoal } from "@/lib/analytics";
 import { captureUtm } from "@/lib/utm";
 
 /**
@@ -63,6 +64,7 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setFormRequested(true);
     dialog.showModal();
+    reachGoal(goals.bookingOpened);
   }, []);
 
   const prefetch = useCallback(() => {
