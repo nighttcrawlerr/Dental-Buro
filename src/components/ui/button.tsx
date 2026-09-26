@@ -32,6 +32,8 @@ type ButtonProps = {
   href?: string;
   type?: "button" | "submit";
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  /** Наведение или фокус — сигнал, что кнопку вот-вот нажмут. */
+  onIntent?: () => void;
   disabled?: boolean;
   className?: string;
   children: React.ReactNode;
@@ -47,10 +49,12 @@ export function Button({
   href,
   type = "button",
   onClick,
+  onIntent,
   disabled,
   className,
   children,
 }: ButtonProps) {
+  const intent = onIntent ? { onPointerEnter: onIntent, onFocus: onIntent } : {};
   const classes = cn(
     base,
     variant === "solid" ? solidBySurface[surface] : ghostBySurface[surface],
@@ -60,14 +64,14 @@ export function Button({
   if (href) {
     // onClick доезжает и до ссылки: мобильное меню закрывается именно так.
     return (
-      <Link href={href} onClick={onClick} className={classes}>
+      <Link href={href} onClick={onClick} {...intent} className={classes}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
+    <button type={type} onClick={onClick} {...intent} disabled={disabled} className={classes}>
       {children}
     </button>
   );

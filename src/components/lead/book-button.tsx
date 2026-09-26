@@ -22,12 +22,13 @@ type BookButtonProps = {
  * Клик с Ctrl или Cmd тоже не перехватываем: так открывают вкладку, а не окно.
  */
 export function BookButton({ onClick, ...props }: BookButtonProps) {
-  const { open } = useLeadModal();
+  const { open, prefetch } = useLeadModal();
 
   return (
     <Button
       {...props}
       href="/contacts#booking"
+      onIntent={prefetch}
       onClick={(event) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();

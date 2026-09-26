@@ -1,10 +1,32 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef } from "react";
-import { SiteLeadForm } from "@/components/lead/site-lead-form";
+import dynamic from "next/dynamic";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { captureUtm } from "@/lib/utm";
 
-type LeadModal = { open: () => void };
+/**
+ * Форма в окне грузится отдельным куском и только когда нужна.
+ *
+ * Окно живёт в корневом layout, то есть на каждой странице. Если класть
+ * форму туда сразу, каждая страница — даже политика конфиденциальности —
+ * тащит форму и библиотеку проверки полей: около 90 КБ сжатого скрипта,
+ * который нужен меньшинству посетителей.
+ *
+ * Загрузка начинается заранее — при наведении на кнопку «Записаться» или
+ * фокусе на ней, — поэтому к клику форма обычно уже готова.
+ */
+const loadForm = () => import("@/components/lead/site-lead-form");
+
+const LazySiteLeadForm = dynamic(() => loadForm().then((m) => m.SiteLeadForm), {
+  ssr: false,
+  loading: () => <p className="text-graphite">Загружаем форму…</p>,
+});
+
+type LeadModal = {
+  open: () => void;
+  /** Начать загрузку формы заранее: человек, похоже, сейчас нажмёт. */
+  prefetch: () => void;
+};
 
 const LeadModalContext = createContext<LeadModal | null>(null);
 
@@ -30,13 +52,23 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const pressStartedOnBackdrop = useRef(false);
+  // Пока окно ни разу не открывали, формы в нём нет вовсе — и её скрипт
+  // не загружается.
+  const [formRequested, setFormRequested] = useState(false);
 
   const open = useCallback(() => {
     const dialog = dialogRef.current;
     if (!dialog || dialog.open) return;
     returnFocusRef.current =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setFormRequested(true);
     dialog.showModal();
+  }, []);
+
+  const prefetch = useCallback(() => {
+    loadForm().catch(() => {
+      // Не загрузилось заранее — загрузится при открытии, там есть заглушка.
+    });
   }, []);
 
   const close = useCallback(() => dialogRef.current?.close(), []);
@@ -51,7 +83,7 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
     if (target?.isConnected && target.checkVisibility?.() !== false) target.focus();
   }, []);
 
-  const value = useMemo(() => ({ open }), [open]);
+  const value = useMemo(() => ({ open, prefetch }), [open, prefetch]);
 
   // Провайдер живёт в корневом layout и монтируется один раз — на странице
   // входа. Это как раз тот момент, когда UTM-метки ещё в адресе.
@@ -108,7 +140,7 @@ export function LeadModalProvider({ children }: { children: React.ReactNode }) {
             </button>
           </div>
 
-          <SiteLeadForm onSent={close} />
+          {formRequested ? <LazySiteLeadForm onSent={close} /> : null}
         </div>
       </dialog>
     </LeadModalContext.Provider>
