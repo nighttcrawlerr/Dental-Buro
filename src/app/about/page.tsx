@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { CtaSection } from "@/components/home/cta-section";
+import { LegalDetails } from "@/components/legal/legal-details";
 import { Container } from "@/components/ui/container";
 import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { documents, equipment, spaces, sterilization } from "@/content/about";
-import { clinic, legal } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "О клинике",
@@ -127,28 +127,7 @@ export default function AboutPage() {
               description="Сведения, которые медицинская организация обязана публиковать. Оригиналы можно посмотреть на ресепшене."
             />
 
-            <dl className="flex flex-col">
-              {[
-                ["Организация", legal.fullName],
-                ["ИНН", legal.inn],
-                ["ОГРН", legal.ogrn],
-                ["Юридический адрес", legal.legalAddress],
-                ["Адрес клиники", clinic.address],
-                [
-                  "Лицензия",
-                  `№ ${legal.license.number} от ${legal.license.date}, выдана ${legal.license.issuer}`,
-                ],
-                ["Режим работы", clinic.schedule],
-              ].map(([term, value]) => (
-                <div
-                  key={term}
-                  className="grid gap-1 border-t border-hairline py-4 last:border-b sm:grid-cols-[12rem_1fr] sm:gap-6"
-                >
-                  <dt className="label-mono pt-1 text-graphite">{term}</dt>
-                  <dd className="text-ink">{value}</dd>
-                </div>
-              ))}
-            </dl>
+            <LegalDetails />
           </div>
 
           <div className="flex flex-col gap-10">
