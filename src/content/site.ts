@@ -13,6 +13,8 @@ export const clinic = {
   address: "г. Москва, ул. Примерная, 1",
   addressNote: "Заглушка — заменить на реальный адрес",
   schedule: "Ежедневно 09:00 — 21:00",
+  /** То же, что schedule, но для разметки Schema.org. Менять вместе. */
+  hours: { days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], opens: "09:00", closes: "21:00" },
   telegram: "https://t.me/dentalburo",
   whatsapp: "https://wa.me/70000000000",
 } as const;

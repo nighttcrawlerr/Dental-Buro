@@ -3,7 +3,9 @@ import { Cormorant_Garamond, JetBrains_Mono, Onest } from "next/font/google";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { LeadModalProvider } from "@/components/lead/lead-modal";
+import { JsonLd } from "@/components/seo/json-ld";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { clinicSchema } from "@/lib/schema";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -57,6 +59,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Перейти к содержимому
         </a>
+        {/* Клиника в разметке Schema.org — на всех страницах: услуги и врачи
+            ссылаются на неё по @id. */}
+        <JsonLd data={clinicSchema()} />
         <SmoothScroll />
         <LeadModalProvider>
           <Header />
