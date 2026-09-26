@@ -207,6 +207,11 @@ export function LeadForm({
   return (
     <form
       ref={formRef}
+      // Без скрипта браузер отправит форму сам. По умолчанию это GET на
+      // текущий адрес — имя и телефон оказались бы в адресной строке,
+      // истории и логах. Поэтому явный POST на роут, который это умеет.
+      method="post"
+      action="/api/lead"
       noValidate
       onSubmit={handleSubmit}
       aria-busy={pending || undefined}

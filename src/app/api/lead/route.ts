@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { doctors, services } from "@/content/site";
+import { clinic, doctors, services } from "@/content/site";
 import { leadSchema, visitTimes, type Lead } from "@/lib/lead";
 import { createRateLimit } from "@/lib/rate-limit";
 import { escapeHtml, sendTelegramMessage } from "@/lib/telegram";
@@ -37,45 +37,108 @@ const requestSchema = leadSchema.extend({
 // который ошибся в номере и отправил ещё раз.
 const isAllowed = createRateLimit({ limit: 5, windowMs: 10 * 60 * 1000 });
 
+/**
+ * Заявка приходит двумя путями. Обычно — JSON из скрипта формы. Но если
+ * скрипт не загрузился, браузер отправит форму сам, обычным POST. Тогда
+ * отвечаем не JSON, а тем, что можно показать человеку: переходом на
+ * /thanks или простой страницей с ошибкой и телефоном.
+ */
+function isFormPost(request: Request) {
+  const type = request.headers.get("content-type") ?? "";
+  return type.includes("application/x-www-form-urlencoded") || type.includes("multipart/form-data");
+}
+
+async function readForm(request: Request) {
+  const form = await request.formData();
+  const text = (key: string) => {
+    const v = form.get(key);
+    return typeof v === "string" ? v : undefined;
+  };
+
+  return {
+    name: text("name") ?? "",
+    phone: text("phone") ?? "",
+    service: text("service") ?? "",
+    time: text("time") ?? "any",
+    comment: text("comment") ?? "",
+    // Отмеченный чекбокс браузер присылает как «on», неотмеченный — никак.
+    consent: form.get("consent") !== null,
+    website: text("website"),
+    page: request.headers.get("referer") ?? undefined,
+  };
+}
+
+function fallbackPage(message: string, status: number) {
+  const html = `<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Заявка не отправлена</title>
+<body style="font-family: system-ui, sans-serif; max-width: 32rem; margin: 4rem auto; padding: 0 1rem; line-height: 1.5; color: #241e19; background: #f3eee8">
+  <h1 style="font-weight: 400">Заявка не отправлена</h1>
+  <p>${escapeHtml(message)}</p>
+  <p>Позвоните нам: <a href="${clinic.phoneHref}">${escapeHtml(clinic.phone)}</a></p>
+  <p><a href="/contacts#booking">Вернуться к форме</a></p>
+</body>
+</html>`;
+  return new Response(html, { status, headers: { "Content-Type": "text/html; charset=utf-8" } });
+}
+
 export async function POST(request: Request) {
+  const isForm = isFormPost(request);
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
     "unknown";
 
   if (!isAllowed(ip)) {
-    return Response.json({ ok: false, error: "too_many_requests" }, { status: 429 });
+    return isForm
+      ? fallbackPage("С этого устройства уже пришло несколько заявок подряд.", 429)
+      : Response.json({ ok: false, error: "too_many_requests" }, { status: 429 });
   }
 
   let body: unknown;
   try {
-    body = await request.json();
+    body = isForm ? await readForm(request) : await request.json();
   } catch {
     return Response.json({ ok: false, error: "bad_json" }, { status: 400 });
   }
 
   const parsed = requestSchema.safeParse(body);
   if (!parsed.success) {
-    return Response.json(
-      { ok: false, error: "invalid", fields: z.flattenError(parsed.error).fieldErrors },
-      { status: 400 },
-    );
+    return isForm
+      ? fallbackPage(
+          "Проверьте, что указаны имя, телефон из 10 цифр после +7 и отмечено согласие на обработку данных.",
+          400,
+        )
+      : Response.json(
+          { ok: false, error: "invalid", fields: z.flattenError(parsed.error).fieldErrors },
+          { status: 400 },
+        );
   }
 
   const { page, utm, website, doctor, ...lead } = parsed.data;
 
+  // 303 — чтобы браузер пришёл на /thanks обычным GET и кнопка «Назад» не
+  // предлагала отправить форму повторно.
+  const success = () =>
+    isForm ? Response.redirect(new URL("/thanks", request.url), 303) : Response.json({ ok: true });
+
   // Боту отвечаем успехом: получив ошибку, он начнёт подбирать, что не так.
-  if (website) return Response.json({ ok: true });
+  if (website) return success();
 
   try {
     await sendTelegramMessage(formatLead(lead, { page, utm, doctor }));
   } catch (error) {
     // В лог — только причина, без имени и телефона.
     console.error("[lead] Не удалось отправить заявку в Telegram:", error);
-    return Response.json({ ok: false, error: "delivery_failed" }, { status: 502 });
+    return isForm
+      ? fallbackPage("Это сбой на нашей стороне. Попробуйте через минуту.", 502)
+      : Response.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 
-  return Response.json({ ok: true });
+  return success();
 }
 
 function formatLead(
