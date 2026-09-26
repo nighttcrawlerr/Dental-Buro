@@ -16,8 +16,9 @@ type BookButtonProps = {
 /**
  * Кнопка «Записаться» — открывает окно записи.
  *
- * Под капотом это ссылка на контакты, а не просто кнопка. Если скрипты не
- * загрузились, человек всё равно попадёт туда, где есть телефон и адрес.
+ * Под капотом это ссылка на форму записи на странице контактов, а не просто
+ * кнопка. Если скрипты не загрузились, человек всё равно попадёт к форме,
+ * телефону и адресу.
  * Клик с Ctrl или Cmd тоже не перехватываем: так открывают вкладку, а не окно.
  */
 export function BookButton({ onClick, ...props }: BookButtonProps) {
@@ -26,7 +27,7 @@ export function BookButton({ onClick, ...props }: BookButtonProps) {
   return (
     <Button
       {...props}
-      href="/contacts"
+      href="/contacts#booking"
       onClick={(event) => {
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
