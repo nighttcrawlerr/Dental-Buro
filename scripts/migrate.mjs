@@ -9,7 +9,9 @@ if (!url) {
   process.exit(1);
 }
 
-const sql = postgres(url, { max: 1 });
+// onnotice: Postgres сообщает «таблица уже есть» на каждый повторный запуск —
+// это нормально для идемпотентной схемы и только засоряет лог.
+const sql = postgres(url, { max: 1, onnotice: () => {} });
 try {
   await sql.unsafe(await readFile(new URL("../db/schema.sql", import.meta.url), "utf8"));
   console.log("Схема применена.");

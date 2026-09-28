@@ -1,0 +1,10 @@
+# В образ не попадают: зависимости и сборка с этой машины (соберутся внутри),
+# секреты и всё, что к сайту не относится.
+node_modules
+.next
+.git
+.env*
+!.env.example
+*.log
+.DS_Store
+tsconfig.tsbuildinfo
