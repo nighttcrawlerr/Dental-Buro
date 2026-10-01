@@ -8,6 +8,7 @@ export function LegalDetails() {
   const rows: [string, string][] = [
     ["Организация", legal.fullName],
     ["ИНН", legal.inn],
+    ["КПП", legal.kpp],
     ["ОГРН", legal.ogrn],
     ["Юридический адрес", legal.legalAddress],
     ["Адрес клиники", clinic.address],
