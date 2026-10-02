@@ -1,6 +1,7 @@
 import { CtaSection } from "@/components/home/cta-section";
 import { Button } from "@/components/ui/button";
 import { PriceList } from "@/components/prices/price-list";
+import { TaxDeductionSection } from "@/components/prices/tax-deduction-section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
@@ -51,6 +52,8 @@ export default function PricesPage() {
           </Reveal>
         </Container>
       </section>
+
+      <TaxDeductionSection />
 
       <CtaSection />
     </>
