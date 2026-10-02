@@ -327,6 +327,14 @@ export function Quiz() {
               специалиста.
             </p>
 
+            <p className="max-w-xl text-graphite">
+              Часть суммы можно вернуть налоговым вычетом —{" "}
+              <Link href="/prices#vychet" className="text-ink underline underline-offset-2 hover:text-sky">
+                как это работает
+              </Link>
+              .
+            </p>
+
             <div className="flex flex-wrap gap-3">
               <Button variant="ghost" onClick={() => setStep("details")}>
                 Изменить ответы
