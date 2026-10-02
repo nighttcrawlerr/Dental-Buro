@@ -5,7 +5,6 @@ import { Hero } from "@/components/home/hero";
 import { ReviewsSection } from "@/components/home/reviews-section";
 import { ServicesSection } from "@/components/home/services-section";
 import { TreatmentSection } from "@/components/home/treatment-section";
-import { WorksSection } from "@/components/home/works-section";
 import { pageMetadata } from "@/lib/metadata";
 
 // Заголовок — из layout (title.default), здесь только canonical и превью.
@@ -19,8 +18,12 @@ export const metadata = pageMetadata({
  * Главная страница.
  *
  * Порядок секций — сценарий убеждения: обещание, чем можем помочь, почему нам
- * можно верить, кто будет лечить, как это устроено, что получилось у других,
- * что о нас говорят, и наконец — приглашение прийти.
+ * можно верить, кто будет лечить, как это устроено, что о нас говорят, и
+ * наконец — приглашение прийти.
+ *
+ * Работ «до/после» нет намеренно: снимки «до» владелец не хочет показывать,
+ * а для снимков «после» нужны письменные согласия пациентов (изображение
+ * человека и врачебная тайна) и проверка юристом по закону о рекламе.
  *
  * Полосы чередуются тёмная → светлая → холодная; смена поверхности работает
  * разделителем вместо линии. Заканчивается страница тем же тёмным тоном, с
@@ -34,7 +37,6 @@ export default function HomePage() {
       <AdvantagesSection />
       <DoctorsSection />
       <TreatmentSection />
-      <WorksSection />
       <ReviewsSection />
       <CtaSection />
     </>

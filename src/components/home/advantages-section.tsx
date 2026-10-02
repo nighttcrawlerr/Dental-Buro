@@ -18,7 +18,7 @@ export function AdvantagesSection() {
         <SectionHeading
           className="reveal"
           surface="sky"
-          counter={{ current: 2, total: 6 }}
+          counter={{ current: 2, total: 5 }}
           title="Почему Dental Buro"
           description="Четыре вещи, из-за которых к нам возвращаются и приводят родителей и детей."
         />

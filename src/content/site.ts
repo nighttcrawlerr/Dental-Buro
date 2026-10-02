@@ -361,35 +361,6 @@ export const treatmentSteps: TreatmentStep[] = [
   },
 ];
 
-export type Work = {
-  slug: string;
-  title: string;
-  service: string;
-  duration: string;
-};
-
-/** Работы «до/после». Заполняется, когда появятся фото и согласия пациентов. */
-export const works: Work[] = [
-  {
-    slug: "work-1",
-    title: "Восстановление жевательной группы",
-    service: "Имплантация",
-    duration: "4 месяца",
-  },
-  {
-    slug: "work-2",
-    title: "Исправление прикуса элайнерами",
-    service: "Ортодонтия",
-    duration: "14 месяцев",
-  },
-  {
-    slug: "work-3",
-    title: "Реставрация фронтальной группы",
-    service: "Эстетика",
-    duration: "3 недели",
-  },
-];
-
 export type Review = {
   author: string;
   /** Врач, о котором отзыв, — по нему отзыв попадает на страницу врача. */

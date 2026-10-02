@@ -28,7 +28,7 @@ export function TreatmentSection() {
     <section className="grain bg-espresso">
       <Container className="grid gap-14 py-20 lg:grid-cols-[minmax(0,24rem)_1fr] lg:gap-24 lg:py-28">
         <div className="flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start">
-          <SectionCounter current={4} total={6} surface="dark" />
+          <SectionCounter current={4} total={5} surface="dark" />
           <h2 className="font-display text-heading-lg text-balance text-cream">
             <RevealWords text="Как проходит лечение" />
           </h2>

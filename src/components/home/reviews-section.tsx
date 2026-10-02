@@ -22,7 +22,7 @@ export function ReviewsSection() {
       <Container className="flex flex-col gap-14 pb-20 lg:gap-20 lg:pb-28">
         <SectionHeading
           className="reveal"
-          counter={{ current: 6, total: 6 }}
+          counter={{ current: 5, total: 5 }}
           title="Отзывы"
           description="Собраны после лечения и с Яндекс.Карт. Мы не удаляем негативные — на них отвечает главный врач."
         />
