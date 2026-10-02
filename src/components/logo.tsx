@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useId } from "react";
 import { cn } from "@/lib/cn";
 
 /**
@@ -15,11 +16,11 @@ import { cn } from "@/lib/cn";
  * 2. Корпус зуба всегда светлее доли. Тёмный корпус читается как потемневшая
  *    эмаль, тёмные корни — как кариес; оба варианта отброшены на макетах.
  *
- * Идентификаторы фиксированные. На странице может оказаться несколько знаков,
- * но определения у всех одинаковые, поэтому совпадение ни на что не влияет.
+ * Идентификаторы маски и обрезки у каждого знака свои. Одинаковые ломались:
+ * все знаки ссылаются на первое определение в документе, и если первый знак
+ * скрыт (в шапке на телефоне скрыт логотип с надписью), маска не рисуется —
+ * от зуба остаётся квадрат.
  */
-const CLIP_ID = "db-tooth";
-const MASK_ID = "db-tooth-gap";
 
 /** Контур зуба: два бугра сверху, борозда по центру, два корня снизу. */
 const PATH_TOOTH =
@@ -60,6 +61,9 @@ export function LogoMark({
   style?: React.CSSProperties;
 }) {
   const { body, lobe } = markFills[tone];
+  const id = useId();
+  const clipId = `${id}-tooth`;
+  const maskId = `${id}-gap`;
 
   return (
     <svg
@@ -70,15 +74,15 @@ export function LogoMark({
       className={cn("h-10 w-auto", className)}
     >
       <defs>
-        <clipPath id={CLIP_ID}>
+        <clipPath id={clipId}>
           <path d={PATH_TOOTH} />
         </clipPath>
-        <mask id={MASK_ID}>
+        <mask id={maskId}>
           <rect x="-12" y="-12" width="136" height="156" fill="#fff" />
           <path d={PATH_CUT} fill="none" stroke="#000" strokeWidth="4.5" />
         </mask>
       </defs>
-      <g clipPath={`url(#${CLIP_ID})`} mask={`url(#${MASK_ID})`}>
+      <g clipPath={`url(#${clipId})`} mask={`url(#${maskId})`}>
         <rect x="-12" y="-12" width="136" height="156" fill={body} />
         <path d={PATH_LOBE} fill={lobe} />
       </g>
