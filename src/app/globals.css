@@ -408,20 +408,21 @@
   pointer-events: none;
 }
 
-/* Старая страница уходит быстро, чтобы не спорить с новой. Новая
-   проявляется чуть позже и мягче. */
+/* Старая страница уходит раньше, чтобы не спорить с новой, новая
+   проявляется следом. Обе — с перекрытием и без резких краёв: при 150 мс
+   смена читалась как мигание. */
 ::view-transition-old(.page-exit) {
-  animation: 150ms ease-in both vt-fade reverse;
+  animation: 320ms ease-in-out both vt-fade reverse;
 }
 
 ::view-transition-new(.page-enter) {
-  animation: 260ms ease-out 110ms both vt-fade;
+  animation: 480ms ease-in-out 160ms both vt-fade;
 }
 
 /* Портрет врача: тот же предмет переезжает на новое место. Размытие в
    середине прячет ступеньки масштабирования. */
 ::view-transition-group(.morph) {
-  animation-duration: 450ms;
+  animation-duration: 700ms;
   animation-timing-function: var(--ease-out-soft);
 }
 
@@ -435,7 +436,7 @@
    иначе посреди перехода, когда оба снимка полупрозрачны, сквозь рамку
    просвечивает страница. */
 ::view-transition-group(.expand) {
-  animation-duration: 520ms;
+  animation-duration: 800ms;
   animation-timing-function: var(--ease-out-soft);
   overflow: clip;
   background: var(--color-espresso);
@@ -449,11 +450,11 @@
 }
 
 ::view-transition-old(.expand) {
-  animation: 160ms ease-out both vt-fade reverse;
+  animation: 300ms ease-in-out both vt-fade reverse;
 }
 
 ::view-transition-new(.expand) {
-  animation: 300ms ease-out 80ms both vt-fade;
+  animation: 500ms ease-in-out 200ms both vt-fade;
 }
 
 @keyframes vt-fade {
