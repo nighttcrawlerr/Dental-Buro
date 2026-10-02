@@ -1,4 +1,5 @@
 import { CtaSection } from "@/components/home/cta-section";
+import { Button } from "@/components/ui/button";
 import { PriceList } from "@/components/prices/price-list";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
@@ -37,6 +38,11 @@ export default function PricesPage() {
                 Цены в рублях, актуальны на {pricesUpdatedAt}. Не является публичной офертой.
                 Имеются противопоказания, необходима консультация специалиста.
               </p>
+              {/* Таблица отвечает «сколько стоит позиция», расчёт — «сколько
+                  будет стоить моё лечение». Второй вопрос люди и задают. */}
+              <Button variant="ghost" href="/raschet" className="self-start">
+                Рассчитать стоимость лечения
+              </Button>
             </Reveal>
           </div>
 
