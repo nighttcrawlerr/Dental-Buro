@@ -28,7 +28,7 @@ const legalLinks = [
 
 export function Footer() {
   return (
-    <footer className="curtain-footer bg-ink text-cream">
+    <footer className="curtain-footer grain bg-ink text-cream">
       <Container className="py-16 lg:py-20">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="flex flex-col gap-6">

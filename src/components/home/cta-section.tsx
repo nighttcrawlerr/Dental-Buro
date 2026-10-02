@@ -17,7 +17,7 @@ import { clinic } from "@/content/site";
  */
 export function CtaSection() {
   return (
-    <section className="bg-espresso">
+    <section className="grain bg-espresso">
       <Container className="flex flex-col gap-14 py-20 lg:py-28">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           <div className="flex flex-col gap-8">

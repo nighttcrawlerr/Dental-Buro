@@ -13,7 +13,7 @@ import { advantages } from "@/content/site";
  */
 export function AdvantagesSection() {
   return (
-    <section className="bg-sky">
+    <section className="grain bg-sky">
       <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
         <SectionHeading
           className="reveal"

@@ -101,7 +101,7 @@ export default function ContactsPage() {
       </section>
 
       {/* ---- Запись ---------------------------------------------------- */}
-      <section id="booking" className="scroll-mt-20 bg-espresso">
+      <section id="booking" className="grain scroll-mt-20 bg-espresso">
         <Container className="grid gap-12 py-20 lg:grid-cols-[minmax(0,24rem)_1fr] lg:gap-20 lg:py-28">
           <div className="flex flex-col gap-6">
             <h2 className="font-display text-heading-lg text-balance text-cream">

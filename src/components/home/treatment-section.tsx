@@ -25,7 +25,7 @@ import { treatmentSteps } from "@/content/site";
  */
 export function TreatmentSection() {
   return (
-    <section className="bg-espresso">
+    <section className="grain bg-espresso">
       <Container className="grid gap-14 py-20 lg:grid-cols-[minmax(0,24rem)_1fr] lg:gap-24 lg:py-28">
         <div className="flex flex-col gap-6 lg:sticky lg:top-28 lg:self-start">
           <SectionCounter current={4} total={6} surface="dark" />

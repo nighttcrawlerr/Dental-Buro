@@ -76,7 +76,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       {/* ---- Первый экран ---------------------------------------------- */}
       {/* Сюда разворачивается карточка услуги из каталога. */}
       <ViewTransition name={`service-${service.slug}`} share="expand" default="none">
-        <section className="bg-espresso">
+        <section className="grain bg-espresso">
           <Container className="flex flex-col gap-12 py-16 lg:gap-16 lg:py-24">
             <Breadcrumbs
               surface="dark"
@@ -140,7 +140,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </section>
 
       {/* ---- Как проходит ---------------------------------------------- */}
-      <section className="bg-sky">
+      <section className="grain bg-sky">
         <Container className="flex flex-col gap-12 py-20 lg:py-28">
           <SectionHeading
             className="reveal"
@@ -282,7 +282,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       </section>
 
       {/* ---- Запись ---------------------------------------------------- */}
-      <section id="booking" className="bg-espresso">
+      <section id="booking" className="grain bg-espresso">
         <Container className="grid gap-12 py-20 lg:grid-cols-[minmax(0,24rem)_1fr] lg:gap-20 lg:py-28">
           <div className="flex flex-col gap-6">
             <h2 className="font-display text-heading-lg text-balance text-cream">

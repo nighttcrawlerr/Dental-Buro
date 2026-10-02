@@ -68,7 +68,7 @@ export default function AboutPage() {
       </section>
 
       {/* ---- Оборудование ---------------------------------------------- */}
-      <section className="bg-sky">
+      <section className="grain bg-sky">
         <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
           <SectionHeading
             className="reveal"
@@ -94,7 +94,7 @@ export default function AboutPage() {
       </section>
 
       {/* ---- Стерилизация ---------------------------------------------- */}
-      <section className="bg-espresso">
+      <section className="grain bg-espresso">
         <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
           <SectionHeading
             className="reveal"
