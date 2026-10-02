@@ -24,7 +24,13 @@ export function Header() {
   return (
     <header className="site-header sticky top-0 z-40 border-b border-hairline bg-cream/90 backdrop-blur-md">
       <Container className="flex h-20 items-center justify-between gap-6">
-        <Logo variant="compact" />
+        {/* Логотип с надписью, кнопка записи и бургер вместе занимают ~412px —
+            на телефоне шириной 390px бургер уезжал за край. До 460px в шапке
+            только знак: надпись есть на первом экране и в подвале, а запись
+            и меню важнее. Скрытый вариант не попадает ни к скринридеру, ни
+            в обход табом. */}
+        <Logo variant="mark" className="min-[460px]:hidden" />
+        <Logo variant="compact" className="max-[460px]:hidden" />
 
         <div className="flex items-center gap-4">
           <MainNav />
