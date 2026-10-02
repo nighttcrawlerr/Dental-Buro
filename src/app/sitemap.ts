@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...doctors.map((d) => `/doctors/${d.slug}`),
     "/prices",
     "/raschet",
+    "/voprosy",
     "/about",
     "/reviews",
     "/contacts",
