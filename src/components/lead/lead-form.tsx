@@ -78,6 +78,8 @@ type LeadFormProps = {
   submitLabel?: string;
   /** Услуга, выбранная заранее, — на странице услуги спрашивать её незачем. */
   defaultService?: string;
+  /** Комментарий, заполненный заранее, — расчёт из квиза. Человек может его стереть. */
+  defaultComment?: string;
   className?: string;
 };
 
@@ -99,13 +101,14 @@ export function LeadForm({
   onSubmit,
   submitLabel = "Записаться",
   defaultService = "",
+  defaultComment = "",
   className,
 }: LeadFormProps) {
   const tone = toneBySurface[surface];
   const uid = useId();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const initial = { ...emptyLead, service: defaultService };
+  const initial = { ...emptyLead, service: defaultService, comment: defaultComment };
   const [values, setValues] = useState<LeadInput>(initial);
   const [errors, setErrors] = useState<LeadErrors>({});
   const [attempted, setAttempted] = useState(false);

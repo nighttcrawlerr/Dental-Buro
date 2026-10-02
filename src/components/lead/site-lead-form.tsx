@@ -15,11 +15,13 @@ import { submitLead } from "@/lib/submit-lead";
 export function SiteLeadForm({
   surface,
   defaultService,
+  defaultComment,
   doctor,
   onSent,
 }: {
   surface?: "light" | "dark";
   defaultService?: string;
+  defaultComment?: string;
   /** slug врача — уходит в заявку, чтобы администратор записал именно к нему. */
   doctor?: string;
   /** Вызывается после успешной отправки, до перехода — окно так закрывается. */
@@ -31,6 +33,7 @@ export function SiteLeadForm({
     <LeadForm
       surface={surface}
       defaultService={defaultService}
+      defaultComment={defaultComment}
       onSubmit={async (lead, meta) => {
         await submitLead(lead, meta, { doctor });
         reachGoal(goals.leadSent);
