@@ -19,6 +19,12 @@ import { metrikaId } from "@/lib/analytics";
  * На широких экранах подвал — занавес: стоит под страницей, и страница
  * уезжает с него вверх. Стили — .curtain-* в globals.css.
  */
+/** Разделы, которым не хватило места в шапке. */
+const extraLinks = [
+  { label: "Расчёт стоимости", href: "/raschet" },
+  { label: "Вопросы и ответы", href: "/voprosy" },
+];
+
 const legalLinks = [
   { label: "Политика обработки персональных данных", href: "/legal/privacy" },
   { label: "Согласие на обработку данных", href: "/legal/consent" },
@@ -42,7 +48,7 @@ export function Footer() {
             <div className="flex flex-col gap-4">
               <p className="label-mono text-cream/60">Разделы</p>
               <ul className="flex flex-col gap-3">
-                {mainNav.map((item) => (
+                {[...mainNav, ...extraLinks].map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} className="transition-opacity hover:opacity-70">
                       {item.label}
