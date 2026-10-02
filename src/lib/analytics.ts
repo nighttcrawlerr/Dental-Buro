@@ -21,6 +21,10 @@ export const goals = {
   messengerClick: "messenger_click",
   /** Открыта страница цен — цель из плана (9.2). */
   pricesViewed: "prices_viewed",
+  /** В квизе на /raschet выбрана цель — человек начал считать. */
+  quizStarted: "quiz_started",
+  /** Квиз показал расчёт. Вместе с leadSent даёт конверсию квиза. */
+  quizCompleted: "quiz_completed",
 } as const;
 
 export type Goal = (typeof goals)[keyof typeof goals];
