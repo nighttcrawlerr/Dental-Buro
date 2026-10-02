@@ -377,6 +377,111 @@
   }
 }
 
+/* ---- Переходы между страницами ---------------------------------------- */
+
+/* Обёртка страницы — в (site)/template.tsx, общие элементы — портрет врача и
+   карточка услуги. Без поддержки View Transitions браузер просто меняет
+   страницу сразу, как раньше. */
+
+/* Шапка в переходе не участвует: стоит на месте и лежит поверх снимков
+   страницы. Иначе снимок старой страницы, прокрученной под липкую шапку, на
+   долю секунды перекрывает её. */
+.site-header {
+  view-transition-name: site-header;
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header) {
+  display: none;
+}
+
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* Пока идёт переход, клики проходят на живую страницу, а не теряются. */
+::view-transition {
+  pointer-events: none;
+}
+
+/* Старая страница уходит быстро, чтобы не спорить с новой. Новая
+   проявляется чуть позже и мягче. */
+::view-transition-old(.page-exit) {
+  animation: 150ms ease-in both vt-fade reverse;
+}
+
+::view-transition-new(.page-enter) {
+  animation: 260ms ease-out 110ms both vt-fade;
+}
+
+/* Портрет врача: тот же предмет переезжает на новое место. Размытие в
+   середине прячет ступеньки масштабирования. */
+::view-transition-group(.morph) {
+  animation-duration: 450ms;
+  animation-timing-function: var(--ease-out-soft);
+}
+
+::view-transition-image-pair(.morph) {
+  animation-name: vt-via-blur;
+}
+
+/* Карточка услуги разворачивается в первый экран. Снимки разных пропорций,
+   поэтому оба обрезаются по рамке, а не растягиваются: карточка гаснет,
+   первый экран проступает, рамка растёт. Подложка цвета первого экрана —
+   иначе посреди перехода, когда оба снимка полупрозрачны, сквозь рамку
+   просвечивает страница. */
+::view-transition-group(.expand) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-out-soft);
+  overflow: clip;
+  background: var(--color-espresso);
+}
+
+::view-transition-old(.expand),
+::view-transition-new(.expand) {
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+::view-transition-old(.expand) {
+  animation: 160ms ease-out both vt-fade reverse;
+}
+
+::view-transition-new(.expand) {
+  animation: 300ms ease-out 80ms both vt-fade;
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vt-via-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+/* Глобальное правило ниже до псевдоэлементов перехода не достаёт —
+   выключаем их отдельно. Страница меняется сразу, как без поддержки. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
 /* ---- Окна: запись и мобильное меню ------------------------------------ */
 
 /* Пока окно или меню открыто, страница под ним не прокручивается. Через :has, а не

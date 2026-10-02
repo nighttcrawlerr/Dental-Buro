@@ -22,7 +22,7 @@ import { clinic } from "@/content/site";
  */
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-hairline bg-cream/90 backdrop-blur-md">
+    <header className="site-header sticky top-0 z-40 border-b border-hairline bg-cream/90 backdrop-blur-md">
       <Container className="flex h-20 items-center justify-between gap-6">
         <Logo variant="compact" />
 

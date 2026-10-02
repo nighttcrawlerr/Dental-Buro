@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { DoctorCard } from "@/components/doctors/doctor-card";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -73,49 +74,52 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <JsonLd data={faqSchema(details.faq)} />
 
       {/* ---- Первый экран ---------------------------------------------- */}
-      <section className="bg-espresso">
-        <Container className="flex flex-col gap-12 py-16 lg:gap-16 lg:py-24">
-          <Breadcrumbs
-            surface="dark"
-            items={[
-              { name: "Услуги", href: "/services" },
-              { name: service.title, href: `/services/${service.slug}` },
-            ]}
-          />
+      {/* Сюда разворачивается карточка услуги из каталога. */}
+      <ViewTransition name={`service-${service.slug}`} share="expand" default="none">
+        <section className="bg-espresso">
+          <Container className="flex flex-col gap-12 py-16 lg:gap-16 lg:py-24">
+            <Breadcrumbs
+              surface="dark"
+              items={[
+                { name: "Услуги", href: "/services" },
+                { name: service.title, href: `/services/${service.slug}` },
+              ]}
+            />
 
-          <div className="flex max-w-4xl flex-col gap-8">
-            {group ? <Tag surface="dark">{group.label}</Tag> : null}
-            <h1 className="font-display text-display-xl text-balance text-cream">
-              <RevealWords text={`${service.title}.`} trigger="load" />
-            </h1>
-            <Reveal trigger="load" index={2}>
-              <p className="max-w-2xl text-body-lg text-stone">{details.intro}</p>
-            </Reveal>
-          </div>
-
-          <Reveal trigger="load" index={3} className="flex flex-col gap-10">
-            <dl className="grid gap-6 border-t border-hairline-dark pt-8 sm:grid-cols-2 lg:max-w-2xl">
-              <div className="flex flex-col gap-2">
-                <dt className="label-mono text-cream/60">Стоимость</dt>
-                <dd className="font-display text-heading-sm text-cream">
-                  {formatPriceFrom(service.priceFrom)}
-                </dd>
-              </div>
-              <div className="flex flex-col gap-2">
-                <dt className="label-mono text-cream/60">Срок лечения</dt>
-                <dd className="font-display text-heading-sm text-cream">{details.duration}</dd>
-              </div>
-            </dl>
-
-            <div className="flex flex-wrap gap-3">
-              <BookButton surface="dark">Записаться на консультацию</BookButton>
-              <Button surface="dark" variant="ghost" href={clinic.phoneHref}>
-                {clinic.phone}
-              </Button>
+            <div className="flex max-w-4xl flex-col gap-8">
+              {group ? <Tag surface="dark">{group.label}</Tag> : null}
+              <h1 className="font-display text-display-xl text-balance text-cream">
+                <RevealWords text={`${service.title}.`} trigger="load" />
+              </h1>
+              <Reveal trigger="load" index={2}>
+                <p className="max-w-2xl text-body-lg text-stone">{details.intro}</p>
+              </Reveal>
             </div>
-          </Reveal>
-        </Container>
-      </section>
+
+            <Reveal trigger="load" index={3} className="flex flex-col gap-10">
+              <dl className="grid gap-6 border-t border-hairline-dark pt-8 sm:grid-cols-2 lg:max-w-2xl">
+                <div className="flex flex-col gap-2">
+                  <dt className="label-mono text-cream/60">Стоимость</dt>
+                  <dd className="font-display text-heading-sm text-cream">
+                    {formatPriceFrom(service.priceFrom)}
+                  </dd>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <dt className="label-mono text-cream/60">Срок лечения</dt>
+                  <dd className="font-display text-heading-sm text-cream">{details.duration}</dd>
+                </div>
+              </dl>
+
+              <div className="flex flex-wrap gap-3">
+                <BookButton surface="dark">Записаться на консультацию</BookButton>
+                <Button surface="dark" variant="ghost" href={clinic.phoneHref}>
+                  {clinic.phone}
+                </Button>
+              </div>
+            </Reveal>
+          </Container>
+        </section>
+      </ViewTransition>
 
       {/* ---- Что входит ------------------------------------------------ */}
       <section className="bg-cream">
@@ -152,9 +156,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 index={index}
                 className="flex flex-col gap-4 border-t border-hairline-sky pt-6"
               >
-                <span className="label-mono text-cream">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                <span className="label-mono text-cream">{String(index + 1).padStart(2, "0")}</span>
                 <h3 className="font-display text-heading-sm text-cream">{stage.title}</h3>
                 <p className="text-cream/85">{stage.text}</p>
               </Reveal>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewTransition } from "react";
 import { BookButton } from "@/components/lead/book-button";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -83,7 +84,9 @@ export default async function DoctorPage({ params }: PageProps<"/doctors/[slug]"
       {/* ---- Знакомство ------------------------------------------------ */}
       <section className="bg-cream">
         <Container className="grid gap-12 py-16 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-20 lg:py-24">
-          <PhotoPlaceholder label="Портрет врача" className="w-full max-w-md" />
+          <ViewTransition name={`doctor-photo-${doctor.slug}`} share="morph" default="none">
+            <PhotoPlaceholder label="Портрет врача" className="w-full max-w-md" />
+          </ViewTransition>
 
           <div className="flex flex-col gap-10">
             <Breadcrumbs

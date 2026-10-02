@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { ArrowGlyph, arrowSurfaceClasses } from "@/components/ui/arrow-button";
 import type { Service } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -16,35 +17,44 @@ import { formatPriceFrom } from "@/lib/format";
  * иначе тёмно-серый текст останется на тёмном фоне и пропадёт.
  *
  * Ставится в сетку на зазоре 1px поверх цвета линии, поэтому своих рамок нет.
+ *
+ * При переходе карточка разворачивается в первый экран услуги. Первый экран
+ * тёмный, и наведённая карточка уже тёмная — разворот читается как одна
+ * поверхность, которая выросла в страницу.
  */
 export function ServiceCard({ service, number }: { service: Service; number: number }) {
   return (
-    <Link
-      href={`/services/${service.slug}`}
-      className="group flex h-full flex-col gap-6 bg-paper p-8 transition-colors duration-300 hover:bg-espresso lg:p-10"
-    >
-      <span className="label-mono text-graphite transition-colors duration-300 group-hover:text-stone">
-        {String(number).padStart(2, "0")}
-      </span>
-
-      <span className="font-display text-heading-sm text-ink transition-colors duration-300 group-hover:text-cream">
-        {service.title}
-      </span>
-
-      <span className="flex-1 text-graphite transition-colors duration-300 group-hover:text-stone">
-        {service.summary}
-      </span>
-
-      <span className="flex items-center justify-between gap-4 border-t border-hairline pt-6 transition-colors duration-300 group-hover:border-hairline-dark">
-        <span className="label-mono text-ink transition-colors duration-300 group-hover:text-cream">
-          {formatPriceFrom(service.priceFrom)}
+    <ViewTransition name={`service-${service.slug}`} share="expand" default="none">
+      <Link
+        href={`/services/${service.slug}`}
+        className="group flex h-full flex-col gap-6 bg-paper p-8 transition-colors duration-300 hover:bg-espresso lg:p-10"
+      >
+        <span className="label-mono text-graphite transition-colors duration-300 group-hover:text-stone">
+          {String(number).padStart(2, "0")}
         </span>
-        <span
-          className={cn(arrowSurfaceClasses(), "group-hover:bg-sky-pale group-hover:text-sky-deep")}
-        >
-          <ArrowGlyph />
+
+        <span className="font-display text-heading-sm text-ink transition-colors duration-300 group-hover:text-cream">
+          {service.title}
         </span>
-      </span>
-    </Link>
+
+        <span className="flex-1 text-graphite transition-colors duration-300 group-hover:text-stone">
+          {service.summary}
+        </span>
+
+        <span className="flex items-center justify-between gap-4 border-t border-hairline pt-6 transition-colors duration-300 group-hover:border-hairline-dark">
+          <span className="label-mono text-ink transition-colors duration-300 group-hover:text-cream">
+            {formatPriceFrom(service.priceFrom)}
+          </span>
+          <span
+            className={cn(
+              arrowSurfaceClasses(),
+              "group-hover:bg-sky-pale group-hover:text-sky-deep",
+            )}
+          >
+            <ArrowGlyph />
+          </span>
+        </span>
+      </Link>
+    </ViewTransition>
   );
 }

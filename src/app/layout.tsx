@@ -44,8 +44,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    // data-scroll-behavior: на время перехода Next выключает плавную прокрутку,
+    // и новая страница открывается сразу сверху, а не доезжает туда поверх
+    // анимации перехода.
     <html
       lang="ru"
+      data-scroll-behavior="smooth"
       className={`${cormorant.variable} ${onest.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-cream">
