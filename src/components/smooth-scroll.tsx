@@ -19,6 +19,10 @@ import "lenis/dist/lenis.css";
  * 3. Прокрутка остаётся настоящей — Lenis двигает реальный scrollTop, а не
  *    трансформирует обёртку. Поэтому продолжают работать поиск по странице,
  *    якорные ссылки и CSS-анимации, привязанные к прокрутке.
+ * 4. Переход на другую страницу гасит инерцию. Иначе клик посреди прокрутки
+ *    колесом даёт такую картину: Next поднимает новую страницу наверх, а
+ *    Lenis ещё докатывается к своей цели и утаскивает её обратно вниз —
+ *    анимация перехода разыгрывается за кадром.
  */
 export function SmoothScroll() {
   useEffect(() => {
@@ -39,7 +43,22 @@ export function SmoothScroll() {
     };
     frame = requestAnimationFrame(loop);
 
+    // stop + start — публичный способ сбросить инерцию: прокрутка
+    // останавливается там, где сейчас стоит страница. В фазе перехвата —
+    // раньше, чем Next начнёт переход по ссылке.
+    const settle = () => {
+      lenis.stop();
+      lenis.start();
+    };
+    const onClick = (event: MouseEvent) => {
+      if (event.target instanceof Element && event.target.closest("a[href]")) settle();
+    };
+    document.addEventListener("click", onClick, true);
+    window.addEventListener("popstate", settle);
+
     return () => {
+      document.removeEventListener("click", onClick, true);
+      window.removeEventListener("popstate", settle);
       cancelAnimationFrame(frame);
       lenis.destroy();
     };
