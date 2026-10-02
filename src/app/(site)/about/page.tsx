@@ -30,7 +30,7 @@ export default function AboutPage() {
     <>
       {/* ---- Первый экран ---------------------------------------------- */}
       <section className="bg-cream">
-        <Container className="flex flex-col gap-14 py-20 lg:gap-20 lg:py-28">
+        <Container className="pt-20 lg:pt-28">
           <div className="flex max-w-3xl flex-col gap-8">
             <h1 className="font-display text-display-xl text-balance text-ink">
               <RevealWords text="О клинике." trigger="load" />
@@ -42,9 +42,18 @@ export default function AboutPage() {
               </p>
             </Reveal>
           </div>
-
-          <PhotoPlaceholder label="Интерьер клиники" ratio="landscape" className="w-full lg:aspect-[21/9]" />
         </Container>
+
+        {/* Снимок вне колонки: на широких экранах он начинается обрезанным по
+            колонке и при прокрутке раскрывается во всю ширину (.unfold в
+            globals.css). На телефоне и без анимаций стоит в колонке. */}
+        <div className="unfold mx-auto mt-14 w-full max-w-[1200px] px-4 pb-20 sm:px-6 lg:mt-20 lg:px-10 lg:pb-28">
+          <PhotoPlaceholder
+            label="Интерьер клиники"
+            ratio="landscape"
+            className="w-full lg:aspect-[21/9]"
+          />
+        </div>
       </section>
 
       {/* ---- Пространство ---------------------------------------------- */}
