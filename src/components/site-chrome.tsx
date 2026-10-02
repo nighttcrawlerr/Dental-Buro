@@ -33,7 +33,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <SmoothScroll />
       <LeadModalProvider>
         <Header />
-        <main id="content" className="flex-1">
+        <main id="content" className="curtain-page flex-1">
           {children}
         </main>
         <Footer />

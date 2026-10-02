@@ -15,6 +15,9 @@ import { metrikaId } from "@/lib/analytics";
  * лицензии, реквизитов и предупреждения о противопоказаниях обязательна, за
  * отсутствие штрафуют. Здесь заглушки; реальные данные и финальные
  * формулировки согласует юрист клиники — см. этап 5 в PLAN.md.
+ *
+ * На широких экранах подвал — занавес: стоит под страницей, и страница
+ * уезжает с него вверх. Стили — .curtain-* в globals.css.
  */
 const legalLinks = [
   { label: "Политика обработки персональных данных", href: "/legal/privacy" },
@@ -25,7 +28,7 @@ const legalLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-ink text-cream">
+    <footer className="curtain-footer bg-ink text-cream">
       <Container className="py-16 lg:py-20">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="flex flex-col gap-6">

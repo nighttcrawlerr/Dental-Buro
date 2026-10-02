@@ -377,6 +377,64 @@
   }
 }
 
+/* ---- Подвал-занавес --------------------------------------------------- */
+
+/* Подвал стоит под страницей, прилипнув к низу экрана. Страница лежит над
+   ним со скруглённым низом и в конце уезжает вверх, открывая его.
+
+   Только на широких экранах высотой от 800px: подвал там ~670px и
+   помещается целиком. На телефоне он ~1450px — выше экрана, и прилипший к
+   низу подвал открывался бы с юридического текста, а не с логотипа. */
+@media (min-width: 64rem) and (min-height: 50rem) {
+  .curtain-page {
+    position: relative;
+    z-index: 1;
+    background: var(--color-cream);
+    border-end-start-radius: var(--radius-card-lg);
+    border-end-end-radius: var(--radius-card-lg);
+    /* clip, а не hidden: hidden делает main прокручиваемым контейнером, и
+       липкие элементы внутри (шапка таблицы цен) перестают липнуть. */
+    overflow: clip;
+  }
+
+  .curtain-footer {
+    position: sticky;
+    bottom: 0;
+  }
+
+  /* Содержимое подвала догоняет занавес: стартует чуть выше и бледнее и
+     встаёт на место, пока страница уезжает. Привязано к прокрутке, без
+     таймера: остановился — остановилось и движение. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      body {
+        timeline-scope: --page;
+      }
+
+      .curtain-page {
+        view-timeline: --page block;
+      }
+
+      .curtain-footer > * {
+        animation: curtain-rise linear both;
+        animation-timeline: --page;
+        animation-range: exit 0% exit 60%;
+      }
+    }
+  }
+}
+
+@keyframes curtain-rise {
+  from {
+    opacity: 0.3;
+    transform: translateY(-64px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ---- Переходы между страницами ---------------------------------------- */
 
 /* Обёртка страницы — в (site)/template.tsx, общие элементы — портрет врача и
