@@ -2,6 +2,7 @@ import { CookieBanner } from "@/components/analytics/cookie-banner";
 import { Metrika } from "@/components/analytics/metrika";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { Intro } from "@/components/intro";
 import { LeadModalProvider } from "@/components/lead/lead-modal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -30,6 +31,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       {/* Клиника в разметке Schema.org — на всех страницах: услуги и врачи
           ссылаются на неё по @id. */}
       <JsonLd data={clinicSchema()} />
+      <Intro />
       <SmoothScroll />
       <LeadModalProvider>
         <Header />

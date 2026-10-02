@@ -182,13 +182,13 @@
 @media (prefers-reduced-motion: no-preference) {
   .reveal-load {
     animation: reveal-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-    animation-delay: calc(var(--i, 0) * 90ms + 120ms);
+    animation-delay: calc(var(--i, 0) * 90ms + 120ms + var(--intro-delay, 0ms));
   }
 
   .rw-load .rw-block {
     display: block;
     animation: rw-wipe 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
-    animation-delay: calc(var(--i, 0) * 65ms + 100ms);
+    animation-delay: calc(var(--i, 0) * 65ms + 100ms + var(--intro-delay, 0ms));
   }
 }
 
@@ -374,6 +374,93 @@
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Заставка первого захода ------------------------------------------ */
+
+/* Компонент — src/components/intro.tsx, решение показывать — скрипт в
+   <head>, который ставит на <html> атрибут data-intro. Без атрибута
+   заставки нет. Раскладка по времени, всего ~1,5 с:
+     100–750 мс   с контура зуба съезжает шторка;
+     600–900 мс   знак заливается цветом, контур гаснет;
+     900–1500 мс  заставка уезжает вверх занавесом.
+   Анимации первого экрана сдвигаются на --intro-delay и начинаются, когда
+   занавес пошёл вверх. */
+.intro {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-intro] {
+    --intro-delay: 950ms;
+  }
+
+  :root[data-intro] .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-cream);
+    border-end-start-radius: var(--radius-card-lg);
+    border-end-end-radius: var(--radius-card-lg);
+    pointer-events: none;
+    animation: intro-lift 600ms cubic-bezier(0.76, 0, 0.24, 1) 900ms both;
+  }
+
+  .intro-mark {
+    animation: intro-mark-out 450ms ease-in 900ms both;
+  }
+
+  .intro-outline path {
+    fill: none;
+    stroke: var(--color-sky);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  /* Шторка уходит вверх, открывая контур снизу — как растёт зуб. */
+  .intro-plate {
+    transform-origin: top center;
+    animation: intro-unveil 650ms cubic-bezier(0.65, 0, 0.35, 1) 100ms both;
+  }
+
+  .intro-outline {
+    animation: intro-fade 300ms ease-out 600ms both reverse;
+  }
+
+  .intro-fill {
+    animation: intro-fade 300ms ease-out 600ms both;
+  }
+}
+
+@keyframes intro-unveil {
+  to {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes intro-lift {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes intro-mark-out {
+  to {
+    opacity: 0;
+    transform: translateY(-24px);
   }
 }
 

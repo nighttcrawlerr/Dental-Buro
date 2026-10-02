@@ -42,6 +42,15 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Решает до первой отрисовки, показывать ли заставку (src/components/intro.tsx):
+ * один раз за сессию, без «уменьшения движения», не в /admin. Через 3,2 с
+ * атрибут снимается — к этому времени отыграли и заставка, и отложенные ею
+ * анимации первого экрана, так что снятие задержки ничего не дёргает, а на
+ * следующих страницах первый экран снова появляется без ожидания.
+ */
+const introScript = `try{var d=document.documentElement;if(location.pathname.indexOf("/admin")!==0&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!sessionStorage.getItem("db-intro")){sessionStorage.setItem("db-intro","1");d.setAttribute("data-intro","");setTimeout(function(){d.removeAttribute("data-intro")},3200)}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // data-scroll-behavior: на время перехода Next выключает плавную прокрутку,
@@ -50,8 +59,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="ru"
       data-scroll-behavior="smooth"
+      // Атрибут data-intro ставит скрипт ниже до гидратации — расхождение
+      // с серверной разметкой здесь намеренное.
+      suppressHydrationWarning
       className={`${cormorant.variable} ${onest.variable} ${jetbrains.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+      </head>
       <body className="flex min-h-full flex-col bg-cream">
         {/* Оформление сайта (шапка, подвал, Метрика) — в layout группы
             (site): у закрытого раздела /admin его быть не должно. */}
