@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
+  comfortOptions,
   emptyLead,
   serviceOptions,
   validateLead,
@@ -304,6 +305,53 @@ export function LeadForm({
         />
         {errorText("comment")}
       </div>
+
+      {/* Пожелания к приёму свёрнуты: большинству они не нужны, и форма не
+          должна от них удлиняться. Тому, кто боится, достаточно увидеть
+          строку — и понять, что о страхе здесь думают. Флажки — обычные
+          поля формы, поэтому уходят и без скрипта. */}
+      <details className="group md:col-span-2">
+        <summary
+          className={cn(
+            "label-mono flex min-h-11 cursor-pointer list-none items-center gap-2 [&::-webkit-details-marker]:hidden",
+            tone.label,
+          )}
+        >
+          <span
+            aria-hidden="true"
+            className="inline-block transition-transform duration-200 group-open:rotate-90"
+          >
+            ›
+          </span>
+          Пожелания к приёму<span className="opacity-70"> · необязательно</span>
+        </summary>
+        <fieldset className="mt-3 flex flex-col gap-3">
+          <legend className="sr-only">Пожелания к приёму</legend>
+          {comfortOptions.map((option) => (
+            <label
+              key={option.value}
+              className={cn("flex cursor-pointer items-start gap-3 text-body", tone.note)}
+            >
+              <input
+                type="checkbox"
+                name="comfort"
+                value={option.value}
+                checked={values.comfort.includes(option.value)}
+                onChange={(e) =>
+                  update(
+                    "comfort",
+                    e.target.checked
+                      ? [...values.comfort, option.value]
+                      : values.comfort.filter((v) => v !== option.value),
+                  )
+                }
+                className={cn("mt-0.5 size-5 shrink-0 cursor-pointer", tone.check)}
+              />
+              {option.label}
+            </label>
+          ))}
+        </fieldset>
+      </details>
 
       <div className="flex flex-col gap-2 md:col-span-2">
         <div className="flex items-start gap-3">
