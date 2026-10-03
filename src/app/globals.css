@@ -380,6 +380,76 @@
   }
 }
 
+/* ---- Имплант в разрезе ------------------------------------------------ */
+
+/* Компонент — src/components/services/implant-anatomy.tsx. Части нарисованы
+   разобранными; анимация начинается с собранного вида и по прокрутке
+   раскладывает его. Секция высотой в два с лишним экрана, внутри — залипшая
+   сцена: пока сцена стоит, прокрутка двигает только детали.
+
+   Шкала — view-timeline самой секции, диапазон contain: ровно то время,
+   пока секция закрывает экран, то есть пока сцена залипла. Сдвигаются
+   только transform и opacity. Без поддержки, на узком или совсем низком
+   (до 640px) экране и при «уменьшении движения» секция обычной высоты,
+   рисунок разобран. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) and (min-height: 40rem) {
+    .implant-scene {
+      height: 240vh;
+      view-timeline: --implant block;
+    }
+
+    .implant-stage {
+      position: sticky;
+      top: 5rem;
+      display: flex;
+      align-items: center;
+      height: calc(100vh - 5rem);
+    }
+
+    .implant-stage .implant-figure {
+      height: calc(100vh - 10rem);
+    }
+
+    .implant-crown {
+      animation: implant-crown linear both;
+      animation-timeline: --implant;
+      animation-range: contain 8% contain 60%;
+    }
+
+    .implant-abutment {
+      animation: implant-abutment linear both;
+      animation-timeline: --implant;
+      animation-range: contain 8% contain 50%;
+    }
+
+    .implant-labels {
+      animation: implant-labels linear both;
+      animation-timeline: --implant;
+      animation-range: contain 55% contain 75%;
+    }
+  }
+}
+
+/* Собранное положение: на столько ниже нарисованного разобранного. */
+@keyframes implant-crown {
+  from {
+    transform: translateY(250px);
+  }
+}
+
+@keyframes implant-abutment {
+  from {
+    transform: translateY(120px);
+  }
+}
+
+@keyframes implant-labels {
+  from {
+    opacity: 0;
+  }
+}
+
 /* ---- Квиз расчёта стоимости ------------------------------------------- */
 
 /* Новый шаг въезжает так же, как блоки на странице. */

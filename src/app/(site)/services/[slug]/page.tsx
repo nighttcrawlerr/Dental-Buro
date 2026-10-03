@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ViewTransition } from "react";
 import { DoctorCard } from "@/components/doctors/doctor-card";
 import { FaqList } from "@/components/faq/faq-list";
+import { ImplantAnatomy } from "@/components/services/implant-anatomy";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BookButton } from "@/components/lead/book-button";
@@ -139,6 +140,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           </ul>
         </Container>
       </section>
+
+      {/* ---- Из чего состоит имплант ----------------------------------- */}
+      {service.slug === "implantaciya" ? <ImplantAnatomy /> : null}
 
       {/* ---- Как проходит ---------------------------------------------- */}
       <section className="grain bg-sky">
