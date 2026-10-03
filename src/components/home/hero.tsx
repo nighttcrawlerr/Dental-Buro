@@ -1,10 +1,11 @@
+import { preload } from "react-dom";
 import { BookButton } from "@/components/lead/book-button";
 import { Button } from "@/components/ui/button";
 import { HeroMedia } from "@/components/home/hero-media";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { Reveal } from "@/components/ui/reveal";
 import { Container } from "@/components/ui/container";
-import { facts } from "@/content/site";
+import { facts, heroMedia } from "@/content/site";
 
 /**
  * Первый экран.
@@ -17,6 +18,11 @@ import { facts } from "@/content/site";
  * строк, это придаёт им утвердительность.
  */
 export function Hero() {
+  // Постер видео — самый крупный элемент первого экрана, по нему меряется
+  // скорость загрузки (LCP). Сам по себе постер браузер находит поздно и
+  // грузит с низким приоритетом; предзагрузка ставит его в начало очереди.
+  if (heroMedia) preload(heroMedia.poster, { as: "image", fetchPriority: "high" });
+
   return (
     <section className="hero-panel relative isolate bg-espresso">
       <HeroMedia />
