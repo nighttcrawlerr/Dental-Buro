@@ -1,5 +1,5 @@
 import { doctors, services } from "@/content/site";
-import { visitTimes } from "./lead";
+import { comfortOptions, visitTimes } from "./lead";
 
 /** Дата и время заявки по Москве — сервер может стоять в любом часовом поясе. */
 const dateTime = new Intl.DateTimeFormat("ru-RU", {
@@ -20,6 +20,11 @@ export function serviceTitle(slug: string) {
 
 export function visitTimeLabel(value: string) {
   return visitTimes.find((t) => t.value === value)?.label ?? value;
+}
+
+/** Пожелания к приёму словами, по одному на строку. */
+export function comfortLabels(values: string[]) {
+  return comfortOptions.filter((c) => values.includes(c.value)).map((c) => c.label);
 }
 
 export function doctorName(slug: string | null) {

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/admin-auth";
 import {
+  comfortLabels,
   doctorName,
   formatLeadDate,
   prettyPhone,
@@ -23,6 +24,7 @@ export default async function LeadPage({ params }: PageProps<"/admin/leads/[id]"
 
   const doctor = doctorName(lead.doctor);
   const utm = Object.entries(lead.utm);
+  const comfort = comfortLabels(lead.comfort);
   const rows: [string, React.ReactNode][] = [
     ["Получена", formatLeadDate(lead.createdAt)],
     ["Имя", lead.name],
@@ -36,6 +38,7 @@ export default async function LeadPage({ params }: PageProps<"/admin/leads/[id]"
     ["Удобное время", visitTimeLabel(lead.visitTime)],
     ...(doctor ? [["Врач", doctor] as [string, string]] : []),
     ...(lead.comment ? [["Комментарий", lead.comment] as [string, string]] : []),
+    ...(comfort.length ? [["Пожелания", comfort.join("\n")] as [string, string]] : []),
     ...(lead.page ? [["Страница", new URL(lead.page).pathname] as [string, string]] : []),
     ...(utm.length ? [["UTM", utm.map(([k, v]) => `${k}: ${v}`).join(", ")] as [string, string]] : []),
   ];

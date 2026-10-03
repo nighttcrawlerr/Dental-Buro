@@ -24,6 +24,7 @@ export type StoredLead = {
   service: string;
   visitTime: string;
   comment: string;
+  comfort: string[];
   doctor: string | null;
   page: string | null;
   utm: Record<string, string>;
@@ -39,6 +40,7 @@ type Row = {
   service: string;
   visit_time: string;
   comment: string;
+  comfort: string[];
   doctor: string | null;
   page: string | null;
   utm: Record<string, string>;
@@ -55,6 +57,7 @@ function fromRow(r: Row): StoredLead {
     service: r.service,
     visitTime: r.visit_time,
     comment: r.comment,
+    comfort: r.comfort,
     doctor: r.doctor,
     page: r.page,
     utm: r.utm,
@@ -70,10 +73,10 @@ export async function saveLead(
 ) {
   const utm = Object.fromEntries(Object.entries(meta.utm ?? {}).filter(([, v]) => v));
   const [row] = await db()<{ id: number }[]>`
-    insert into leads (name, phone, service, visit_time, comment, doctor, page, utm)
+    insert into leads (name, phone, service, visit_time, comment, comfort, doctor, page, utm)
     values (
       ${lead.name}, ${lead.phone}, ${lead.service}, ${lead.time}, ${lead.comment},
-      ${meta.doctor ?? null}, ${meta.page ?? null}, ${db().json(utm)}
+      ${lead.comfort}, ${meta.doctor ?? null}, ${meta.page ?? null}, ${db().json(utm)}
     )
     returning id
   `;

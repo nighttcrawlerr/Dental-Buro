@@ -17,6 +17,24 @@ export const visitTimes = [
 
 export type VisitTime = (typeof visitTimes)[number]["value"];
 
+/**
+ * Пожелания к приёму. Сформулированы как пожелания к ходу визита, а не как
+ * сведения о здоровье: «я очень боюсь» или «у меня аллергия» в заявке —
+ * медицинские данные, а их через сайт не собираем. Седация — услуга из
+ * прайса, интерес к ней — то же, что выбор услуги.
+ *
+ * Только то, что зависит от поведения врача. Наушники, плед, сериал в
+ * кресле добавятся, когда клиника подтвердит, что они у неё есть.
+ */
+export const comfortOptions = [
+  { value: "explain", label: "Объясняйте каждый шаг заранее" },
+  { value: "stop", label: "Договоримся о сигнале «стоп»" },
+  { value: "breaks", label: "Нужны перерывы во время приёма" },
+  { value: "sedation", label: "Хочу обсудить седацию" },
+] as const;
+
+export type ComfortOption = (typeof comfortOptions)[number]["value"];
+
 /** Пустое значение — «не знаю, что нужно». Это самый частый ответ, и он законный. */
 export const serviceOptions = [
   { value: "", label: "Пока не знаю — нужна консультация" },
@@ -38,6 +56,14 @@ export const leadSchema = z.object({
   service: z.string().refine((v) => v === "" || serviceSlugs.has(v), "Выберите услугу из списка"),
   time: z.enum(visitTimes.map((t) => t.value) as [VisitTime, ...VisitTime[]], "Выберите время из списка"),
   comment: z.string().trim().max(1000, "Не больше 1000 символов"),
+  comfort: z
+    .array(
+      z.enum(
+        comfortOptions.map((c) => c.value) as [ComfortOption, ...ComfortOption[]],
+        "Выберите пожелания из списка",
+      ),
+    )
+    .max(comfortOptions.length),
   consent: z.boolean().refine(Boolean, "Без согласия мы не можем принять заявку"),
 });
 
@@ -55,6 +81,7 @@ export const emptyLead: LeadInput = {
   service: "",
   time: "any",
   comment: "",
+  comfort: [],
   consent: false,
 };
 

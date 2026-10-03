@@ -24,5 +24,10 @@ create table if not exists leads (
   updated_at  timestamptz not null default now()
 );
 
+-- Пожелания к приёму (comfortOptions в src/lib/lead.ts). Добавлено после
+-- первого запуска, поэтому отдельной командой: на существующей базе таблица
+-- уже есть, и create table выше её не тронет.
+alter table leads add column if not exists comfort text[] not null default '{}';
+
 create index if not exists leads_created_at_idx on leads (created_at desc);
 create index if not exists leads_status_idx on leads (status);

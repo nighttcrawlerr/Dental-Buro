@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { clinic, doctors, services } from "@/content/site";
-import { leadSchema, visitTimes, type Lead } from "@/lib/lead";
+import { comfortOptions, leadSchema, visitTimes, type Lead } from "@/lib/lead";
 import { saveLead } from "@/lib/leads-repo";
 import { createRateLimit } from "@/lib/rate-limit";
 import { absoluteUrl } from "@/lib/site-url";
@@ -62,6 +62,7 @@ async function readForm(request: Request) {
     service: text("service") ?? "",
     time: text("time") ?? "any",
     comment: text("comment") ?? "",
+    comfort: form.getAll("comfort").filter((v): v is string => typeof v === "string"),
     // Отмеченный чекбокс браузер присылает как «on», неотмеченный — никак.
     consent: form.get("consent") !== null,
     website: text("website"),
@@ -186,6 +187,11 @@ function formatNotification(
 
   const doctorName = doctors.find((d) => d.slug === doctor)?.name;
   if (doctorName) lines.push(`<b>Врач:</b> ${escapeHtml(doctorName)}`);
+
+  // Пожелания — не персональные данные: по ним человека не узнать, а
+  // администратору полезно знать заранее, например, что зовут на седацию.
+  const comfort = comfortOptions.filter((c) => lead.comfort.includes(c.value)).map((c) => c.label);
+  if (comfort.length) lines.push(`<b>Пожелания:</b> ${escapeHtml(comfort.join("; "))}`);
 
   // Страницу показываем без домена и параметров. Адрес присылает браузер, и
   // полная ссылка позволила бы спамеру положить в чат клиники любую ссылку.
