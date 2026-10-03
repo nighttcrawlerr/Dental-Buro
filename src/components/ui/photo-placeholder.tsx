@@ -14,6 +14,7 @@ export function PhotoPlaceholder({
   label,
   ratio = "portrait",
   decorative,
+  surface = "light",
   className,
 }: {
   label: string;
@@ -24,6 +25,11 @@ export function PhotoPlaceholder({
    */
   decorative?: boolean;
   ratio?: "portrait" | "landscape" | "square";
+  /**
+   * Поверхность, на которой стоит заглушка, — от неё цвет подписи. Серый
+   * graphite на бежевой заливке давал 3.91, ниже нормы 4.5 для мелкого текста.
+   */
+  surface?: "light" | "dark";
   className?: string;
 }) {
   const ratioClass = {
@@ -43,7 +49,14 @@ export function PhotoPlaceholder({
         className,
       )}
     >
-      <span className="label-mono px-4 text-center text-graphite">{label}</span>
+      <span
+        className={cn(
+          "label-mono px-4 text-center",
+          surface === "dark" ? "text-stone" : "text-ink",
+        )}
+      >
+        {label}
+      </span>
     </div>
   );
 }

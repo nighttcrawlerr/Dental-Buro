@@ -51,6 +51,7 @@ export function CtaSection() {
           <PhotoPlaceholder
             label="Карта проезда"
             ratio="landscape"
+            surface="dark"
             className="h-full w-full border-hairline-dark bg-espresso"
           />
         </div>
