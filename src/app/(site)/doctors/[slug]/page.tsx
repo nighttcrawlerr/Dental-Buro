@@ -44,6 +44,7 @@ export async function generateMetadata({
     title: `${doctor.name}, ${doctor.role.toLowerCase()}`,
     description: `${doctor.role}, ${doctor.experience}. ${doctor.focus}. Образование, квалификация и стоимость консультации.`,
     path: `/doctors/${slug}`,
+    ownImage: true,
   });
 }
 

@@ -57,6 +57,7 @@ export async function generateMetadata({
     title: `${found.service.title} — ${formatPriceFrom(found.service.priceFrom)}`,
     description: found.details.intro,
     path: `/services/${slug}`,
+    ownImage: true,
   });
 }
 
