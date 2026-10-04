@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { heroMedia } from "@/content/site";
 
 /**
@@ -19,15 +19,17 @@ import { heroMedia } from "@/content/site";
  * пустым, даже пока видео качается.
  *
  * Видео декоративное: оно ничего не сообщает сверх текста рядом, поэтому
- * скрыто от скринридера. Но кнопка паузы у него есть: движение, которое
- * запускается само и идёт дольше 5 секунд, человек должен уметь остановить
- * (WCAG 2.2.2, уровень A — декоративность от этого не освобождает).
+ * скрыто от скринридера.
+ *
+ * Кнопки паузы нет — решение владельца, кнопка мешала первому экрану. Это
+ * отступление от WCAG 2.2.2 (уровень A): движение, которое запускается само
+ * и идёт дольше 5 секунд, человек должен уметь остановить. Смягчает то, что
+ * при «уменьшении движения» и на телефоне видео не запускается вовсе. Если
+ * понадобится строгое соответствие — вернуть кнопку (см. историю git) или
+ * останавливать видео через 5 секунд.
  */
 export function HeroMedia() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  // off — видео не запускалось (телефон, «уменьшение движения», отказ
-  // браузера): управлять нечем, кнопки нет.
-  const [status, setStatus] = useState<"off" | "playing" | "paused">("off");
 
   useEffect(() => {
     const video = videoRef.current;
@@ -39,25 +41,11 @@ export function HeroMedia() {
 
     if (!allowed) return;
 
-    video
-      .play()
-      .then(() => setStatus("playing"))
-      .catch(() => {
-        // Браузер вправе отказать в автопроигрывании. Остаётся постер —
-        // первый экран от этого не ломается.
-      });
+    video.play().catch(() => {
+      // Браузер вправе отказать в автопроигрывании. Остаётся постер —
+      // первый экран от этого не ломается.
+    });
   }, []);
-
-  function toggle() {
-    const video = videoRef.current;
-    if (!video) return;
-    if (status === "playing") {
-      video.pause();
-      setStatus("paused");
-    } else {
-      video.play().then(() => setStatus("playing")).catch(() => {});
-    }
-  }
 
   if (!heroMedia) return null;
 
@@ -86,23 +74,6 @@ export function HeroMedia() {
         */}
         <div className="absolute inset-0 bg-espresso/75" />
       </div>
-
-      {status !== "off" ? (
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={status === "playing" ? "Остановить фоновое видео" : "Включить фоновое видео"}
-          className="absolute right-4 bottom-4 z-10 flex size-11 items-center justify-center rounded-button border border-cream/40 text-cream transition-colors hover:bg-cream hover:text-ink sm:right-6 sm:bottom-6"
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="size-4">
-            {status === "playing" ? (
-              <path d="M7 5h3v14H7zM14 5h3v14h-3z" />
-            ) : (
-              <path d="M8 5l11 7-11 7z" />
-            )}
-          </svg>
-        </button>
-      ) : null}
     </div>
   );
 }
