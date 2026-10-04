@@ -52,7 +52,7 @@ export function CtaSection() {
             label="Карта проезда"
             ratio="landscape"
             surface="dark"
-            className="h-full w-full border-hairline-dark bg-espresso"
+            className="h-full w-full"
           />
         </div>
       </Container>

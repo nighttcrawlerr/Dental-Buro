@@ -26,8 +26,10 @@ export function PhotoPlaceholder({
   decorative?: boolean;
   ratio?: "portrait" | "landscape" | "square";
   /**
-   * Поверхность, на которой стоит заглушка, — от неё цвет подписи. Серый
-   * graphite на бежевой заливке давал 3.91, ниже нормы 4.5 для мелкого текста.
+   * Поверхность, на которой стоит заглушка, — от неё заливка, рамка и цвет
+   * подписи. Именно пропом, а не классами снаружи: cn классы не сливает, и
+   * переданный bg-espresso проигрывал собственному bg-linen — заглушка в
+   * тёмной секции оставалась бежевой.
    */
   surface?: "light" | "dark";
   className?: string;
@@ -44,7 +46,8 @@ export function PhotoPlaceholder({
         ? { "aria-hidden": true }
         : { role: "img", "aria-label": `Заглушка: ${label}` })}
       className={cn(
-        "media-in flex items-center justify-center rounded-media border border-dashed border-stone bg-linen",
+        "media-in flex items-center justify-center rounded-media border border-dashed",
+        surface === "dark" ? "border-hairline-dark bg-espresso" : "border-stone bg-linen",
         ratioClass,
         className,
       )}
