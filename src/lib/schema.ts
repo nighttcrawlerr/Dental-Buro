@@ -1,5 +1,5 @@
 import type { ServiceFaq } from "@/content/service-details";
-import { clinic, type Doctor, type Service } from "@/content/site";
+import { clinic, legal, type Doctor, type Service } from "@/content/site";
 import { absoluteUrl } from "./site-url";
 
 /**
@@ -21,7 +21,11 @@ export function clinicSchema() {
     "@type": "Dentist",
     "@id": clinicId,
     name: clinic.legalName,
+    legalName: legal.fullName,
+    taxID: legal.inn,
+    medicalSpecialty: "https://schema.org/Dentistry",
     url: absoluteUrl("/"),
+    logo: absoluteUrl("/icon.svg"),
     image: absoluteUrl("/opengraph-image"),
     telephone: clinic.phoneHref.replace("tel:", ""),
     email: clinic.email,
@@ -50,27 +54,45 @@ const dayNames: Record<string, string> = {
   Su: "Sunday",
 };
 
-/** Услуга с ценой «от». */
+/**
+ * Услуга с ценой «от». Тип Service, а не MedicalProcedure: у процедуры в
+ * Schema.org нет ни цены, ни исполнителя, и валидатор ругается на offers.
+ * Точной цены (price) нет намеренно — на странице цена «от», и в разметке
+ * только нижняя граница.
+ */
 export function serviceSchema(service: Service, description: string) {
+  const url = absoluteUrl(`/services/${service.slug}`);
   return {
     "@context": "https://schema.org",
-    "@type": "MedicalProcedure",
+    "@type": "Service",
+    "@id": `${url}#service`,
     name: service.title,
+    serviceType: service.title,
     description,
-    url: absoluteUrl(`/services/${service.slug}`),
-    // У MedicalProcedure нет своей цены — цену и исполнителя несёт
-    // предложение (Offer), привязанное к клинике.
+    url,
+    provider: { "@id": clinicId },
     offers: {
       "@type": "Offer",
       priceCurrency: "RUB",
-      price: service.priceFrom,
       priceSpecification: {
         "@type": "PriceSpecification",
         minPrice: service.priceFrom,
         priceCurrency: "RUB",
       },
-      offeredBy: { "@id": clinicId },
     },
+  };
+}
+
+/** Сайт целиком — по нему поисковик берёт название сайта для выдачи. */
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": absoluteUrl("/#website"),
+    name: clinic.legalName,
+    url: absoluteUrl("/"),
+    inLanguage: "ru-RU",
+    publisher: { "@id": clinicId },
   };
 }
 

@@ -4,8 +4,10 @@ import { DoctorsSection } from "@/components/home/doctors-section";
 import { Hero } from "@/components/home/hero";
 import { ReviewsSection } from "@/components/home/reviews-section";
 import { ServicesSection } from "@/components/home/services-section";
+import { JsonLd } from "@/components/seo/json-ld";
 import { TreatmentSection } from "@/components/home/treatment-section";
 import { pageMetadata } from "@/lib/metadata";
+import { websiteSchema } from "@/lib/schema";
 
 // Заголовок — из layout (title.default), здесь только canonical и превью.
 export const metadata = pageMetadata({
@@ -32,6 +34,7 @@ export const metadata = pageMetadata({
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={websiteSchema()} />
       <Hero />
       <ServicesSection />
       <AdvantagesSection />
