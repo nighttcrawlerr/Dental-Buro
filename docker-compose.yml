@@ -1,0 +1,42 @@
+# Сайт на одной виртуальной машине: приложение и Caddy перед ним.
+#
+# Caddy принимает 80/443, сам получает и продлевает сертификат Let's Encrypt
+# и проксирует в приложение. Порт приложения наружу не открыт — только через
+# Caddy, иначе можно было бы обойти HTTPS.
+#
+# Переменные — в .env.production рядом с этим файлом (см. .env.example).
+# Запуск и обновление — scripts/deploy.sh.
+
+services:
+  app:
+    build:
+      context: .
+      # Вшиваются в страницы при сборке — после смены нужна пересборка.
+      args:
+        SITE_URL: ${SITE_URL:-}
+        NEXT_PUBLIC_YM_ID: ${NEXT_PUBLIC_YM_ID:-}
+    env_file: .env.production
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      # Пока домена нет — ":80", сайт открывается по IP без HTTPS.
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Сертификаты. Без тома Caddy запрашивал бы их заново при каждом
+      # перезапуске и упёрся бы в лимиты Let's Encrypt.
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,9 @@
+# Адрес сайта — из SITE_ADDRESS (docker-compose.yml). С доменом Caddy сам
+# включает HTTPS и редирект с http.
+#
+# X-Forwarded-For Caddy не берёт у посетителя, а ставит сам — по нему
+# приложение ограничивает частоту заявок и попыток входа.
+{$SITE_ADDRESS::80} {
+	encode zstd gzip
+	reverse_proxy app:3000
+}
