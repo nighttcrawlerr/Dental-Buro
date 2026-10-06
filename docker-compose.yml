@@ -17,6 +17,12 @@ services:
         NEXT_PUBLIC_YM_ID: ${NEXT_PUBLIC_YM_ID:-}
         SITE_INDEXING: ${SITE_INDEXING:-}
     env_file: .env.production
+    # Из облака в РФ часть адресов Telegram API недоступна, в том числе тот,
+    # что отдаёт DNS для api.telegram.org: заявка сохранялась, а уведомление
+    # не уходило. Закрепляем рабочий адрес. Перестанут приходить уведомления —
+    # подобрать другой из 149.154.160.0/20 и вписать в TELEGRAM_API_IP.
+    extra_hosts:
+      - "api.telegram.org:${TELEGRAM_API_IP:-149.154.167.220}"
     restart: unless-stopped
 
   caddy:
