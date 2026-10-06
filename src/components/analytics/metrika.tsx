@@ -40,7 +40,8 @@ export function Metrika() {
 
     const script = document.createElement("script");
     script.async = true;
-    script.src = "https://mc.yandex.ru/metrika/tag.js";
+    // Номер в адресе — как в актуальном коде счётчика из интерфейса Метрики.
+    script.src = `https://mc.yandex.ru/metrika/tag.js?id=${metrikaId}`;
     document.head.appendChild(script);
 
     w.ym(metrikaId, "init", {
