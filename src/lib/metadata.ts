@@ -18,6 +18,9 @@ const defaultTitle = `${siteName} — стоматология полного ц
  * opengraph-image, и общее превью их перекрывало бы — хотя документация
  * обещает обратное, на деле побеждает объект. Такие страницы передают
  * ownImage, и общее превью не подставляется.
+ *
+ * twitter задан только типом карточки: заголовок, описание и картинку X
+ * берёт из openGraph сам.
  */
 export function pageMetadata({
   title,
@@ -50,6 +53,7 @@ export function pageMetadata({
       description,
       ...(ownImage ? {} : { images: [{ url: "/opengraph-image", ...ogSize, alt: defaultTitle }] }),
     },
+    twitter: { card: "summary_large_image" },
     ...(noindex ? { robots: { index: false, follow: true } } : {}),
   };
 }
