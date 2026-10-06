@@ -4,6 +4,12 @@
 # X-Forwarded-For Caddy не берёт у посетителя, а ставит сам — по нему
 # приложение ограничивает частоту заявок и попыток входа.
 {$SITE_ADDRESS::80} {
+	# www — постоянный редирект на домен без www: одна версия сайта для
+	# поисковиков. SITE_ADDRESS при этом перечисляет оба адреса, чтобы Caddy
+	# получил сертификат и на www.
+	@www expression {host}.startsWith("www.")
+	redir @www https://{labels.1}.{labels.0}{uri} permanent
+
 	encode zstd gzip
 	reverse_proxy app:3000
 }
