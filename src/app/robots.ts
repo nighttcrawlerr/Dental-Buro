@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl, isLiveSite } from "@/lib/site-url";
+import { absoluteUrl, allowIndexing } from "@/lib/site-url";
 
 /**
  * robots.txt. Закрываем то, что не нужно в поиске: API, страницу
@@ -7,7 +7,8 @@ import { absoluteUrl, isLiveSite } from "@/lib/site-url";
  * аналитике) и витрину дизайн-системы.
  *
  * Пока сайт не на боевом домене, закрыт целиком: тестовая копия в выдаче
- * потом годами конкурирует с настоящим сайтом за те же запросы.
+ * потом годами конкурирует с настоящим сайтом за те же запросы. Так же
+ * закрыт боевой сайт с SITE_INDEXING=off — пока на нём заглушки.
  *
  * Host нет: Яндекс перестал его читать в 2018-м, главное зеркало задаётся
  * редиректом и в Вебмастере.
@@ -32,7 +33,7 @@ const trackingParams = [
   "fbclid",
 ];
 export default function robots(): MetadataRoute.Robots {
-  if (!isLiveSite) {
+  if (!allowIndexing) {
     return { rules: { userAgent: "*", disallow: "/" } };
   }
 

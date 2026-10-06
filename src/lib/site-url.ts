@@ -20,3 +20,10 @@ export function absoluteUrl(path: string) {
  * robots.txt открывает сайт поисковикам, а служебные страницы прячутся.
  */
 export const isLiveSite = configured !== undefined && !siteUrl.includes("localhost");
+
+/**
+ * Открыт ли сайт поисковикам. Отдельно от isLiveSite: сайт может уже
+ * работать на домене, но с контентом-заглушкой, и в выдачу ему рано —
+ * тогда SITE_INDEXING=off.
+ */
+export const allowIndexing = isLiveSite && process.env.SITE_INDEXING !== "off";
