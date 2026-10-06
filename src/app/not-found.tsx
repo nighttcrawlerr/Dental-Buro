@@ -1,8 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteChrome } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { clinic } from "@/content/site";
+
+// Без своего заголовка во вкладке и в истории стоял бы заголовок главной.
+export const metadata: Metadata = { title: "Страница не найдена" };
 
 const popular = [
   { label: "Услуги и цены", href: "/services" },
