@@ -4,6 +4,7 @@ import { comfortOptions, leadSchema, visitTimes, type Lead } from "@/lib/lead";
 import { saveLead } from "@/lib/leads-repo";
 import { createRateLimit } from "@/lib/rate-limit";
 import { absoluteUrl } from "@/lib/site-url";
+import { isEmailConfigured, sendEmail } from "@/lib/email";
 import { escapeHtml, sendTelegramMessage } from "@/lib/telegram";
 
 /**
@@ -12,7 +13,7 @@ import { escapeHtml, sendTelegramMessage } from "@/lib/telegram";
  * Порядок проверок — от дешёвых к дорогим: сначала частота, потом ловушка
  * для ботов, потом разбор полей. Дальше заявка сохраняется в базу (она на
  * российском хостинге — это требование закона о персональных данных), и
- * только потом в Telegram уходит уведомление без имени и телефона.
+ * только потом в Telegram и на почту уходит уведомление без имени и телефона.
  */
 
 const utmValue = z.string().max(200).optional();
@@ -148,25 +149,36 @@ export async function POST(request: Request) {
   }
 
   // Уведомление — уже необязательная часть. Заявка сохранена, поэтому сбой
-  // Telegram человек не видит: администратор найдёт заявку в списке.
-  try {
-    await sendTelegramMessage(formatNotification(id, lead, { page, utm, doctor: knownDoctor }));
-  } catch (error) {
-    console.error(`[lead] Заявка №${id} сохранена, но уведомление не ушло:`, error);
+  // канала человек не видит: администратор найдёт заявку в списке. Каналы
+  // независимы — Telegram из облака в РФ бывает недоступен, тогда остаётся
+  // почта.
+  const notification = buildNotification(id, lead, { page, utm, doctor: knownDoctor });
+  const channels: [string, Promise<void>][] = [["Telegram", sendTelegramMessage(toTelegram(notification))]];
+  if (isEmailConfigured()) {
+    channels.push(["почта", sendEmail(`Новая заявка №${id}`, toPlainText(notification))]);
   }
+  const results = await Promise.allSettled(channels.map(([, sending]) => sending));
+  results.forEach((result, i) => {
+    if (result.status === "rejected") {
+      console.error(`[lead] Заявка №${id} сохранена, но уведомление (${channels[i][0]}) не ушло:`, result.reason);
+    }
+  });
 
   return success();
 }
 
+type Notification = { title: string; rows: [label: string, value: string][]; url: string };
+
 /**
- * Уведомление в Telegram — без персональных данных.
+ * Уведомление о заявке — без персональных данных.
  *
  * Серверы Telegram за границей, поэтому имени, телефона и комментария здесь
  * нет (в комментарии человек тоже может написать о себе что угодно). Только
  * номер заявки, что и когда человек хочет, и ссылка на карточку в закрытом
- * разделе сайта, где лежит всё остальное.
+ * разделе сайта, где лежит всё остальное. Письмо собирается из того же
+ * набора: одно правило для всех каналов проще проверить.
  */
-function formatNotification(
+function buildNotification(
   id: number,
   lead: Lead,
   {
@@ -174,34 +186,52 @@ function formatNotification(
     utm,
     doctor,
   }: { page?: string; utm?: Partial<Record<string, string>>; doctor?: string },
-) {
+): Notification {
   const service = services.find((s) => s.slug === lead.service)?.title ?? "Консультация, услуга не выбрана";
   const time = visitTimes.find((t) => t.value === lead.time)?.label ?? lead.time;
 
-  const lines = [
-    `<b>Новая заявка №${id}</b>`,
-    "",
-    `<b>Услуга:</b> ${escapeHtml(service)}`,
-    `<b>Удобное время:</b> ${escapeHtml(time)}`,
+  const rows: Notification["rows"] = [
+    ["Услуга", service],
+    ["Удобное время", time],
   ];
 
   const doctorName = doctors.find((d) => d.slug === doctor)?.name;
-  if (doctorName) lines.push(`<b>Врач:</b> ${escapeHtml(doctorName)}`);
+  if (doctorName) rows.push(["Врач", doctorName]);
 
   // Пожелания — не персональные данные: по ним человека не узнать, а
   // администратору полезно знать заранее, например, что зовут на седацию.
   const comfort = comfortOptions.filter((c) => lead.comfort.includes(c.value)).map((c) => c.label);
-  if (comfort.length) lines.push(`<b>Пожелания:</b> ${escapeHtml(comfort.join("; "))}`);
+  if (comfort.length) rows.push(["Пожелания", comfort.join("; ")]);
 
   // Страницу показываем без домена и параметров. Адрес присылает браузер, и
   // полная ссылка позволила бы спамеру положить в чат клиники любую ссылку.
-  if (page) lines.push(`<b>Страница:</b> ${escapeHtml(new URL(page).pathname)}`);
+  if (page) rows.push(["Страница", new URL(page).pathname]);
 
-  const utmEntries = Object.entries(utm ?? {}).filter((e): e is [string, string] => Boolean(e[1]));
-  if (utmEntries.length) {
-    lines.push(...utmEntries.map(([k, v]) => `<b>${escapeHtml(k)}:</b> ${escapeHtml(v)}`));
+  for (const [key, value] of Object.entries(utm ?? {})) {
+    if (value) rows.push([key, value]);
   }
 
-  lines.push("", `<a href="${absoluteUrl(`/admin/leads/${id}`)}">Открыть заявку</a>`);
-  return lines.join("\n");
+  return { title: `Новая заявка №${id}`, rows, url: absoluteUrl(`/admin/leads/${id}`) };
+}
+
+function toTelegram({ title, rows, url }: Notification) {
+  return [
+    `<b>${escapeHtml(title)}</b>`,
+    "",
+    ...rows.map(([label, value]) => `<b>${escapeHtml(label)}:</b> ${escapeHtml(value)}`),
+    "",
+    `<a href="${url}">Открыть заявку</a>`,
+  ].join("\n");
+}
+
+function toPlainText({ title, rows, url }: Notification) {
+  return [
+    title,
+    "",
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+    "",
+    `Открыть заявку: ${url}`,
+    "",
+    "Имя и телефон — в карточке заявки, в письмо они не попадают.",
+  ].join("\n");
 }

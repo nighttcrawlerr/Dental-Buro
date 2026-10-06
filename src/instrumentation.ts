@@ -25,7 +25,10 @@ export function register() {
 
   // Без этих сайт работает, но что-то теряет — предупреждаем, не падаем.
   if (!process.env.TELEGRAM_BOT_TOKEN || !process.env.TELEGRAM_CHAT_ID) {
-    console.warn("[env] Нет TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID: заявки сохраняются, но уведомлений не будет");
+    console.warn("[env] Нет TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID: заявки сохраняются, но в Telegram уведомлений не будет");
+  }
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASSWORD || !process.env.NOTIFY_EMAIL) {
+    console.warn("[env] Почта не настроена (SMTP_* и NOTIFY_EMAIL): уведомления о заявках только в Telegram");
   }
   if (!process.env.SITE_URL) {
     console.warn(
