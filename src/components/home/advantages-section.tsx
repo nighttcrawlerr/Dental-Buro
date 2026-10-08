@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { advantages } from "@/content/site";
 
 /**
- * «Почему Dental Buro» — единственная холодная полоса на главной.
+ * «Почему Дентал Бюро» — единственная холодная полоса на главной.
  *
  * Переход на Sky Silver сам работает разделителем: в дизайн-системе смена
  * поверхности заменяет линию, поэтому никакого бордюра между секциями нет.
@@ -19,7 +19,7 @@ export function AdvantagesSection() {
           className="reveal"
           surface="sky"
           counter={{ current: 2, total: 5 }}
-          title="Почему Dental Buro"
+          title="Почему «Дентал Бюро»"
           description="Четыре вещи, из-за которых к нам возвращаются и приводят родителей и детей."
         />
 

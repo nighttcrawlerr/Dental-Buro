@@ -37,7 +37,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "privacy",
     title: "Политика обработки персональных данных",
-    description: "Какие данные собирает сайт Dental Buro, зачем, как долго хранит и как их удалить.",
+    description: "Какие данные собирает сайт клиники «Дентал Бюро», зачем, как долго хранит и как их удалить.",
     updatedAt: "[ДАТА]",
     draft: true,
     sections: [
@@ -139,7 +139,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "consent",
     title: "Согласие на обработку персональных данных",
-    description: "Текст согласия, которое посетитель даёт, отправляя заявку на сайте Dental Buro.",
+    description: "Текст согласия, которое посетитель даёт, отправляя заявку на сайте клиники «Дентал Бюро».",
     updatedAt: "[ДАТА]",
     draft: true,
     sections: [
@@ -161,7 +161,7 @@ export const legalDocs: LegalDoc[] = [
   {
     slug: "terms",
     title: "Пользовательское соглашение",
-    description: "Условия использования сайта клиники Dental Buro.",
+    description: "Условия использования сайта клиники «Дентал Бюро».",
     updatedAt: "[ДАТА]",
     draft: true,
     sections: [

@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { brand } from "@/content/site";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
@@ -74,7 +75,7 @@ export async function renderOgImage({
         >
           <div style={{ color: "#c6bcb2" }}>{note ?? ""}</div>
           <div style={{ letterSpacing: 6, textTransform: "uppercase", fontSize: 22 }}>
-            Dental Buro Clinic
+            {brand.fullName}
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { brand } from "@/content/site";
 import { ogSize } from "@/lib/og-image";
 
-const siteName = "Dental Buro Clinic";
+const siteName = brand.fullName;
 const defaultTitle = `${siteName} — стоматология полного цикла`;
 
 /**

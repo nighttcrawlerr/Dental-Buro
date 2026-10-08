@@ -3,7 +3,7 @@ import { formatPriceFrom } from "@/lib/format";
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og-image";
 
 /** Превью страницы услуги: название и цена «от» — то, что решает клик. */
-export const alt = "Услуга клиники Dental Buro";
+export const alt = "Услуга клиники «Дентал Бюро»";
 export const size = ogSize;
 export const contentType = ogContentType;
 

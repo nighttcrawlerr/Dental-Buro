@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="border-b border-hairline bg-paper">
         <Container className="flex h-16 items-center justify-between gap-6">
           <Link href="/admin/leads" className="label-mono text-ink">
-            Dental Buro · Заявки
+            Дентал Бюро · Заявки
           </Link>
           {signedIn ? (
             <form action={logout}>

@@ -19,7 +19,7 @@ export default function GlobalError({ retry }: { error: Error; retry: () => void
           fontFamily: "Georgia, serif",
         }}
       >
-        <title>Ошибка — Dental Buro Clinic</title>
+        <title>Ошибка — Дентал Бюро Клиник</title>
         <main style={{ maxWidth: "36rem", margin: "0 auto", padding: "6rem 1.5rem" }}>
           <h1 style={{ fontWeight: 400, fontSize: "2.5rem", lineHeight: 1.1, margin: 0 }}>
             Что-то пошло не так.

@@ -1,5 +1,5 @@
 import type { ServiceFaq } from "@/content/service-details";
-import { clinic, legal, type Doctor, type Service } from "@/content/site";
+import { brand, clinic, legal, type Doctor, type Service } from "@/content/site";
 import { absoluteUrl } from "./site-url";
 
 /**
@@ -21,6 +21,9 @@ export function clinicSchema() {
     "@type": "Dentist",
     "@id": clinicId,
     name: clinic.legalName,
+    // Латиница — только здесь: посетитель её не видит, а поиск по
+    // «dental buro» связывает запрос с клиникой.
+    alternateName: brand.latinName,
     legalName: legal.fullName,
     taxID: legal.inn,
     medicalSpecialty: "https://schema.org/Dentistry",
@@ -90,6 +93,7 @@ export function websiteSchema() {
     "@type": "WebSite",
     "@id": absoluteUrl("/#website"),
     name: clinic.legalName,
+    alternateName: brand.latinName,
     url: absoluteUrl("/"),
     inLanguage: "ru-RU",
     publisher: { "@id": clinicId },

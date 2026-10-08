@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Отзывы",
   description:
-    "Отзывы пациентов клиники Dental Buro об имплантации, ортодонтии, эстетике, хирургии и детской стоматологии.",
+    "Отзывы пациентов клиники «Дентал Бюро» об имплантации, ортодонтии, эстетике, хирургии и детской стоматологии.",
   path: "/reviews",
 });
 

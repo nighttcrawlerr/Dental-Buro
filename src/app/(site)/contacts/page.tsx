@@ -13,7 +13,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "Контакты",
   description:
-    `Адрес, телефон и часы работы клиники Dental Buro. ${clinic.address}. ${clinic.schedule}.`,
+    `Адрес, телефон и часы работы клиники «Дентал Бюро». ${clinic.address}. ${clinic.schedule}.`,
   path: "/contacts",
 });
 

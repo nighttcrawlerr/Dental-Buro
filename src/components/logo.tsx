@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useId } from "react";
+import { brand } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 /**
- * Знак Dental Buro — силуэт зуба, рассечённый диагональю на две доли.
+ * Знак клиники — силуэт зуба, рассечённый диагональю на две доли.
  *
  * Построен на основе прежнего логотипа клиники: там был тот же приём —
  * зуб из двух форм, разделённых светлым просветом.
@@ -144,9 +145,9 @@ export function Logo({
                 : "text-[1.1875rem] tracking-[0.13em]",
             )}
           >
-            DENTAL BURO
+            {brand.wordmark}
           </span>
-          {/* «CLINIC» с линиями по бокам — цитата из фирменного блока клиники */}
+          {/* Подпись с линиями по бокам — цитата из фирменного блока клиники */}
           <span className={cn("flex items-center", full ? "mt-2 gap-2.5" : "mt-1.5 gap-2")}>
             <span className={cn("h-px flex-1", ruleTone[tone])} />
             <span
@@ -159,7 +160,7 @@ export function Logo({
               )}
             >
               {/* последняя буква тоже получает разрядку, иначе блок съезжает влево */}
-              <span className="pl-[0.42em]">CLINIC</span>
+              <span className="pl-[0.42em]">{brand.wordmarkSub}</span>
             </span>
             <span className={cn("h-px flex-1", ruleTone[tone])} />
           </span>
@@ -169,7 +170,7 @@ export function Logo({
 
   if (!asLink) {
     return (
-      <span className={cn("inline-flex", className)} aria-label="Dental Buro Clinic">
+      <span className={cn("inline-flex", className)} aria-label={brand.fullName}>
         {content}
       </span>
     );
@@ -178,7 +179,7 @@ export function Logo({
   return (
     <Link
       href="/"
-      aria-label="Dental Buro Clinic, на главную"
+      aria-label={`${brand.fullName}, на главную`}
       className={cn("inline-flex transition-opacity duration-300 hover:opacity-70", className)}
     >
       {content}

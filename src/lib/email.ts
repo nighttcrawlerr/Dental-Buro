@@ -43,7 +43,7 @@ export async function sendEmail(subject: string, text: string) {
 
   await getTransport().sendMail({
     // Яндекс отклоняет письма, где отправитель не совпадает с ящиком входа.
-    from: { name: "Сайт Dental Buro", address: process.env.SMTP_USER! },
+    from: { name: "Сайт клиники «Дентал Бюро»", address: process.env.SMTP_USER! },
     to: process.env.NOTIFY_EMAIL,
     subject,
     text,

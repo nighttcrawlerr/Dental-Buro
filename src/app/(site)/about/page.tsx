@@ -11,7 +11,7 @@ import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata({
   title: "О клинике",
   description:
-    "Клиника Dental Buro: интерьер, оборудование, стерилизация инструментов, лицензия и документы.",
+    "Клиника «Дентал Бюро»: интерьер, оборудование, стерилизация инструментов, лицензия и документы.",
   path: "/about",
 });
 

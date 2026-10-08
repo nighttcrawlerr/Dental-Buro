@@ -2,7 +2,7 @@ import { doctors } from "@/content/site";
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og-image";
 
 /** Превью страницы врача: имя и специальность. Когда появятся портреты — добавить фото. */
-export const alt = "Врач клиники Dental Buro";
+export const alt = "Врач клиники «Дентал Бюро»";
 export const size = ogSize;
 export const contentType = ogContentType;
 
