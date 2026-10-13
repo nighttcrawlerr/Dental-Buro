@@ -155,12 +155,12 @@ export function Logo({
                 "label-mono leading-none",
                 subTone[tone],
                 full
-                  ? "text-[0.8125rem] tracking-[0.42em]"
-                  : "text-[0.625rem] tracking-[0.38em]",
+                  ? "text-[0.8125rem] tracking-[0.42em] pl-[0.42em]"
+                  : "text-[0.625rem] tracking-[0.38em] pl-[0.38em]",
               )}
             >
               {/* последняя буква тоже получает разрядку, иначе блок съезжает влево */}
-              <span className="pl-[0.42em]">{brand.wordmarkSub}</span>
+              {brand.wordmarkSub}
             </span>
             <span className={cn("h-px flex-1", ruleTone[tone])} />
           </span>
