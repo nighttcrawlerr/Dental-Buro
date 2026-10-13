@@ -3,13 +3,13 @@ import { CtaSection } from "@/components/home/cta-section";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
-import { doctors } from "@/content/site";
+import { brand, doctors } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Врачи",
   description:
-    "Врачи клиники «Дентал Бюро»: имплантолог, ортодонт, терапевт, детский стоматолог. Образование, квалификация, стаж и стоимость консультации.",
+    `Врачи клиники «${brand.name}»: имплантолог, ортодонт, терапевт, детский стоматолог. Образование, квалификация, стаж и стоимость консультации.`,
   path: "/doctors",
 });
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
+import { brand } from "@/content/site";
 import { isAdmin } from "@/lib/admin-auth";
 import { logout } from "./actions";
 
@@ -23,7 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="border-b border-hairline bg-paper">
         <Container className="flex h-16 items-center justify-between gap-6">
           <Link href="/admin/leads" className="label-mono text-ink">
-            Дентал Бюро · Заявки
+            {brand.name} · Заявки
           </Link>
           {signedIn ? (
             <form action={logout}>

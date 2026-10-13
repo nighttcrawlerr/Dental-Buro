@@ -7,13 +7,13 @@ import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { clinic, directions } from "@/content/site";
+import { brand, clinic, directions } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Контакты",
   description:
-    `Адрес, телефон и часы работы клиники «Дентал Бюро». ${clinic.address}. ${clinic.schedule}.`,
+    `Адрес, телефон и часы работы клиники «${brand.name}». ${clinic.address}. ${clinic.schedule}.`,
   path: "/contacts",
 });
 
@@ -29,7 +29,7 @@ export const metadata = pageMetadata({
  * Картах» работает уже сейчас: она ищет по адресу и не зависит от координат.
  */
 export default function ContactsPage() {
-  const mapUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(`${clinic.name}, ${clinic.address}`)}`;
+  const mapUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(`${brand.name}, ${clinic.address}`)}`;
 
   return (
     <>

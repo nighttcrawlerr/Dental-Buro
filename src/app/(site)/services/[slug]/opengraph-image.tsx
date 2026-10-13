@@ -1,9 +1,9 @@
-import { services } from "@/content/site";
+import { brand, services } from "@/content/site";
 import { formatPriceFrom } from "@/lib/format";
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og-image";
 
 /** Превью страницы услуги: название и цена «от» — то, что решает клик. */
-export const alt = "Услуга клиники «Дентал Бюро»";
+export const alt = `Услуга клиники «${brand.name}»`;
 export const size = ogSize;
 export const contentType = ogContentType;
 

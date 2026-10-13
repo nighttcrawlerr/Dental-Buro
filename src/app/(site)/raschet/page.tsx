@@ -5,6 +5,7 @@ import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { assertEstimateItems } from "@/content/estimate";
 import { pricesUpdatedAt } from "@/content/prices";
+import { brand } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 // Страница статическая и собирается при сборке: если при замене прайса
@@ -14,7 +15,7 @@ assertEstimateItems();
 export const metadata = pageMetadata({
   title: "Расчёт стоимости лечения",
   description:
-    "Узнайте, сколько будет стоить лечение в «Дентал Бюро»: выберите, что хотите решить, отметьте зубы на схеме — и получите расчёт по прайсу с разбивкой.",
+    `Узнайте, сколько будет стоить лечение в «${brand.name}»: выберите, что хотите решить, отметьте зубы на схеме — и получите расчёт по прайсу с разбивкой.`,
   path: "/raschet",
 });
 

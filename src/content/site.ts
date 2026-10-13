@@ -32,8 +32,6 @@ export const brand = {
 } as const;
 
 export const clinic = {
-  name: brand.name,
-  legalName: brand.fullName,
   phone: "+7 (000) 000-00-00",
   phoneHref: "tel:+70000000000",
   email: "hello@dentalburo.ru",
@@ -470,7 +468,7 @@ export const directions: Direction[] = [
   },
   {
     title: "На машине",
-    text: "Въезд со стороны [УЛИЦА]. В навигаторе ищите «Дентал Бюро» — точка стоит у нужного входа, а не в центре здания.",
+    text: `Въезд со стороны [УЛИЦА]. В навигаторе ищите «${brand.name}» — точка стоит у нужного входа, а не в центре здания.`,
   },
   {
     title: "Парковка",

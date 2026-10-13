@@ -6,13 +6,14 @@ import { ReviewsSection } from "@/components/home/reviews-section";
 import { ServicesSection } from "@/components/home/services-section";
 import { JsonLd } from "@/components/seo/json-ld";
 import { TreatmentSection } from "@/components/home/treatment-section";
+import { brand } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { websiteSchema } from "@/lib/schema";
 
 // Заголовок — из layout (title.default), здесь только canonical и превью.
 export const metadata = pageMetadata({
   description:
-    "Стоматологическая клиника «Дентал Бюро»: имплантация, ортодонтия, эстетическая реставрация. Цифровой протокол лечения и план до начала работ.",
+    `Стоматологическая клиника «${brand.name}»: имплантация, ортодонтия, эстетическая реставрация. Цифровой протокол лечения и план до начала работ.`,
   path: "/",
 });
 

@@ -6,12 +6,13 @@ import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { pricesUpdatedAt } from "@/content/prices";
+import { brand } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Цены",
   description:
-    "Прейскурант стоматологической клиники «Дентал Бюро»: диагностика, имплантация, ортодонтия, эстетика, хирургия, терапия, гигиена и детская стоматология.",
+    `Прейскурант стоматологической клиники «${brand.name}»: диагностика, имплантация, ортодонтия, эстетика, хирургия, терапия, гигиена и детская стоматология.`,
   path: "/prices",
 });
 

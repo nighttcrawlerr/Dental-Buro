@@ -4,12 +4,13 @@ import { ServicesCatalog } from "@/components/services/services-catalog";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
+import { brand } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Услуги и цены",
   description:
-    "Имплантация, ортодонтия, эстетическая реставрация, хирургия, терапия, гигиена и детская стоматология в «Дентал Бюро». Цены «от» и план лечения заранее.",
+    `Имплантация, ортодонтия, эстетическая реставрация, хирургия, терапия, гигиена и детская стоматология в «${brand.name}». Цены «от» и план лечения заранее.`,
   path: "/services",
 });
 

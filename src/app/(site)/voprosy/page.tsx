@@ -4,13 +4,13 @@ import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { getServiceDetails } from "@/content/service-details";
-import { services } from "@/content/site";
+import { brand, services } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Вопросы и ответы",
   description:
-    "Ответы на частые вопросы о лечении в «Дентал Бюро»: больно ли, сколько длится, как подготовиться — по каждому направлению.",
+    `Ответы на частые вопросы о лечении в «${brand.name}»: больно ли, сколько длится, как подготовиться — по каждому направлению.`,
   path: "/voprosy",
 });
 

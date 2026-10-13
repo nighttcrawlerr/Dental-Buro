@@ -1,5 +1,6 @@
 import "server-only";
 import nodemailer, { type Transporter } from "nodemailer";
+import { brand } from "@/content/site";
 
 /**
  * Письмо администратору через SMTP почтового ящика клиники.
@@ -43,7 +44,7 @@ export async function sendEmail(subject: string, text: string) {
 
   await getTransport().sendMail({
     // Яндекс отклоняет письма, где отправитель не совпадает с ящиком входа.
-    from: { name: "Сайт клиники «Дентал Бюро»", address: process.env.SMTP_USER! },
+    from: { name: `Сайт клиники «${brand.name}»`, address: process.env.SMTP_USER! },
     to: process.env.NOTIFY_EMAIL,
     subject,
     text,

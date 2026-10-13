@@ -1,6 +1,6 @@
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { advantages } from "@/content/site";
+import { advantages, brand } from "@/content/site";
 
 /**
  * «Почему Дентал Бюро» — единственная холодная полоса на главной.
@@ -19,7 +19,7 @@ export function AdvantagesSection() {
           className="reveal"
           surface="sky"
           counter={{ current: 2, total: 5 }}
-          title="Почему «Дентал Бюро»"
+          title={`Почему «${brand.name}»`}
           description="Четыре вещи, из-за которых к нам возвращаются и приводят родителей и детей."
         />
 

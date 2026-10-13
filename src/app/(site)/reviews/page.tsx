@@ -5,13 +5,13 @@ import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { reviewPlatforms } from "@/content/site";
+import { brand, reviewPlatforms } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "Отзывы",
   description:
-    "Отзывы пациентов клиники «Дентал Бюро» об имплантации, ортодонтии, эстетике, хирургии и детской стоматологии.",
+    `Отзывы пациентов клиники «${brand.name}» об имплантации, ортодонтии, эстетике, хирургии и детской стоматологии.`,
   path: "/reviews",
 });
 

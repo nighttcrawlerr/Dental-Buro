@@ -20,7 +20,7 @@ export function clinicSchema() {
     "@context": "https://schema.org",
     "@type": "Dentist",
     "@id": clinicId,
-    name: clinic.legalName,
+    name: brand.fullName,
     // Латиница — только здесь: посетитель её не видит, а поиск по
     // «dental buro» связывает запрос с клиникой.
     alternateName: brand.latinName,
@@ -92,7 +92,7 @@ export function websiteSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": absoluteUrl("/#website"),
-    name: clinic.legalName,
+    name: brand.fullName,
     alternateName: brand.latinName,
     url: absoluteUrl("/"),
     inLanguage: "ru-RU",

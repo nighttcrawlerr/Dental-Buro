@@ -6,12 +6,13 @@ import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { documents, equipment, spaces, sterilization } from "@/content/about";
+import { brand } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 
 export const metadata = pageMetadata({
   title: "О клинике",
   description:
-    "Клиника «Дентал Бюро»: интерьер, оборудование, стерилизация инструментов, лицензия и документы.",
+    `Клиника «${brand.name}»: интерьер, оборудование, стерилизация инструментов, лицензия и документы.`,
   path: "/about",
 });
 
