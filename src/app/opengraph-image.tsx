@@ -1,7 +1,8 @@
+import { defaultTitle } from "@/lib/metadata";
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og-image";
 
 /** Превью по умолчанию — для всех страниц, у которых нет своего. */
-export const alt = "Дентал Бюро Клиник — стоматология полного цикла";
+export const alt = defaultTitle;
 export const size = ogSize;
 export const contentType = ogContentType;
 

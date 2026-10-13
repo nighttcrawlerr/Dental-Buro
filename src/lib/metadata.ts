@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { brand } from "@/content/site";
 import { ogSize } from "@/lib/og-image";
 
-const siteName = brand.fullName;
-const defaultTitle = `${siteName} — стоматология полного цикла`;
+export const siteName = brand.fullName;
+export const defaultTitle = `${siteName} — стоматология полного цикла`;
 
 /**
  * Метаданные страницы одним вызовом: заголовок, описание, канонический

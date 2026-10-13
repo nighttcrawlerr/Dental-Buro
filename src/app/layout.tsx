@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, JetBrains_Mono, Onest } from "next/font/google";
 import { brand } from "@/content/site";
+import { defaultTitle, siteName } from "@/lib/metadata";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -31,15 +32,15 @@ export const metadata: Metadata = {
   // достраиваются от него.
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${brand.fullName} — стоматология полного цикла`,
-    template: `%s — ${brand.fullName}`,
+    default: defaultTitle,
+    template: `%s — ${siteName}`,
   },
   description:
-    "Стоматологическая клиника «Дентал Бюро»: имплантация, ортодонтия, эстетическая реставрация. Цифровой протокол лечения и план до начала работ.",
+    `Стоматологическая клиника «${brand.name}»: имплантация, ортодонтия, эстетическая реставрация. Цифровой протокол лечения и план до начала работ.`,
   openGraph: {
     type: "website",
     locale: "ru_RU",
-    siteName: brand.fullName,
+    siteName,
   },
 };
 
