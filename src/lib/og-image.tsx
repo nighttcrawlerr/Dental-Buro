@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
-import { brand } from "@/content/site";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { brand } from "@/content/site";
 
 /**
  * Картинка-превью для соцсетей и мессенджеров, 1200×630.
