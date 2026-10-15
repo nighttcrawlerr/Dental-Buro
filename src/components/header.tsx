@@ -2,6 +2,7 @@ import { Logo } from "@/components/logo";
 import { MainNav } from "@/components/main-nav";
 import { MobileMenu } from "@/components/mobile-menu";
 import { BookButton } from "@/components/lead/book-button";
+import { HeaderAutoHide } from "@/components/header-auto-hide";
 import { Container } from "@/components/ui/container";
 import { clinic } from "@/content/site";
 
@@ -17,8 +18,12 @@ import { clinic } from "@/content/site";
  * на экране, и не нужна закреплённая панель внизу, которая на телефоне
  * отъедала высоту и накрывала подвал.
  *
- * Сама шапка рендерится на сервере; клиентские только меню и подсветка
- * текущего раздела.
+ * На телефоне шапка уезжает при прокрутке вниз и возвращается при
+ * прокрутке вверх — постоянная плашка там съедала экран и лежала поверх
+ * текста. Кнопка записи при этом остаётся в одном движении пальца.
+ *
+ * Сама шапка рендерится на сервере; клиентские только меню, подсветка
+ * текущего раздела и автоскрытие.
  */
 export function Header() {
   return (
@@ -56,6 +61,8 @@ export function Header() {
         aria-hidden="true"
         className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-sky"
       />
+
+      <HeaderAutoHide />
     </header>
   );
 }

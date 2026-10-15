@@ -113,19 +113,21 @@ export function PriceList() {
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                {/* Прилипает под шапкой сайта: у неё высота 80px (top-20).
+                {/* Прилипает под шапкой сайта: у неё высота 80px, а на
+                    телефоне, когда шапка уехала, — к самому верху
+                    (--header-offset в globals.css).
                     Линия снизу — внутренней тенью, а не рамкой: при
                     border-collapse рамка остаётся на месте, когда ячейка
                     прилипла, и шапка едет без линии. */}
                 <th
                   scope="col"
-                  className="label-mono sticky top-20 z-10 bg-cream shadow-[inset_0_-1px_0_var(--color-hairline)] py-3 pr-6 text-left font-normal text-graphite"
+                  className="label-mono under-header sticky z-10 bg-cream shadow-[inset_0_-1px_0_var(--color-hairline)] py-3 pr-6 text-left font-normal text-graphite"
                 >
                   Услуга
                 </th>
                 <th
                   scope="col"
-                  className="label-mono sticky top-20 z-10 bg-cream shadow-[inset_0_-1px_0_var(--color-hairline)] py-3 text-right font-normal text-graphite"
+                  className="label-mono under-header sticky z-10 bg-cream shadow-[inset_0_-1px_0_var(--color-hairline)] py-3 text-right font-normal text-graphite"
                 >
                   Стоимость
                 </th>

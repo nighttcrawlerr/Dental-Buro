@@ -692,6 +692,42 @@
   view-transition-name: site-header;
 }
 
+/* ---- Шапка на телефоне ------------------------------------------------ */
+
+/* На узком экране шапка уезжает вверх при прокрутке вниз (data-hidden
+   ставит header-auto-hide.tsx). Липкие элементы страницы прилипают не к
+   80px, а к --header-offset, и едут вместе с шапкой — иначе над шапкой
+   таблицы цен оставалась бы пустая полоса. */
+:root {
+  --header-offset: 5rem;
+}
+
+.site-header {
+  transition: translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.under-header {
+  top: var(--header-offset);
+  transition: top 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 63.98rem) {
+  .site-header[data-hidden] {
+    translate: 0 -100%;
+  }
+
+  :root:has(.site-header[data-hidden]) {
+    --header-offset: 0px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .under-header {
+    transition: none;
+  }
+}
+
 ::view-transition-group(site-header) {
   animation: none;
   z-index: 100;
