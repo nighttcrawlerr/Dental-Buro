@@ -45,7 +45,7 @@ export function ServicesGrid({
       ))}
 
       <li className={cn("bg-cream", mdSpan[mdRest], lgSpan[lgRest])}>
-        <div className="flex h-full flex-col justify-between gap-8 p-8 lg:p-10">
+        <div className="flex h-full flex-col justify-between gap-8 p-6 sm:p-8 lg:p-10">
           <div className="flex flex-col gap-4">
             <p className="font-display text-heading-sm text-ink">Не знаете, с чего начать?</p>
             <p className="max-w-md text-graphite">

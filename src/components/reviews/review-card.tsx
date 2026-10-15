@@ -10,7 +10,7 @@ import type { Review } from "@/content/site";
  */
 export function ReviewCard({ review }: { review: Review }) {
   return (
-    <figure className="flex h-full flex-col gap-5 rounded-card bg-linen p-8">
+    <figure className="flex h-full flex-col gap-5 rounded-card bg-linen p-6 sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <span className="inline-flex items-center gap-2">
           <span aria-hidden="true" className="size-1.5 rounded-full bg-sky" />

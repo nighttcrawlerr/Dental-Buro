@@ -27,7 +27,7 @@ export function ServiceCard({ service, number }: { service: Service; number: num
     <ViewTransition name={`service-${service.slug}`} share="expand" default="none">
       <Link
         href={`/services/${service.slug}`}
-        className="group flex h-full flex-col gap-6 bg-paper p-8 transition-colors duration-300 hover:bg-espresso lg:p-10"
+        className="group flex h-full flex-col gap-6 bg-paper p-6 transition-colors duration-300 hover:bg-espresso sm:p-8 lg:p-10"
       >
         <span className="label-mono text-graphite transition-colors duration-300 group-hover:text-stone">
           {String(number).padStart(2, "0")}

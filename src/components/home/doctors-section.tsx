@@ -28,7 +28,7 @@ export function DoctorsSection() {
           description="Каждый врач ведёт своё направление и остаётся с вами до конца лечения — вас не передают из рук в руки."
         />
 
-        <ul className="-mx-4 flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+        <ul className="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-6 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 lg:grid-cols-4">
           {doctors.map((doctor, index) => (
             <li
               key={doctor.slug}
