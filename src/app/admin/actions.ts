@@ -1,9 +1,10 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { endSession, passwordMatches, requireAdmin, startSession } from "@/lib/admin-auth";
-import { deleteLead, isLeadStatus, setLeadStatus } from "@/lib/leads-repo";
+import { addLeadNote, deleteLead, isLeadStatus, setLeadSchedule, setLeadStatus } from "@/lib/leads-repo";
 import { createRateLimit } from "@/lib/rate-limit";
 
 /*
@@ -31,7 +32,7 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   }
 
   await startSession();
-  redirect("/admin/leads");
+  redirect("/admin");
 }
 
 export async function logout() {
@@ -45,13 +46,66 @@ function readId(formData: FormData) {
   return id;
 }
 
+// После правки администратор остаётся там, где был: на той же строке списка
+// или в той же карточке. Обновляем весь раздел — счётчики в шапке и сводке
+// тоже зависят от правки.
+const refreshAdmin = () => revalidatePath("/admin", "layout");
+
 export async function updateStatus(formData: FormData) {
   await requireAdmin();
   const id = readId(formData);
   const status = formData.get("status");
   if (!isLeadStatus(status)) throw new Error("Неверный статус");
   await setLeadStatus(id, status);
-  redirect(`/admin/leads/${id}`);
+  refreshAdmin();
+}
+
+export async function addNote(formData: FormData) {
+  await requireAdmin();
+  const id = readId(formData);
+  // NUL Postgres в тексте не принимает — заметка падала бы с ошибкой.
+  const body = String(formData.get("body") ?? "")
+    .replace(/\0/g, "")
+    .trim();
+  if (!body) return;
+  if (body.length > 2000) throw new Error("Заметка длиннее 2000 символов");
+  await addLeadNote(id, body);
+  refreshAdmin();
+}
+
+/** Время из datetime-local («2026-10-27T14:30») или пустая строка — снять. */
+function readLocalTime(formData: FormData) {
+  // Быстрые кнопки («Через час», «Снять») передают своё at вдобавок к полю.
+  // Кнопка стоит в форме после поля, поэтому её значение — последнее.
+  const at = String(formData.getAll("at").at(-1) ?? "");
+  if (at === "") return null;
+  // Сверка «туда и обратно» отсекает 31 февраля: Date.parse такую дату
+  // молча переносит на март, а Postgres на ней падает.
+  const date = new Date(`${at}Z`);
+  if (
+    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(at) ||
+    Number.isNaN(date.getTime()) ||
+    date.toISOString().slice(0, 16) !== at
+  ) {
+    throw new Error("Неверное время");
+  }
+  return at;
+}
+
+export async function setCallback(formData: FormData) {
+  await requireAdmin();
+  await setLeadSchedule(readId(formData), "callback", readLocalTime(formData));
+  refreshAdmin();
+}
+
+export async function setAppointment(formData: FormData) {
+  await requireAdmin();
+  const id = readId(formData);
+  const at = readLocalTime(formData);
+  await setLeadSchedule(id, "appointment", at);
+  // Назначили приём — значит, записан; второй клик ради статуса не нужен.
+  if (at) await setLeadStatus(id, "booked");
+  refreshAdmin();
 }
 
 export async function removeLead(formData: FormData) {
