@@ -31,3 +31,25 @@ alter table leads add column if not exists comfort text[] not null default '{}';
 
 create index if not exists leads_created_at_idx on leads (created_at desc);
 create index if not exists leads_status_idx on leads (status);
+
+-- Работа администратора: когда перезвонить, на когда записан и история —
+-- смены статуса, заметки, переносы. Время храним с зоной, показываем и
+-- вводим по Москве.
+alter table leads add column if not exists callback_at    timestamptz;
+alter table leads add column if not exists appointment_at timestamptz;
+
+create table if not exists lead_events (
+  id         serial primary key,
+  -- Удаление заявки по просьбе человека должно унести и историю: в заметках
+  -- тоже могут быть его данные.
+  lead_id    integer not null references leads(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  kind       text not null check (kind in ('status', 'note', 'callback', 'appointment')),
+  -- status — новый статус; note — текст; callback/appointment — время по
+  -- Москве строкой для показа или '' (снято).
+  body       text not null default ''
+);
+
+create index if not exists lead_events_lead_idx on lead_events (lead_id, created_at desc);
+create index if not exists leads_phone_idx      on leads (phone);
+create index if not exists leads_callback_idx   on leads (callback_at) where callback_at is not null;

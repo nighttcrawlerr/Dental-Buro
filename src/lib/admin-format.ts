@@ -37,3 +37,24 @@ export function prettyPhone(phone: string) {
   if (d.length !== 10) return phone;
   return `+7 (${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6, 8)}-${d.slice(8)}`;
 }
+
+/** Сколько прошло: «12 мин», «2 ч 5 мин», «3 дн». Для «ждёт ответа». */
+export function waitingFor(date: Date, now = new Date()) {
+  const minutes = Math.max(0, Math.floor((now.getTime() - date.getTime()) / 60_000));
+  if (minutes < 60) return `${minutes} мин`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return minutes % 60 ? `${hours} ч ${minutes % 60} мин` : `${hours} ч`;
+  return `${Math.floor(hours / 24)} дн`;
+}
+
+// sv-SE даёт «2026-10-27 14:30» — почти тот формат, что ждёт datetime-local.
+const isoLocal = new Intl.DateTimeFormat("sv-SE", {
+  timeZone: "Europe/Moscow",
+  dateStyle: "short",
+  timeStyle: "short",
+});
+
+/** Значение для <input type="datetime-local"> по московскому времени. */
+export function toMoscowLocal(date: Date | null) {
+  return date ? isoLocal.format(date).replace(" ", "T") : "";
+}
