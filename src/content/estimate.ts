@@ -54,9 +54,12 @@ export const goals: Goal[] = [
     amount: "teeth",
     lines: [
       { item: "implant-consult", per: "case" },
-      { item: "ct-jaw", per: "case", bothJaws: "ct-both", note: "если нет свежего снимка" },
-      { item: "surgical-guide", per: "case" },
-      { item: "implant", per: "tooth" },
+      {
+        item: "implant",
+        per: "tooth",
+        max: "implant-premium",
+        note: "от Biotem до Nobel — систему подберёт врач",
+      },
       { item: "healing-cap", per: "tooth" },
       { item: "implant-crown", per: "tooth" },
     ],
@@ -69,12 +72,11 @@ export const goals: Goal[] = [
     amount: "teeth",
     lines: [
       { item: "consult", per: "case" },
-      { item: "xray", per: "tooth" },
       {
         item: "caries",
         per: "tooth",
-        max: "canals-3",
-        note: "от пломбы до лечения трёх каналов — скажет снимок",
+        max: "canals-molar",
+        note: "от пломбы до лечения каналов — скажет осмотр",
       },
     ],
   },
@@ -85,12 +87,10 @@ export const goals: Goal[] = [
     service: "hirurgiya",
     amount: "teeth",
     lines: [
-      { item: "consult", per: "case" },
-      { item: "xray", per: "tooth" },
       {
         item: "extraction",
         per: "tooth",
-        max: "extraction-wisdom",
+        max: "extraction-impacted",
         note: "от простого удаления до сложного зуба мудрости",
       },
     ],
@@ -98,93 +98,53 @@ export const goals: Goal[] = [
   {
     id: "aesthetics",
     title: "Сделать улыбку красивее",
-    text: "Форма и цвет зубов: виниры или коронки",
+    text: "Форма и цвет зубов: виниры",
     service: "estetika",
     amount: "teeth",
     lines: [
-      { item: "smile-design", per: "case" },
       {
-        item: "veneer",
+        item: "veneer-composite",
         per: "tooth",
-        max: "ceramic-crown",
-        note: "винир или коронка — зависит от того, сколько осталось своей эмали",
+        max: "veneer",
+        note: "композитный или керамический винир — зависит от задачи",
       },
     ],
   },
   {
     id: "ortho",
     title: "Выровнять зубы",
-    text: "Брекеты или элайнеры",
+    text: "Брекет-системы",
     service: "ortodontiya",
-    amount: "jaws",
+    // Брекеты в прайсе — сразу на обе челюсти, поэтому объём не уточняем.
+    amount: "none",
     options: [
       {
-        id: "braces-metal",
-        title: "Металлические брекеты",
-        text: "Самый быстрый и доступный способ",
+        id: "braces-ligature",
+        title: "Лигатурные брекеты",
+        text: "Классическая система, самый доступный вариант",
         lines: [
           { item: "ortho-consult", per: "case" },
-          { item: "ortho-setup", per: "case" },
-          { item: "braces-metal", per: "jaw" },
-          { item: "retainer", per: "jaw" },
+          { item: "braces-ligature", per: "case", note: "обе челюсти" },
         ],
       },
       {
-        id: "braces-ceramic",
-        title: "Керамические брекеты",
-        text: "Почти незаметны на зубах",
+        id: "braces-self",
+        title: "Самолигирующие брекеты",
+        text: "Меньше трения — реже визиты на коррекцию",
         lines: [
           { item: "ortho-consult", per: "case" },
-          { item: "ortho-setup", per: "case" },
-          { item: "braces-ceramic", per: "jaw" },
-          { item: "retainer", per: "jaw" },
-        ],
-      },
-      {
-        id: "aligners",
-        title: "Элайнеры",
-        text: "Прозрачные съёмные каппы",
-        lines: [
-          { item: "ortho-consult", per: "case" },
-          { item: "ortho-setup", per: "case" },
-          { item: "aligners", per: "case" },
-          { item: "retainer", per: "jaw" },
+          { item: "braces-self", per: "case", note: "обе челюсти" },
         ],
       },
     ],
   },
   {
     id: "hygiene",
-    title: "Чистка и отбеливание",
-    text: "Профессиональная гигиена, светлее на несколько тонов",
+    title: "Профессиональная чистка",
+    text: "Снимаем камень и налёт, полируем",
     service: "gigiena",
     amount: "none",
-    options: [
-      {
-        id: "hygiene",
-        title: "Только чистка",
-        text: "Снимаем камень и налёт, полируем",
-        lines: [{ item: "hygiene", per: "case" }],
-      },
-      {
-        id: "home",
-        title: "Чистка и домашнее отбеливание",
-        text: "Каппы по слепку, курс дома",
-        lines: [
-          { item: "hygiene", per: "case" },
-          { item: "whitening-home", per: "case" },
-        ],
-      },
-      {
-        id: "zoom",
-        title: "Чистка и отбеливание ZOOM",
-        text: "За один визит в клинике",
-        lines: [
-          { item: "hygiene", per: "case" },
-          { item: "whitening-zoom", per: "case" },
-        ],
-      },
-    ],
+    lines: [{ item: "hygiene", per: "case" }],
   },
   {
     id: "kids",
@@ -252,7 +212,8 @@ export function estimate(
     const times = timesFor(line.per);
     const maxItem = line.max ? getPriceItem(line.max) : null;
     return {
-      name: maxItem ? `${item.name} — ${maxItem.name.toLowerCase()}` : item.name,
+      // Строчная только первая буква: названия систем (Nobel) остаются как есть.
+      name: maxItem ? `${item.name} — ${maxItem.name[0].toLowerCase()}${maxItem.name.slice(1)}` : item.name,
       times,
       min: item.price * times,
       max: maxItem ? maxItem.price * times : undefined,

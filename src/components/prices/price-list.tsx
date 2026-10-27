@@ -54,7 +54,7 @@ export function PriceList() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Например, имплант или снимок"
+            placeholder="Например, имплант или удаление"
             autoComplete="off"
             className="block min-h-13 w-full rounded-button border border-smoke bg-paper px-4 text-body text-ink transition-colors placeholder:text-graphite hover:border-graphite focus:border-ink"
           />
@@ -138,6 +138,9 @@ export function PriceList() {
                 <tr key={item.name} className="border-b border-hairline">
                   <th scope="row" className="py-4 pr-6 text-left font-normal text-ink">
                     {item.name}
+                    {item.unit ? (
+                      <span className="block text-caption tracking-normal text-graphite">{item.unit}</span>
+                    ) : null}
                   </th>
                   <td
                     className={cn(
