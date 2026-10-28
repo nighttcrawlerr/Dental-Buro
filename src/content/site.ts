@@ -34,9 +34,8 @@ export const brand = {
 export const clinic = {
   phone: "+7 (000) 000-00-00",
   phoneHref: "tel:+70000000000",
-  email: "hello@dentalburo.ru",
-  address: "г. Москва, ул. Примерная, 1",
-  addressNote: "Заглушка — заменить на реальный адрес",
+  email: "dentalburoclinic@yandex.ru",
+  address: "г. Краснодар, ул. Конгрессная, 19/1",
   schedule: "Ежедневно 09:00 — 21:00",
   /** То же, что schedule, но для разметки Schema.org. Менять вместе. */
   hours: { days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], opens: "09:00", closes: "21:00" },
