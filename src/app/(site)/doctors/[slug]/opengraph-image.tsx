@@ -17,6 +17,6 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   return renderOgImage({
     eyebrow: "Врачи",
     title: doctor?.name ?? "Врачи",
-    note: doctor ? `${doctor.role}, ${doctor.experience}` : undefined,
+    note: doctor ? [doctor.role, doctor.experience].filter(Boolean).join(", ") : undefined,
   });
 }

@@ -42,7 +42,7 @@ export async function generateMetadata({
 
   return pageMetadata({
     title: `${doctor.name}, ${doctor.role.toLowerCase()}`,
-    description: `${doctor.role}, ${doctor.experience}. ${doctor.focus}. Образование, квалификация и стоимость консультации.`,
+    description: `${[doctor.role, doctor.experience].filter(Boolean).join(", ")}. ${doctor.focus ? `${doctor.focus}. ` : ""}Образование, квалификация и стоимость консультации.`,
     path: `/doctors/${slug}`,
     ownImage: true,
   });
@@ -52,6 +52,7 @@ function CredentialList({ title, items }: { title: string; items: Credential[] }
   return (
     <div className="flex flex-col gap-6">
       <h3 className="label-mono text-graphite">{title}</h3>
+      {items.length === 0 ? <p className="text-graphite">Сведения готовятся к публикации.</p> : null}
       <ul className="flex flex-col">
         {items.map((item) => (
           <li
@@ -102,24 +103,32 @@ export default async function DoctorPage({ params }: PageProps<"/doctors/[slug]"
               <h1 className="font-display text-display text-balance text-ink">
                 <RevealWords text={doctor.name} trigger="load" />
               </h1>
-              <Reveal trigger="load" index={2}>
-                <p className="max-w-2xl text-body-lg text-graphite">{doctor.bio}</p>
-              </Reveal>
+              {doctor.bio ? (
+                <Reveal trigger="load" index={2}>
+                  <p className="max-w-2xl text-body-lg text-graphite">{doctor.bio}</p>
+                </Reveal>
+              ) : null}
             </div>
 
             <Reveal trigger="load" index={3} className="flex flex-col gap-10">
-              <dl className="grid gap-6 border-t border-hairline pt-8 sm:grid-cols-2">
-                <div className="flex flex-col gap-2">
-                  <dt className="label-mono text-graphite">Стаж</dt>
-                  <dd className="font-display text-heading-sm text-ink">{doctor.experience}</dd>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <dt className="label-mono text-graphite">Консультация</dt>
-                  <dd className="font-display text-heading-sm text-ink">
-                    {formatPrice(doctor.consultationPrice)}
-                  </dd>
-                </div>
-              </dl>
+              {doctor.experience || doctor.consultationPrice !== undefined ? (
+                <dl className="grid gap-6 border-t border-hairline pt-8 sm:grid-cols-2">
+                  {doctor.experience ? (
+                    <div className="flex flex-col gap-2">
+                      <dt className="label-mono text-graphite">Стаж</dt>
+                      <dd className="font-display text-heading-sm text-ink">{doctor.experience}</dd>
+                    </div>
+                  ) : null}
+                  {doctor.consultationPrice !== undefined ? (
+                    <div className="flex flex-col gap-2">
+                      <dt className="label-mono text-graphite">Консультация</dt>
+                      <dd className="font-display text-heading-sm text-ink">
+                        {formatPrice(doctor.consultationPrice)}
+                      </dd>
+                    </div>
+                  ) : null}
+                </dl>
+              ) : null}
 
               {doctorServices.length ? (
                 <div className="flex flex-col gap-4">

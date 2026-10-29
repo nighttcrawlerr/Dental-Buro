@@ -20,10 +20,10 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
       <span className="flex flex-col gap-2">
         <span className="font-display text-subheading text-ink">{doctor.name}</span>
         <span className="label-mono text-sky">{doctor.role}</span>
-        <span className="label-mono text-graphite">{doctor.experience}</span>
+        {doctor.experience ? <span className="label-mono text-graphite">{doctor.experience}</span> : null}
       </span>
 
-      <span className="text-graphite">{doctor.focus}</span>
+      {doctor.focus ? <span className="text-graphite">{doctor.focus}</span> : null}
     </Link>
   );
 }

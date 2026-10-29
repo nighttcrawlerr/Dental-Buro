@@ -274,81 +274,105 @@ export type Doctor = {
   slug: string;
   name: string;
   role: string;
-  experience: string;
-  focus: string;
+  /** Стаж, специализация, текст о враче — только со слов клиники; нет данных — блок не показываем. */
+  experience?: string;
+  focus?: string;
   /** Направления по slug услуги — по ним врач попадает на страницу услуги. */
   services: string[];
   /** Пара абзацев от первого лица клиники: как врач работает. */
-  bio: string;
+  bio?: string;
   education: Credential[];
   /** Повышение квалификации, сертификаты, аккредитация. */
   training: Credential[];
-  consultationPrice: number;
+  /** Из прайса по специальности; у руководителя без приёма — нет. */
+  consultationPrice?: number;
 };
 
 /**
- * Образование и курсы у всех врачей — одна и та же заглушка. Выдумывать
- * конкретные вузы и годы нельзя: это сведения, за достоверность которых
- * клиника отвечает по закону. Заменяются данными из личных дел.
+ * Врачи — по списку клиники. Стаж, образование и курсы клиника пришлёт из
+ * личных дел; выдумывать их нельзя, поэтому пока списки пустые и страница
+ * врача пишет, что сведения готовятся. Консультация — цена из прайса.
  */
-const placeholderEducation: Credential[] = [
-  { year: "0000", title: "Специальность «Стоматология»", place: "Название медицинского вуза" },
-  { year: "0000", title: "Ординатура по специальности", place: "Название медицинского вуза" },
-];
-
-const placeholderTraining: Credential[] = [
-  { year: "0000", title: "Название курса повышения квалификации", place: "Организатор курса" },
-  { year: "0000", title: "Периодическая аккредитация специалиста", place: "Номер и дата свидетельства" },
-];
-
 export const doctors: Doctor[] = [
   {
-    slug: "doctor-1",
-    name: "Имя Фамилия",
-    role: "Главный врач, имплантолог",
-    experience: "опыт 00 лет",
-    focus: "Имплантация, костная пластика, полное протезирование",
-    services: ["implantaciya", "hirurgiya"],
-    bio: "Ведёт пациентов от первой консультации до установки коронки — не передаёт на полпути другому врачу. Каждую операцию планирует по КТ и проводит по хирургическому шаблону. Сложные случаи — полную потерю зубов и дефицит кости — разбирает с ортопедом и техником лаборатории до начала лечения.",
-    education: placeholderEducation,
-    training: placeholderTraining,
-    consultationPrice: 2500,
+    slug: "ponomareva-suriya",
+    name: "Пономарева Сурия Арменовна",
+    role: "Руководитель клиники",
+    services: [],
+    education: [],
+    training: [],
   },
   {
-    slug: "doctor-2",
-    name: "Имя Фамилия",
+    slug: "tarzyan-nonna",
+    name: "Тарзян Нонна Рафаэловна",
+    role: "Стоматолог-хирург",
+    services: ["hirurgiya"],
+    education: [],
+    training: [],
+    consultationPrice: 500,
+  },
+  {
+    slug: "vasilev-evgeniy",
+    name: "Васильев Евгений Викторович",
+    role: "Стоматолог-хирург, ортопед",
+    services: ["hirurgiya", "estetika", "implantaciya"],
+    education: [],
+    training: [],
+    consultationPrice: 500,
+  },
+  {
+    slug: "kirichenko-anna",
+    name: "Кириченко Анна Владимировна",
     role: "Врач-ортодонт",
-    experience: "опыт 00 лет",
-    focus: "Элайнеры, брекет-системы, работа со взрослыми пациентами",
     services: ["ortodontiya"],
-    bio: "Работает со взрослыми пациентами, в том числе перед протезированием и имплантацией. Прежде чем предложить брекеты или элайнеры, показывает 3D-сетап: как будут двигаться зубы и сколько времени это займёт.",
-    education: placeholderEducation,
-    training: placeholderTraining,
-    consultationPrice: 2500,
+    education: [],
+    training: [],
+    consultationPrice: 1000,
   },
   {
-    slug: "doctor-3",
-    name: "Имя Фамилия",
-    role: "Врач-стоматолог, терапевт",
-    experience: "опыт 00 лет",
-    focus: "Эндодонтия под микроскопом, эстетическая реставрация",
-    services: ["terapiya", "estetika", "gigiena"],
-    bio: "Лечит каналы под микроскопом и делает художественные реставрации. Считает, что сохранить свой зуб почти всегда лучше, чем заменить, — и объясняет по снимку, когда это ещё возможно, а когда уже нет.",
-    education: placeholderEducation,
-    training: placeholderTraining,
-    consultationPrice: 2000,
+    slug: "kokshareva-diana",
+    name: "Кокшарова Диана Дмитриевна",
+    role: "Стоматолог-терапевт",
+    services: ["terapiya"],
+    education: [],
+    training: [],
+    consultationPrice: 500,
   },
   {
-    slug: "doctor-4",
-    name: "Имя Фамилия",
+    slug: "shonvadze-tiniko",
+    name: "Шонвадзе Тинико Зурабиевна",
+    role: "Стоматолог-терапевт",
+    services: ["terapiya"],
+    education: [],
+    training: [],
+    consultationPrice: 500,
+  },
+  {
+    slug: "saruhanyan-violetta",
+    name: "Саруханян Виолетта Андреевна",
     role: "Детский стоматолог",
-    experience: "опыт 00 лет",
-    focus: "Приём детей с 3 лет, профилактика, адаптация",
     services: ["detskaya"],
-    bio: "Принимает детей с 3 лет. Первый визит всегда проводит без лечения — чтобы ребёнок познакомился с кабинетом и пришёл во второй раз без страха. Родителям объясняет, что срочно, а что можно наблюдать.",
-    education: placeholderEducation,
-    training: placeholderTraining,
-    consultationPrice: 1500,
+    education: [],
+    training: [],
+    consultationPrice: 500,
+  },
+  {
+    slug: "yuhno-svetlana",
+    name: "Юхно Светлана Игоревна",
+    role: "Детский стоматолог",
+    services: ["detskaya"],
+    education: [],
+    training: [],
+    consultationPrice: 500,
+  },
+  {
+    slug: "nikol-arturovna",
+    name: "Николь Артуровна",
+    role: "Детский стоматолог",
+    services: ["detskaya"],
+    education: [],
+    training: [],
+    consultationPrice: 500,
   },
 ];
 
@@ -402,42 +426,36 @@ export type Review = {
 export const reviews: Review[] = [
   {
     author: "Имя К.",
-    doctor: "doctor-1",
     service: "Имплантация",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Здесь будет реальный отзыв пациента, выгруженный из Яндекс.Карт или собранный после лечения.",
   },
   {
     author: "Имя М.",
-    doctor: "doctor-2",
     service: "Элайнеры",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Длина примерно такая, чтобы карточка держала форму в сетке и не прыгала по высоте.",
   },
   {
     author: "Имя С.",
-    doctor: "doctor-3",
     service: "Гигиена",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Короткий отзыв тоже должен выглядеть аккуратно внутри карточки.",
   },
   {
     author: "Имя Д.",
-    doctor: "doctor-4",
     service: "Детская стоматология",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Отзыв родителя о первом визите ребёнка: здесь важно, как прошла адаптация, а не только результат лечения.",
   },
   {
     author: "Имя Л.",
-    doctor: "doctor-3",
     service: "Эстетика",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Отзыв после виниров или реставрации — самый частый повод прислать фото, но публиковать его можно только с письменного согласия.",
   },
   {
     author: "Имя Р.",
-    doctor: "doctor-1",
     service: "Хирургия",
     date: "заглушка",
     text: "Текст отзыва — заглушка. Короткий отзыв после удаления зуба мудрости.",
