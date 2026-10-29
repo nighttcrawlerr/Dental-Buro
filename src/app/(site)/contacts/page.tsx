@@ -1,7 +1,6 @@
 import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { LegalDetails } from "@/components/legal/legal-details";
 import { ArrowGlyph } from "@/components/ui/arrow-button";
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
 import { Reveal } from "@/components/ui/reveal";
@@ -42,12 +41,20 @@ export default function ContactsPage() {
             </h1>
 
             <Reveal trigger="load" index={2} className="flex flex-col gap-10">
-              <a
-                href={clinic.phoneHref}
-                className="font-display text-heading-lg text-ink transition-opacity hover:opacity-70"
-              >
-                {clinic.phone}
-              </a>
+              <div className="flex flex-col gap-2">
+                {[
+                  [clinic.phoneHref, clinic.phone],
+                  [clinic.phone2Href, clinic.phone2],
+                ].map(([href, phone]) => (
+                  <a
+                    key={href}
+                    href={href}
+                    className="self-start font-display text-heading-lg text-ink transition-opacity hover:opacity-70"
+                  >
+                    {phone}
+                  </a>
+                ))}
+              </div>
 
               <dl className="flex flex-col">
                 {[
@@ -72,15 +79,6 @@ export default function ContactsPage() {
                   </div>
                 ))}
               </dl>
-
-              <div className="flex flex-wrap gap-3">
-                <Button href={clinic.telegram} variant="ghost">
-                  Telegram
-                </Button>
-                <Button href={clinic.whatsapp} variant="ghost">
-                  WhatsApp
-                </Button>
-              </div>
             </Reveal>
           </div>
 

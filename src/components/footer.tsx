@@ -44,7 +44,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3">
+          <div className="grid gap-10 sm:grid-cols-2">
             <div className="flex flex-col gap-4">
               <p className="label-mono text-cream/60">Разделы</p>
               <ul className="flex flex-col gap-3">
@@ -63,6 +63,9 @@ export function Footer() {
               <a href={clinic.phoneHref} className="font-display text-subheading">
                 {clinic.phone}
               </a>
+              <a href={clinic.phone2Href} className="font-display text-subheading">
+                {clinic.phone2}
+              </a>
               <a href={`mailto:${clinic.email}`} className="transition-opacity hover:opacity-70">
                 {clinic.email}
               </a>
@@ -70,27 +73,6 @@ export function Footer() {
               <p className="text-cream/70">{clinic.schedule}</p>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <p className="label-mono text-cream/60">Мессенджеры</p>
-              <a
-                href={clinic.telegram}
-                className="transition-opacity hover:opacity-70"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Telegram
-                <span className="sr-only"> (откроется в новой вкладке)</span>
-              </a>
-              <a
-                href={clinic.whatsapp}
-                className="transition-opacity hover:opacity-70"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                WhatsApp
-                <span className="sr-only"> (откроется в новой вкладке)</span>
-              </a>
-            </div>
           </div>
         </div>
 

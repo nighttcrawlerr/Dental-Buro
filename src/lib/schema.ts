@@ -30,7 +30,7 @@ export function clinicSchema() {
     url: absoluteUrl("/"),
     logo: absoluteUrl("/icon.svg"),
     image: absoluteUrl("/opengraph-image"),
-    telephone: clinic.phoneHref.replace("tel:", ""),
+    telephone: [clinic.phoneHref, clinic.phone2Href].map((href) => href.replace("tel:", "")),
     email: clinic.email,
     address: {
       "@type": "PostalAddress",

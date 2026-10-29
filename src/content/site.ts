@@ -32,15 +32,16 @@ export const brand = {
 } as const;
 
 export const clinic = {
-  phone: "+7 (000) 000-00-00",
-  phoneHref: "tel:+70000000000",
+  phone: "+7 (918) 127-19-19",
+  phoneHref: "tel:+79181271919",
+  /** Второй номер — только в контактах и подвале; кнопки «позвонить» ведут на основной. */
+  phone2: "+7 (988) 356-19-19",
+  phone2Href: "tel:+79883561919",
   email: "dentalburoclinic@yandex.ru",
   address: "г. Краснодар, ул. Конгрессная, 19/1",
   schedule: "Ежедневно 09:00 — 21:00",
   /** То же, что schedule, но для разметки Schema.org. Менять вместе. */
   hours: { days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], opens: "09:00", closes: "21:00" },
-  telegram: "https://t.me/dentalburo",
-  whatsapp: "https://wa.me/70000000000",
 } as const;
 
 /**
