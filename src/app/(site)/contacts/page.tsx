@@ -24,10 +24,9 @@ export const metadata = pageMetadata({
  * якорь #booking.
  *
  * Карта Яндекса грузится по нажатию — она ставит свои cookie. Ссылка
- * «Открыть в Яндекс Картах» ищет по адресу и не зависит от координат.
+ * «Открыть в Яндекс Картах» ведёт на карточку клиники с отзывами.
  */
 export default function ContactsPage() {
-  const mapUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(`${brand.name}, ${clinic.address}`)}`;
 
   return (
     <>
@@ -84,7 +83,7 @@ export default function ContactsPage() {
           <Reveal trigger="load" index={3} className="flex flex-col gap-5">
             <YandexMap address={clinic.address} geo={clinic.geo} />
             <a
-              href={mapUrl}
+              href={clinic.yandexMaps}
               target="_blank"
               rel="noopener noreferrer"
               className="group label-mono inline-flex items-center gap-3 self-start text-ink"

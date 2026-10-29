@@ -32,6 +32,7 @@ export function clinicSchema() {
     image: absoluteUrl("/opengraph-image"),
     telephone: [clinic.phoneHref, clinic.phone2Href].map((href) => href.replace("tel:", "")),
     email: clinic.email,
+    sameAs: [clinic.yandexMaps],
     address: {
       "@type": "PostalAddress",
       streetAddress: clinic.address,

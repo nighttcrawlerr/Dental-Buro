@@ -39,6 +39,7 @@ export const clinic = {
   phone2Href: "tel:+79883561919",
   email: "dentalburoclinic@yandex.ru",
   address: "г. Краснодар, ул. Конгрессная, 19/1",
+  yandexMaps: "https://yandex.ru/profile/108797217047",
   /** Точка дома на карте (по OpenStreetMap). Менять вместе с адресом. */
   geo: { lat: 45.108907, lon: 38.9621 },
   schedule: "Ежедневно 09:00 — 21:00",
@@ -101,6 +102,7 @@ export type Service = {
   summary: string;
   /** Что входит — показываем на странице услуги. */
   highlights: string[];
+  /** Цена основной процедуры из прайса (src/content/prices.ts). Менять вместе с прайсом. */
   priceFrom: number;
 };
 
@@ -116,7 +118,7 @@ export const services: Service[] = [
       "Навигационный шаблон — имплант встаёт точно в расчётную позицию",
       "Временная коронка в день установки",
     ],
-    priceFrom: 45000,
+    priceFrom: 35000,
   },
   {
     slug: "ortodontiya",
@@ -129,7 +131,7 @@ export const services: Service[] = [
       "Элайнеры и брекеты — металл, керамика, сапфир",
       "Контроль каждые 6–8 недель",
     ],
-    priceFrom: 120000,
+    priceFrom: 60000,
   },
   {
     slug: "estetika",
@@ -142,7 +144,7 @@ export const services: Service[] = [
       "Примерка макета до препарирования",
       "Собственная зуботехническая лаборатория",
     ],
-    priceFrom: 38000,
+    priceFrom: 12000,
   },
   {
     slug: "hirurgiya",
@@ -155,7 +157,7 @@ export const services: Service[] = [
       "Костная пластика перед имплантацией",
       "Седация для тревожных пациентов",
     ],
-    priceFrom: 6000,
+    priceFrom: 6300,
   },
   {
     slug: "terapiya",
@@ -168,20 +170,20 @@ export const services: Service[] = [
       "Контрольный снимок после пломбировки",
       "Перелечивание каналов после других клиник",
     ],
-    priceFrom: 7500,
+    priceFrom: 6000,
   },
   {
     slug: "gigiena",
     group: "treatment",
-    title: "Гигиена и отбеливание",
+    title: "Профессиональная гигиена",
     summary:
-      "Профессиональная чистка, Air Flow и отбеливание. Базовый визит, с которого начинается любой план лечения.",
+      "Профессиональная чистка: ультразвук, Air Flow и полировка. Базовый визит, с которого начинается любой план лечения.",
     highlights: [
       "Ультразвук, Air Flow и полировка за один визит",
-      "Отбеливание ZOOM и каповое домашнее",
+      "Реминерализация — укрепляем эмаль после чистки",
       "Подбор домашнего ухода под ваши зубы",
     ],
-    priceFrom: 7000,
+    priceFrom: 4500,
   },
   {
     slug: "detskaya",
@@ -194,7 +196,7 @@ export const services: Service[] = [
       "Лечение в игровом формате",
       "Герметизация фиссур и профилактика",
     ],
-    priceFrom: 4500,
+    priceFrom: 3200,
   },
 ];
 
@@ -450,7 +452,7 @@ export type ReviewPlatform = { name: string; url: string | null };
  * ссылка «#» выглядит рабочей и никуда не ведёт.
  */
 export const reviewPlatforms: ReviewPlatform[] = [
-  { name: "Яндекс Карты", url: null },
+  { name: "Яндекс Карты", url: clinic.yandexMaps },
   { name: "2ГИС", url: null },
   { name: "ПроДокторов", url: null },
   { name: "НаПоправку", url: null },
