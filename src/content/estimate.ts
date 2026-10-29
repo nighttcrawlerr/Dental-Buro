@@ -113,7 +113,7 @@ export const goals: Goal[] = [
   {
     id: "ortho",
     title: "Выровнять зубы",
-    text: "Брекет-системы",
+    text: "Брекеты или элайнеры",
     service: "ortodontiya",
     // Брекеты в прайсе — сразу на обе челюсти, поэтому объём не уточняем.
     amount: "none",
@@ -134,6 +134,16 @@ export const goals: Goal[] = [
         lines: [
           { item: "ortho-consult", per: "case" },
           { item: "braces-self", per: "case", note: "обе челюсти" },
+        ],
+      },
+      {
+        id: "aligners",
+        title: "Элайнеры",
+        text: "Прозрачные съёмные каппы — почти незаметны",
+        lines: [
+          { item: "ortho-consult", per: "case" },
+          // Самый частый случай; точное число капп — после цифрового плана.
+          { item: "aligners", per: "case", note: "обе челюсти, 13–26 элайнеров" },
         ],
       },
     ],
@@ -211,12 +221,14 @@ export function estimate(
     const item = getPriceItem(bothJaws && line.bothJaws ? line.bothJaws : line.item);
     const times = timesFor(line.per);
     const maxItem = line.max ? getPriceItem(line.max) : null;
+    // Верх вилки — из второй позиции или из вилки самой позиции (элайнеры).
+    const maxPrice = maxItem?.price ?? item.priceTo;
     return {
       // Строчная только первая буква: названия систем (Nobel) остаются как есть.
       name: maxItem ? `${item.name} — ${maxItem.name[0].toLowerCase()}${maxItem.name.slice(1)}` : item.name,
       times,
       min: item.price * times,
-      max: maxItem ? maxItem.price * times : undefined,
+      max: maxPrice ? maxPrice * times : undefined,
       from: Boolean(item.from || maxItem?.from),
       note: line.note,
     };

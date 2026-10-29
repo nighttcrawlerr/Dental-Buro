@@ -18,8 +18,11 @@ export function formatPrice(value: number) {
   return value === 0 ? "Бесплатно" : rubles.format(value);
 }
 
-/** Строка прайса: «от» — если сумма зависит от случая. */
-export function formatPriceItem(item: { price: number; from?: boolean }) {
+const amount = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
+
+/** Строка прайса: вилка, «от» — если сумма зависит от случая, или точная цена. */
+export function formatPriceItem(item: { price: number; priceTo?: number; from?: boolean }) {
+  if (item.priceTo) return `${amount.format(item.price)} – ${rubles.format(item.priceTo)}`;
   return item.from ? formatPriceFrom(item.price) : formatPrice(item.price);
 }
 
