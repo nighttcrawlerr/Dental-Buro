@@ -39,6 +39,8 @@ export const clinic = {
   phone2Href: "tel:+79883561919",
   email: "dentalburoclinic@yandex.ru",
   address: "г. Краснодар, ул. Конгрессная, 19/1",
+  /** Точка дома на карте (по OpenStreetMap). Менять вместе с адресом. */
+  geo: { lat: 45.108907, lon: 38.9621 },
   schedule: "Ежедневно 09:00 — 21:00",
   /** То же, что schedule, но для разметки Schema.org. Менять вместе. */
   hours: { days: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], opens: "09:00", closes: "21:00" },

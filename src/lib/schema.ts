@@ -37,6 +37,7 @@ export function clinicSchema() {
       streetAddress: clinic.address,
       addressCountry: "RU",
     },
+    geo: { "@type": "GeoCoordinates", latitude: clinic.geo.lat, longitude: clinic.geo.lon },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: clinic.hours.days.map((d) => `https://schema.org/${dayNames[d]}`),

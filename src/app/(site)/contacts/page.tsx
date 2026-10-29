@@ -1,8 +1,8 @@
+import { YandexMap } from "@/components/contacts/yandex-map";
 import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { LegalDetails } from "@/components/legal/legal-details";
 import { ArrowGlyph } from "@/components/ui/arrow-button";
 import { Container } from "@/components/ui/container";
-import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -23,9 +23,8 @@ export const metadata = pageMetadata({
  * скрипты, — поэтому форма здесь не в конце, а сразу за адресом, и у неё
  * якорь #booking.
  *
- * Карта пока заглушка. Встроенная Яндекс Карта ставит свои cookie, и вместе
- * с ней понадобится плашка согласия (шаг 5.7). Ссылка «Открыть в Яндекс
- * Картах» работает уже сейчас: она ищет по адресу и не зависит от координат.
+ * Карта Яндекса грузится по нажатию — она ставит свои cookie. Ссылка
+ * «Открыть в Яндекс Картах» ищет по адресу и не зависит от координат.
  */
 export default function ContactsPage() {
   const mapUrl = `https://yandex.ru/maps/?text=${encodeURIComponent(`${brand.name}, ${clinic.address}`)}`;
@@ -83,7 +82,7 @@ export default function ContactsPage() {
           </div>
 
           <Reveal trigger="load" index={3} className="flex flex-col gap-5">
-            <PhotoPlaceholder label="Карта проезда" ratio="square" className="w-full" />
+            <YandexMap address={clinic.address} geo={clinic.geo} />
             <a
               href={mapUrl}
               target="_blank"
