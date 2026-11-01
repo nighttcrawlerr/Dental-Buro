@@ -142,16 +142,27 @@ export default function AboutPage() {
           </div>
 
           <div className="flex flex-col gap-10">
-            <PhotoPlaceholder label="Скан лицензии" ratio="portrait" className="w-full max-w-sm" />
             <ul className="flex flex-col">
               {documents.map((doc) => (
-                <li
-                  key={doc}
-                  className="flex items-center justify-between gap-6 border-t border-hairline py-4 last:border-b"
-                >
-                  <span className="text-ink">{doc}</span>
-                  {/* Когда появится файл — ссылка на PDF с пометкой размера. */}
-                  <span className="label-mono shrink-0 text-graphite">скоро</span>
+                <li key={doc.title} className="border-t border-hairline last:border-b">
+                  {doc.href ? (
+                    <a
+                      href={doc.href}
+                      target="_blank"
+                      rel="noopener"
+                      className="flex items-center justify-between gap-6 py-4 hover:underline"
+                    >
+                      <span className="text-ink">{doc.title}</span>
+                      <span className="label-mono shrink-0 text-ink">
+                        PDF<span className="sr-only"> (откроется в новой вкладке)</span>
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="flex items-center justify-between gap-6 py-4">
+                      <span className="text-ink">{doc.title}</span>
+                      <span className="label-mono shrink-0 text-graphite">скоро</span>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>

@@ -13,6 +13,7 @@ export function LegalDetails() {
     ["Юридический адрес", legal.legalAddress],
     ["Адрес клиники", clinic.address],
     ["Лицензия", `№ ${legal.license.number} от ${legal.license.date}, выдана ${legal.license.issuer}`],
+    ["Работы и услуги по лицензии", legal.license.scope.join(", ")],
     ["Режим работы", clinic.schedule],
   ];
 
