@@ -41,7 +41,7 @@ export type PriceSection = {
 };
 
 /** Дата, на которую прайс актуален. Обновлять вместе с ценами. */
-export const pricesUpdatedAt = "27.10.2026";
+export const pricesUpdatedAt = "01.11.2026";
 
 export const priceSections: PriceSection[] = [
   {
