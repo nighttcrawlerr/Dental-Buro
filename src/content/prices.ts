@@ -49,8 +49,8 @@ export const priceSections: PriceSection[] = [
     title: "Терапия и эндодонтия",
     service: "terapiya",
     items: [
-      { id: "consult", name: "Консультация стоматолога-терапевта", unit: "1 визит", price: 500, featured: true },
-      { id: "kids-consult", name: "Консультация детского стоматолога", unit: "1 визит", price: 500 },
+      { id: "consult", name: "Консультация стоматолога-терапевта", unit: "1 визит", price: 1000, featured: true },
+      { id: "kids-consult", name: "Консультация детского стоматолога", unit: "1 визит", price: 1000 },
       { name: "Профилактический осмотр после санации", unit: "1 визит", price: 0 },
       { id: "caries", name: "Лечение поверхностного кариеса", unit: "1 зуб", price: 6000, featured: true },
       { name: "Лечение среднего кариеса", unit: "1 зуб", price: 7500 },
@@ -121,6 +121,7 @@ export const priceSections: PriceSection[] = [
     title: "Ортопедическая стоматология",
     service: "estetika",
     items: [
+      { name: "Консультация стоматолога-ортопеда", unit: "1 визит", price: 1000 },
       { id: "veneer", name: "Винир керамический (под ключ)", unit: "1 винир", price: 32000, featured: true },
       { name: "Культевая штифтовая вкладка, прямой метод (включая фиксацию)", unit: "1 конструкция", price: 5000 },
       {
@@ -181,6 +182,7 @@ export const priceSections: PriceSection[] = [
     title: "Хирургическая стоматология",
     service: "hirurgiya",
     items: [
+      { name: "Консультация стоматолога-хирурга", unit: "1 визит", price: 1000 },
       { id: "extraction", name: "Простое удаление зуба или корня зуба", unit: "1 зуб", price: 6300, featured: true },
       { name: "Сложное удаление зуба или корня зуба", unit: "1 зуб", price: 8700, featured: true },
       { name: "Удаление зуба с патологической подвижностью", unit: "1 зуб", price: 2600 },

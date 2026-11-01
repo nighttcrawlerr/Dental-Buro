@@ -321,7 +321,7 @@ export const doctors: Doctor[] = [
     services: ["hirurgiya"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
   {
     slug: "vasilev-evgeniy",
@@ -330,7 +330,7 @@ export const doctors: Doctor[] = [
     services: ["hirurgiya", "estetika", "implantaciya"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
   {
     slug: "kirichenko-anna",
@@ -348,7 +348,7 @@ export const doctors: Doctor[] = [
     services: ["terapiya", "gigiena"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
   {
     slug: "shonvadze-tiniko",
@@ -357,7 +357,7 @@ export const doctors: Doctor[] = [
     services: ["terapiya", "gigiena"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
   {
     slug: "saruhanyan-violetta",
@@ -366,7 +366,7 @@ export const doctors: Doctor[] = [
     services: ["detskaya"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
   {
     slug: "yuhno-svetlana",
@@ -375,16 +375,16 @@ export const doctors: Doctor[] = [
     services: ["detskaya"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
   {
-    slug: "nikol-arturovna",
-    name: "Николь Артуровна",
+    slug: "lagvilava-nikol",
+    name: "Лагвилава Николь Артуровна",
     role: "Детский стоматолог",
     services: ["detskaya"],
     education: [],
     training: [],
-    consultationPrice: 500,
+    consultationPrice: 1000,
   },
 ];
 
