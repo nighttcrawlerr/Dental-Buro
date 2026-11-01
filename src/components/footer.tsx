@@ -44,7 +44,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-2">
+          <div className="grid gap-10 sm:grid-cols-3">
             <div className="flex flex-col gap-4">
               <p className="label-mono text-cream/60">Разделы</p>
               <ul className="flex flex-col gap-3">
@@ -71,6 +71,25 @@ export function Footer() {
               </a>
               <p className="text-cream/70">{clinic.address}</p>
               <p className="text-cream/70">{clinic.schedule}</p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <p className="label-mono text-cream/60">Мессенджеры</p>
+              {[
+                ["Telegram", clinic.telegram],
+                ["WhatsApp", clinic.whatsapp],
+              ].map(([name, href]) => (
+                <a
+                  key={name}
+                  href={href}
+                  className="transition-opacity hover:opacity-70"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {name}
+                  <span className="sr-only"> (откроется в новой вкладке)</span>
+                </a>
+              ))}
             </div>
 
           </div>

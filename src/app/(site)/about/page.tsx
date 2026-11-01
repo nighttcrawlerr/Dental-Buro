@@ -1,7 +1,7 @@
 import { CtaSection } from "@/components/home/cta-section";
 import { LegalDetails } from "@/components/legal/legal-details";
 import { Container } from "@/components/ui/container";
-import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
+import { Photo } from "@/components/ui/photo";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -49,9 +49,10 @@ export default function AboutPage() {
             колонке и при прокрутке раскрывается во всю ширину (.unfold в
             globals.css). На телефоне и без анимаций стоит в колонке. */}
         <div className="unfold mx-auto mt-14 w-full max-w-[1200px] px-4 pb-20 sm:px-6 lg:mt-20 lg:px-10 lg:pb-28">
-          <PhotoPlaceholder
-            label="Интерьер клиники"
-            ratio="landscape"
+          <Photo
+            src="/media/clinic/lounge.jpg"
+            alt="Холл клиники: ресепшен с логотипом и зона ожидания"
+            sizes="(min-width: 1200px) 1200px, 100vw"
             className="w-full lg:aspect-[21/9]"
           />
         </div>
@@ -68,7 +69,7 @@ export default function AboutPage() {
           <ul className="grid gap-x-8 gap-y-14 md:grid-cols-2">
             {spaces.map((space, index) => (
               <Reveal as="li" key={space.title} index={index} className="flex flex-col gap-5">
-                <PhotoPlaceholder label={space.title} ratio="landscape" />
+                <Photo src={space.photo} alt="" />
                 <h3 className="font-display text-heading-sm text-ink">{space.title}</h3>
                 <p className="max-w-lg text-graphite">{space.text}</p>
               </Reveal>

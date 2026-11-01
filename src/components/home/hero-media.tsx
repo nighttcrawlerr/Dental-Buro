@@ -33,7 +33,7 @@ export function HeroMedia() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !heroMedia?.video) return;
 
     const allowed =
       !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
@@ -63,7 +63,7 @@ export function HeroMedia() {
           aria-hidden="true"
           tabIndex={-1}
         >
-          <source src={heroMedia.video} type="video/mp4" />
+          {heroMedia.video ? <source src={heroMedia.video} type="video/mp4" /> : null}
         </video>
 
         {/*

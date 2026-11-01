@@ -2,6 +2,7 @@ import { YandexMap } from "@/components/contacts/yandex-map";
 import { SiteLeadForm } from "@/components/lead/site-lead-form";
 import { LegalDetails } from "@/components/legal/legal-details";
 import { ArrowGlyph } from "@/components/ui/arrow-button";
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
 import { RevealWords } from "@/components/ui/reveal-words";
@@ -77,6 +78,15 @@ export default function ContactsPage() {
                   </div>
                 ))}
               </dl>
+
+              <div className="flex flex-wrap gap-3">
+                <Button href={clinic.telegram} variant="ghost">
+                  Telegram
+                </Button>
+                <Button href={clinic.whatsapp} variant="ghost">
+                  WhatsApp
+                </Button>
+              </div>
             </Reveal>
           </div>
 

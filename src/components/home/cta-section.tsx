@@ -1,7 +1,7 @@
 import { BookButton } from "@/components/lead/book-button";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { PhotoPlaceholder } from "@/components/ui/photo-placeholder";
+import { Photo } from "@/components/ui/photo";
 import { RevealWords } from "@/components/ui/reveal-words";
 import { clinic } from "@/content/site";
 
@@ -48,11 +48,10 @@ export function CtaSection() {
             </dl>
           </div>
 
-          <PhotoPlaceholder
-            label="Карта проезда"
-            ratio="landscape"
-            surface="dark"
-            className="h-full w-full"
+          <Photo
+            src="/media/clinic/waiting.jpg"
+            alt="Зона ожидания клиники"
+            className="h-full w-full bg-espresso"
           />
         </div>
       </Container>
