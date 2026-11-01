@@ -10,6 +10,8 @@ export function LegalDetails() {
     ["ИНН", legal.inn],
     ["КПП", legal.kpp],
     ["ОГРН", legal.ogrn],
+    ["Дата регистрации", legal.registeredAt],
+    ["Директор", legal.director],
     ["Юридический адрес", legal.legalAddress],
     ["Адрес клиники", clinic.address],
     ["Лицензия", `№ ${legal.license.number} от ${legal.license.date}, выдана ${legal.license.issuer}`],

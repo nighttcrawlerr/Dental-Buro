@@ -62,6 +62,10 @@ export const legal = {
   inn: "2311394672",
   kpp: "231101001",
   ogrn: "1262300032620",
+  registeredAt: "12.08.2026",
+  director: "Пономарева Сурия Арменовна",
+  /** Выписка из ЕГРН (реестра налогоплательщиков) от 12.08.2026. */
+  taxExtract: "/documents/egrn-extract.pdf",
   legalAddress:
     "350005, Краснодарский край, г.о. город Краснодар, г. Краснодар, ул. Конгрессная, д. 19/1",
   license: {
@@ -311,7 +315,7 @@ export const doctors: Doctor[] = [
   {
     slug: "ponomareva-suriya",
     name: "Пономарева Сурия Арменовна",
-    role: "Руководитель клиники",
+    role: "Директор клиники",
     services: [],
     education: [],
     training: [],
