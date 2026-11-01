@@ -38,7 +38,7 @@ export const legalDocs: LegalDoc[] = [
     slug: "privacy",
     title: "Политика обработки персональных данных",
     description: `Какие данные собирает сайт клиники «${brand.name}», зачем, как долго хранит и как их удалить.`,
-    updatedAt: "[ДАТА]",
+    updatedAt: "01.11.2026",
     draft: true,
     sections: [
       {
@@ -140,7 +140,7 @@ export const legalDocs: LegalDoc[] = [
     slug: "consent",
     title: "Согласие на обработку персональных данных",
     description: `Текст согласия, которое посетитель даёт, отправляя заявку на сайте клиники «${brand.name}».`,
-    updatedAt: "[ДАТА]",
+    updatedAt: "01.11.2026",
     draft: true,
     sections: [
       {
@@ -162,7 +162,7 @@ export const legalDocs: LegalDoc[] = [
     slug: "terms",
     title: "Пользовательское соглашение",
     description: `Условия использования сайта клиники «${brand.name}».`,
-    updatedAt: "[ДАТА]",
+    updatedAt: "01.11.2026",
     draft: true,
     sections: [
       {

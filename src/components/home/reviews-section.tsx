@@ -3,6 +3,7 @@ import { ArrowGlyph, arrowSurfaceClasses } from "@/components/ui/arrow-button";
 import { ReviewCard } from "@/components/reviews/review-card";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { NoReviewsYet } from "@/components/reviews/no-reviews-yet";
 import { reviews } from "@/content/site";
 import { cn } from "@/lib/cn";
 
@@ -24,8 +25,14 @@ export function ReviewsSection() {
           className="reveal"
           counter={{ current: 5, total: 5 }}
           title="Отзывы"
-          description="Собраны после лечения и с Яндекс.Карт. Мы не удаляем негативные — на них отвечает главный врач."
+          description={
+            reviews.length
+              ? "Собраны после лечения и с Яндекс.Карт. Мы не удаляем негативные — на них отвечает главный врач."
+              : undefined
+          }
         />
+
+        {reviews.length === 0 ? <NoReviewsYet /> : null}
 
         <ul className="grid gap-6 md:grid-cols-3">
           {reviews.slice(0, 3).map((review, index) => (
@@ -39,15 +46,17 @@ export function ReviewsSection() {
           ))}
         </ul>
 
-        <Link
-          href="/reviews"
-          className="group inline-flex items-center gap-4 self-start transition-opacity hover:opacity-80"
-        >
-          <span className={cn(arrowSurfaceClasses(), "group-hover:bg-sky-deep")}>
-            <ArrowGlyph />
-          </span>
-          <span className="label-mono text-ink">Все отзывы</span>
-        </Link>
+        {reviews.length ? (
+          <Link
+            href="/reviews"
+            className="group inline-flex items-center gap-4 self-start transition-opacity hover:opacity-80"
+          >
+            <span className={cn(arrowSurfaceClasses(), "group-hover:bg-sky-deep")}>
+              <ArrowGlyph />
+            </span>
+            <span className="label-mono text-ink">Все отзывы</span>
+          </Link>
+        ) : null}
       </Container>
     </section>
   );

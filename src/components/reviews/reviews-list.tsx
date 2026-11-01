@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ReviewCard } from "@/components/reviews/review-card";
 import { FilterChips } from "@/components/ui/filter-chips";
+import { NoReviewsYet } from "@/components/reviews/no-reviews-yet";
 import { reviews } from "@/content/site";
 import { plural } from "@/lib/format";
 
@@ -21,6 +22,8 @@ export function ReviewsList() {
     ...tags.map((t) => ({ id: t, label: t, count: reviews.filter((r) => r.service === t).length })),
   ];
   const visible = filter === ALL ? reviews : reviews.filter((r) => r.service === filter);
+
+  if (reviews.length === 0) return <NoReviewsYet />;
 
   return (
     <div className="flex flex-col gap-8">
