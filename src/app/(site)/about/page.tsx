@@ -39,7 +39,7 @@ export default function AboutPage() {
             <Reveal trigger="load" index={2}>
               <p className="max-w-2xl text-body-lg text-graphite">
                 Мы строили клинику, в которую не страшно прийти. Тёплые материалы вместо кафеля,
-                своя лаборатория вместо посредников и план лечения до первого укола.
+                все специалисты под одной крышей и план лечения до первого укола.
               </p>
             </Reveal>
           </div>
