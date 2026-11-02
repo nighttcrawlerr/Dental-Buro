@@ -86,11 +86,11 @@ export const sterilization: SterilizationStep[] = [
   },
 ];
 
-/** Документы клиники. Без href — файл ещё не прислан, рядом пишем «скоро». */
+/** Документы клиники (PDF в public/documents). Без href — файл ещё не прислан, рядом пишем «скоро». */
 export const documents: { title: string; href?: string }[] = [
   { title: "Выписка из реестра лицензий — лицензия и перечень работ и услуг", href: legal.license.extract },
   { title: "Выписка из реестра налогоплательщиков (ЕГРН)", href: legal.taxExtract },
-  { title: "Правила внутреннего распорядка для пациентов" },
-  { title: "Положение о порядке и условиях предоставления платных медицинских услуг" },
-  { title: "Образец договора на оказание платных медицинских услуг" },
+  { title: "Правила внутреннего распорядка для пациентов", href: "/documents/internal-rules.pdf" },
+  { title: "Положение о порядке и условиях предоставления платных медицинских услуг", href: "/documents/paid-services-regulation.pdf" },
+  { title: "Образец договора на оказание платных медицинских услуг", href: "/documents/contract-sample.pdf" },
 ];
