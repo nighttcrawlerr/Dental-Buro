@@ -13,6 +13,19 @@ const nextConfig: NextConfig = {
   // оказывается в .next/standalone/<путь от домашней папки>/.
   outputFileTracingRoot: path.resolve(__dirname),
 
+  // Одно главное зеркало: www — постоянный редирект на домен без www, иначе
+  // поисковики видят два одинаковых сайта.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.dentalburoclinic.ru" }],
+        destination: "https://dentalburoclinic.ru/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   // В разделе заявок — имена и телефоны пациентов, а в адресе поиска они
   // бывают прямо в строке запроса. Не кешируем страницы нигде и не отдаём
   // адрес другим сайтам при переходе по ссылке.
