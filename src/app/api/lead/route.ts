@@ -199,7 +199,7 @@ function buildNotification(
   if (doctorName) rows.push(["Врач", doctorName]);
 
   // Пожелания — не персональные данные: по ним человека не узнать, а
-  // администратору полезно знать заранее, например, что зовут на седацию.
+  // администратору полезно знать заранее, например, что нужны перерывы.
   const comfort = comfortOptions.filter((c) => lead.comfort.includes(c.value)).map((c) => c.label);
   if (comfort.length) rows.push(["Пожелания", comfort.join("; ")]);
 
