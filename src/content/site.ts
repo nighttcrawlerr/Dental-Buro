@@ -239,7 +239,7 @@ export type Fact = { value: string; label: string };
  * Менять вместе с врачами, часами работы и прайсом.
  */
 export const facts: Fact[] = [
-  { value: "9", label: "врачей в штате" },
+  { value: "6", label: "врачей в штате" },
   { value: "7", label: "направлений лечения" },
   { value: "09–21", label: "ежедневно, без выходных" },
   { value: "1 000 ₽", label: "консультация любого врача" },
@@ -313,15 +313,6 @@ export const doctors: Doctor[] = [
     training: [],
   },
   {
-    slug: "tarzyan-nonna",
-    name: "Тарзян Нонна Рафаэловна",
-    role: "Стоматолог-хирург",
-    services: ["hirurgiya"],
-    education: [],
-    training: [],
-    consultationPrice: 1000,
-  },
-  {
     slug: "vasilev-evgeniy",
     name: "Васильев Евгений Викторович",
     role: "Стоматолог-хирург, ортопед",
@@ -353,24 +344,6 @@ export const doctors: Doctor[] = [
     name: "Шонвадзе Тинико Зурабиевна",
     role: "Стоматолог-терапевт",
     services: ["terapiya", "gigiena"],
-    education: [],
-    training: [],
-    consultationPrice: 1000,
-  },
-  {
-    slug: "saruhanyan-violetta",
-    name: "Саруханян Виолетта Андреевна",
-    role: "Детский стоматолог",
-    services: ["detskaya"],
-    education: [],
-    training: [],
-    consultationPrice: 1000,
-  },
-  {
-    slug: "yuhno-svetlana",
-    name: "Юхно Светлана Игоревна",
-    role: "Детский стоматолог",
-    services: ["detskaya"],
     education: [],
     training: [],
     consultationPrice: 1000,
@@ -464,7 +437,6 @@ export const reviews: Review[] = [
   },
   {
     author: "Ашур 7ААА7",
-    doctor: "saruhanyan-violetta",
     service: "Детская стоматология",
     date: "7 ноября 2026",
     text: "Посетили Дентал Бюро с ребёнком и остались в полном восторге! Были на приёме у Виолетты Андреевны. Замечательный детский стоматолог! Очень добрая, терпеливая и внимательная к детям. Сразу нашла подход к ребёнку, всё объясняла в доступной форме, благодаря чему приём прошёл спокойно и без страха. Для родителей очень важно, чтобы ребёнок не боялся стоматолога, и здесь нам действительно повезло с доктором. Клиника современная, уютная, персонал приветливый. Обязательно будем обращаться ещё и рекомендовать знакомым! ❤️",
